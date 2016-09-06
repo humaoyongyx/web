@@ -160,4 +160,10 @@ public class UserInfo {
     public void setDescn(String descn) {
         this.descn = descn == null ? null : descn.trim();
     }
+
+	@Override
+	public String toString() {
+		return "UserInfo [id=" + id + ", name=" + name + ", salary=" + salary + ", sex=" + sex + ", descn=" + descn + "]";
+	}
+
 }

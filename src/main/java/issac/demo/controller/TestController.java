@@ -26,4 +26,10 @@ public class TestController {
 		// testService.insert();
 	}
 
+
+	@RequestMapping("/page")
+	public String userinfo() {
+		return "test";
+	}
+
 }

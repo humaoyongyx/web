@@ -1,5 +1,7 @@
 package issac.demo.mapper;
 
+import java.util.List;
+
 import issac.demo.model.UserInfo;
 
 public interface UserInfoMapper {
@@ -50,4 +52,6 @@ public interface UserInfoMapper {
      * @mbggenerated Mon Sep 05 20:57:27 CST 2016
      */
     int updateByPrimaryKey(UserInfo record);
+
+	List<UserInfo> selectAll();
 }
