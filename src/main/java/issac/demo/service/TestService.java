@@ -1,5 +1,6 @@
 package issac.demo.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ public class TestService {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setId(2);
 		userInfo.setName("name2");
-		userInfo.setSalary(23L);
+		userInfo.setSalary(new BigDecimal("134.3"));
 		userInfoMapper.insertSelective(userInfo);
 	}
 

@@ -122,6 +122,10 @@
 			</tbody>
 		</table>
 
+
+     <form id="userinfoForm" action="${path}/userInfo/exportExcel">
+           <input type="hidden" name="test" value="test"/>
+     </form>
 	</div>
 
 
@@ -175,17 +179,9 @@
   }
   
   function exportExcel(){
-	  $.ajax({
-		   type: "POST",
-		   url: "${path}/userInfo/exportExcel",
-		   success: function(result){
-		     if(result.status==1){
-		    	 swal("", "成功！","success");
-		      }else{
-		    	 swal("", "失败！","error");
-		     }
-		   }
-		});
+/* 	  var url="${path}/userInfo/exportExcel";
+      window.open(url); */
+      $("#userinfoForm").submit();
   }
 </script>
 

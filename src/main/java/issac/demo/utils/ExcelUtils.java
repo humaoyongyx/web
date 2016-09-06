@@ -139,6 +139,7 @@ public class ExcelUtils {
 		} finally {
 			if (os != null) {
 				try {
+					os.flush();
 					os.close();
 				} catch (IOException e) {
 					e.printStackTrace();

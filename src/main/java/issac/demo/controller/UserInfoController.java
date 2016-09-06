@@ -82,17 +82,13 @@ public class UserInfoController {
 	}
 
 	@RequestMapping(value = "/exportExcel", method = { RequestMethod.GET, RequestMethod.POST })
-	public @ResponseBody Object exportExcel(HttpServletResponse response) {
-		Result result = new Result();
+	public void exportExcel(HttpServletResponse response) {
 		String[] header = { "id", "name", "salary", "sex", "descn" };
 		try {
 			ExcelUtils.exportExcel("test", header, userInfoService.findAll(), response);
 		} catch (Exception e) {
-			result.setMessage("export error");
-			return result;
+			e.printStackTrace();
 		}
 
-		result.setStatus(Result.SUCCESS);
-		return result;
 	}
 }
