@@ -1,7 +1,11 @@
 package issac.demo.vo;
 
 public class Result {
-	private int status = 0;
+
+	public static final int FAIL = 0;
+	public static final int SUCCESS = 1;
+
+	private int status = FAIL;
 	private String message;
 
 	public int getStatus() {
