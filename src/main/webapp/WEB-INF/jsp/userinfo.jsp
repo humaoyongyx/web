@@ -89,6 +89,7 @@
 	
 	 
 	    <div  class="pull-right">
+	    <input type="button" class="btn btn-primary" value="导出" onclick="exportExcel()"/>&nbsp;&nbsp;
 	      <input type="button" class="btn btn-primary" value="新增" onclick="userInfoAdd()"/>&nbsp;&nbsp;
 	       模糊查询：<input type="text" id="userinfo_seach" >
 	    </div>
@@ -171,6 +172,20 @@
 			   }
 			});
 	 
+  }
+  
+  function exportExcel(){
+	  $.ajax({
+		   type: "POST",
+		   url: "${path}/userInfo/exportExcel",
+		   success: function(result){
+		     if(result.status==1){
+		    	 swal("", "成功！","success");
+		      }else{
+		    	 swal("", "失败！","error");
+		     }
+		   }
+		});
   }
 </script>
 

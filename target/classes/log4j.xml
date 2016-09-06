@@ -54,9 +54,9 @@ class="org.apache.log4j.DailyRollingFileAppender">
   
    <!-- Root Logger -->  
    <root>  
-       <level value="INFO"></level>  
+       <level value="DEBUG"></level>  
        <appender-ref ref="DEFAULT-APPENDER" />  
        <appender-ref ref="ERROR-APPENDER" />  
-         <appender-ref ref="console" />  
+       <appender-ref ref="console" />  
    </root>  
 </log4j:configuration>  

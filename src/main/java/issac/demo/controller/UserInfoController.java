@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import issac.demo.model.UserInfo;
 import issac.demo.service.UserInfoService;
+import issac.demo.utils.ExcelUtils;
 import issac.demo.vo.Result;
 
 @Controller
@@ -75,6 +77,21 @@ public class UserInfoController {
 			return result;
 		}
 		userInfoService.update(userInfo);
+		result.setStatus(Result.SUCCESS);
+		return result;
+	}
+
+	@RequestMapping(value = "/exportExcel", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody Object exportExcel(HttpServletResponse response) {
+		Result result = new Result();
+		String[] header = { "id", "name", "salary", "sex", "descn" };
+		try {
+			ExcelUtils.exportExcel("test", header, userInfoService.findAll(), response);
+		} catch (Exception e) {
+			result.setMessage("export error");
+			return result;
+		}
+
 		result.setStatus(Result.SUCCESS);
 		return result;
 	}

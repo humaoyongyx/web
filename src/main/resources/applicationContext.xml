@@ -35,4 +35,6 @@
 		</property>
 	</bean>
 
+<bean class="issac.demo.utils.SpringUtils"></bean>
+
 </beans>
