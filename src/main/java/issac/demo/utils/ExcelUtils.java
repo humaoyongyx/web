@@ -245,7 +245,7 @@ public class ExcelUtils {
 		OutputStream os = null;
 		try {
 			response.reset();
-			response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf8") + ".xls");
+			response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf8") + ".xlsx");
 			response.setContentType("application/vnd.ms-excel;charset=utf-8");
 			os = response.getOutputStream();
 			wb.write(os);
