@@ -83,9 +83,12 @@ public class UserInfoController {
 
 	@RequestMapping(value = "/exportExcel", method = { RequestMethod.GET, RequestMethod.POST })
 	public void exportExcel(HttpServletResponse response) {
-		String[] header = { "id", "name", "salary", "sex", "descn" };
+		String[] header = { "姓名", "薪资", "性别", "描述", "id" };
+		String[] fieldNames = { "sex", "salary", "sex", "descn", "id" };
 		try {
-			ExcelUtils.exportExcel("test", header, userInfoService.findAll(), response);
+			//	ExcelUtils.exportExcel("test", header, userInfoService.findAll(), response);
+			//ExcelUtils.exportExcel("测试", "测试sheet", header, fieldNames, userInfoService.findAll(), response);
+			ExcelUtils.exportExcel("测试", userInfoService.findAll(), response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

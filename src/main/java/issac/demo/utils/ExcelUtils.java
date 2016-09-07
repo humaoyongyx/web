@@ -23,17 +23,43 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelUtils {
 
-	public static <E> void exportExcel(String fileName, String[] header, List<E> data, HttpServletResponse response) {
+	public static <E> void exportExcel(String fileName, List<E> data, HttpServletResponse response) {
+		XSSFWorkbook wb = new XSSFWorkbook();
+		exportExcel(fileName, fileName, null, data, wb, true, response);
+	}
+
+	public static <E> void exportExcel(String fileName, String[] headerNames, List<E> data, HttpServletResponse response) {
 		List<ExcelSetting> headerList = new LinkedList<>();
 		XSSFWorkbook wb = new XSSFWorkbook();
-		for (int i = 0; i < header.length; i++) {
-			String headName = header[i];
+		for (int i = 0; i < headerNames.length; i++) {
+			String headName = headerNames[i];
 			ExcelSetting excelSetting = getDefaultExcelSetting(wb);
 			headerList.add(excelSetting.setHeadName(headName));
 		}
 		exportExcel(fileName, fileName, headerList, data, wb, false, response);
 	}
 
+	public static <E> void exportExcel(String fileName, String sheetName, String[] headerNames, String[] fieldNames, List<E> data, HttpServletResponse response) {
+		List<ExcelSetting> headerList = new LinkedList<>();
+		XSSFWorkbook wb = new XSSFWorkbook();
+		for (int i = 0; i < headerNames.length; i++) {
+			String headName = headerNames[i];
+			ExcelSetting excelSetting = getDefaultExcelSetting(wb);
+			headerList.add(excelSetting.setHeadName(headName).setFieldName(fieldNames[i]));
+		}
+		exportExcel(fileName, sheetName, headerList, data, wb, false, response);
+	}
+
+	/**
+	 * 
+	 * @param fileName  导出的Excel名称
+	 * @param sheetName 导出的Excel第一个sheet的名称
+	 * @param header 可以设置headerName、fieldName、样式等信息，注意header和field是有顺序的，并且保证它们的顺序和数量一致
+	 * @param data 导出的Excel数据
+	 * @param wb   
+	 * @param enableFieldsAutoGet  开启之后，header和field将自动利用Java反射字段来获取，并且使用默认的样式
+	 * @param response 
+	 */
 	public static <E> void exportExcel(String fileName, String sheetName, List<ExcelSetting> header, List<E> data, XSSFWorkbook wb, boolean enableFieldsAutoGet, HttpServletResponse response) {
 		if (header == null) {
 			header = new LinkedList<>();
@@ -43,9 +69,9 @@ public class ExcelUtils {
 		}
 		XSSFSheet sheet = wb.createSheet(fileName);
 		int currentRowNo = 0;
-		writeHead(header, sheet, data, currentRowNo, enableFieldsAutoGet);
+		writeHead(header, sheet, data, currentRowNo, enableFieldsAutoGet, wb);
 		currentRowNo++;
-		writeBody(header, sheet, data, currentRowNo, enableFieldsAutoGet);
+		writeBody(header, sheet, data, currentRowNo, enableFieldsAutoGet, wb);
 		currentRowNo = currentRowNo + data.size();
 		writeToPage(sheetName, response, wb);
 	}
@@ -86,7 +112,7 @@ public class ExcelUtils {
 		return cellStyle;
 	}
 
-	private static <E> void writeHead(List<ExcelSetting> header, XSSFSheet sheet, List<E> data, int currentRowNo, boolean enableFieldsAutoGet) {
+	private static <E> void writeHead(List<ExcelSetting> header, XSSFSheet sheet, List<E> data, int currentRowNo, boolean enableFieldsAutoGet, XSSFWorkbook wb) {
 
 		XSSFRow headerRow = sheet.createRow(currentRowNo);
 
@@ -122,18 +148,19 @@ public class ExcelUtils {
 					XSSFCell headRow = headerRow.createCell(i);
 					String headName = field.getName();
 					headRow.setCellValue(StringUtils.capitalize(headName));
-					sheet.autoSizeColumn(i);
+					headRow.setCellStyle(getDefaultHeadStyle(wb));
+					sheet.setColumnWidth(i, 20 * 256);
 				}
 			}
 		}
 
 	}
 
-	private static <E> void writeBody(List<ExcelSetting> header, XSSFSheet sheet, List<E> data, int currentRowNo, boolean enableFieldsAutoGet) {
+	private static <E> void writeBody(List<ExcelSetting> header, XSSFSheet sheet, List<E> data, int currentRowNo, boolean enableFieldsAutoGet, XSSFWorkbook wb) {
 		XSSFRow contentRow = null;
 		String[] fieldNames = null;
 		XSSFCellStyle[] bodyCellStyles = null;
-
+		boolean isSetFields = false;
 		if (!enableFieldsAutoGet) {
 			fieldNames = new String[header.size()];
 			bodyCellStyles = new XSSFCellStyle[header.size()];
@@ -143,13 +170,17 @@ public class ExcelUtils {
 				XSSFCellStyle bodyCellStyle = header.get(i).getBodyCellStyle();
 				bodyCellStyles[i] = bodyCellStyle;
 				if (fieldName != null) {
+					isSetFields = true;
 					fieldNames[i] = fieldName;
 				} else {
 					fieldNames[i] = headName;
 				}
 			}
-		} else {
+		}
+
+		if (enableFieldsAutoGet || !isSetFields) {
 			List<String> tmpFieldNames = new LinkedList<>();
+			List<XSSFCellStyle> tmpBodyCellStyles = new LinkedList<>();
 			if (data.size() > 0) {
 				E o = data.get(0);
 				Class<?> cls = o.getClass();
@@ -157,9 +188,11 @@ public class ExcelUtils {
 				for (int i = 0; i < declaredFields.length; i++) {
 					Field field = declaredFields[i];
 					tmpFieldNames.add(field.getName());
+					tmpBodyCellStyles.add(getDefaultBodyStyle(wb));
 				}
 			}
 			fieldNames = tmpFieldNames.toArray(new String[0]);
+			bodyCellStyles = tmpBodyCellStyles.toArray(new XSSFCellStyle[0]);
 		}
 
 		try {
