@@ -44,6 +44,15 @@
 		<!--one of the properties available;the maximum file size in bytes -->
 		<property name="maxUploadSize" value="1000000000" />
 	</bean>
+	
+	<mvc:interceptors>
+	
+	 <mvc:interceptor>
+	 	    <mvc:mapping path="/**"/>
+	 	    <mvc:exclude-mapping path="/resources/**"/>
+	        <bean class="issac.demo.interceptor.LogInterceptor"></bean>
+	 </mvc:interceptor>
+	</mvc:interceptors>
 
 
 </beans>
