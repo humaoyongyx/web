@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@include file="taglib.jsp"%>
 <html>
 <head>
@@ -7,22 +8,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%-- <link href="${path}/resources/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" /> --%>
 
-<link href="${path}/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="${path}/resources/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="${path}/resources/css/sweetalert.css" rel="stylesheet" type="text/css" />
+<%@include file="header.jsp"%>
 
-<script type="text/javascript" src="${path}/resources/js/jquery.js"></script>
-<script type="text/javascript" src="${path}/resources/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${path}/resources/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="${path}/resources/js/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="${path}/resources/js/sweetalert.min.js"></script>
 <title>userinfo page</title>
 </head>
 <body>
 	<script type="text/javascript">
-		$(document)
-				.ready(
-						function() {
+		$(document).ready(	function() {
 							dtable = $('#example')
 									.DataTable(
 											{
@@ -97,10 +89,35 @@
 															"searchable" : false
 														} ]
 											});
-						});
+
+							$('#uploadForm').submit(function() {
+                              if($("#file").val()==""){
+                            	   alert("请选择文件");
+                                   return false;
+                              }
+								var options = {
+									//dataType : "json",  
+									beforeSubmit : function() {
+									},
+									success : function(result) {
+										$("#img").attr("src",result);
+										 swal("", "上传成功！","success");
+									},
+									error : function(result) {
+										alert(result);
+									}
+								};
+								$(this).ajaxSubmit(options);
+								return false;
+							});
+	});
 
 		function reload() {
 			dtable.ajax.reload();
+		}
+
+		function ajaxSubmit() {
+			$('#uploadForm').submit();
 		}
 	</script>
 
@@ -108,28 +125,33 @@
 	<h1>userinfo page</h1>
 
 	<div>
-		<form action="${path}/test/upload" method="post" enctype="multipart/form-data">
-			<input type="file" name="file" />  <br/>
-			<input type="submit" value="Submit" class="btn btn-primary" /> <br/>
-			<input type="hidden" name="hidden" value="hidden"/>
-			</form>
-			<input type="button" class="btn btn-primary" value="导出" onclick="reload()" /> <br/>
-			<table id="example" class="table table-striped table-condensed table-bordered" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Position</th>
-						<th>Salary</th>
-						<th>Start date</th>
-						<th>operatiron</th>
-						<th>id</th>
-					</tr>
-				</thead>
-			</table>
-		
+		<form id="uploadForm" action="${path}/test/upload" method="post"
+			enctype="multipart/form-data">
+			<input id="file" type="file" name="file" /> <br /> <input
+				type="button" value="Submit" class="btn btn-primary"
+				onclick="ajaxSubmit()" /> <br /> <input type="hidden"
+				name="hidden" value="hidden" />
+		</form>
+		<input type="button" class="btn btn-primary" value="导出"
+			onclick="reload()" /> <br />
+		<table id="example"
+			class="table table-striped table-condensed table-bordered"
+			cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Position</th>
+					<th>Salary</th>
+					<th>Start date</th>
+					<th>operatiron</th>
+					<th>id</th>
+				</tr>
+			</thead>
+		</table>
+
 	</div>
 	<div>
-		<img alt="" src="${fileUrl }" />
+		<img id="img" alt="" src="" />
 	</div>
 </body>
 </html>

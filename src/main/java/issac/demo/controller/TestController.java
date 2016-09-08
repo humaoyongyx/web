@@ -53,11 +53,11 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String upload(@RequestParam(value = "file", required = false) MultipartFile file, String hidden, HttpServletRequest request, ModelMap model) {
+	public @ResponseBody String upload(@RequestParam(value = "file", required = false) MultipartFile file, String hidden, HttpServletRequest request, ModelMap model) {
 
 		System.out.println("开始");
 		System.out.println("hidden:" + hidden);
-		String path = request.getSession().getServletContext().getRealPath("upload");
+		String path = request.getSession().getServletContext().getRealPath("/") + "upload/";
 		String fileName = file.getOriginalFilename();
 		//	        String fileName = new Date().getTime()+".jpg";  
 		System.out.println(path);
@@ -72,9 +72,8 @@ public class TestController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("fileUrl", request.getContextPath() + "/upload/" + fileName);
 
-		return "forward:/test/uploadPage";
+		return request.getContextPath() + "/upload/" + fileName;
 	}
 
 	@RequestMapping("/getDataTablePage")
