@@ -6,7 +6,7 @@
 		<param name="encoding" value="UTF8" />
 		<param name="target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value=" %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %C:%L- %m%n" />
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %C:%L- %m%n" />
 		</layout>
 	</appender>
 
