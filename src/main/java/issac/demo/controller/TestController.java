@@ -1,17 +1,21 @@
 package issac.demo.controller;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import issac.demo.bo.DataTableBasicParams;
 import issac.demo.service.TestService;
@@ -43,15 +47,38 @@ public class TestController {
 		return "test";
 	}
 	
+	@RequestMapping("/uploadPage")
+	public String uploadPage() {
+		return "uploadPage";
+	}
+
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String upload(@RequestParam(value = "file", required = false) MultipartFile file, String hidden, HttpServletRequest request, ModelMap model) {
+
+		System.out.println("开始");
+		System.out.println("hidden:" + hidden);
+		String path = request.getSession().getServletContext().getRealPath("upload");
+		String fileName = file.getOriginalFilename();
+		//	        String fileName = new Date().getTime()+".jpg";  
+		System.out.println(path);
+		File targetFile = new File(path, fileName);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+
+		//保存  
+		try {
+			file.transferTo(targetFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("fileUrl", request.getContextPath() + "/upload/" + fileName);
+
+		return "forward:/test/uploadPage";
+	}
+
 	@RequestMapping("/getDataTablePage")
 	public @ResponseBody Object getDataTablePage(HttpServletRequest request, DataTableBasicParams params) {
-		System.out.println(params);
-		Enumeration<String> parameterNames = request.getParameterNames();
-		while (parameterNames.hasMoreElements()) {
-			String key = (String) parameterNames.nextElement();
-			System.out.println(key + request.getParameter(key));
-
-		}
 		return generateData(params.getDraw(), params.getStart(), params.getLength());
 	}
 
