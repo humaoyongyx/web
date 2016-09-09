@@ -156,8 +156,7 @@
         and name like  CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) 
       </if>
   </select>
-  
-  <select id="getPageList"  resultType="issac.demo.model.UserInfo" >
+<!--     <select id="getPageList"  resultType="issac.demo.model.UserInfo" >
     select 
     <include refid="Base_Column_List" />,
     CONCAT('row',id) dTRowId
@@ -168,9 +167,22 @@
      </if>
      order by id desc
     limit #{start,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+  </select> -->
+  
+  <select id="getPageList"  resultType="issac.demo.model.UserInfo"  parameterType="issac.demo.bo.params.UserInfoParams" >
+    select 
+    <include refid="Base_Column_List" />,
+    CONCAT('row',id) dTRowId
+    from user_info
+    where 1=1
+    <if test="name != null" >
+        and name like  CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) 
+     </if>
+     order by id desc
+    limit #{start,jdbcType=INTEGER},#{length,jdbcType=INTEGER}
   </select>
   
-    <select id="getTotal"  resultType="java.lang.Integer">
+      <select id="getTotal"  resultType="java.lang.Integer" parameterType="issac.demo.bo.params.UserInfoParams" >
     select 
          count(id)
     from user_info
@@ -179,6 +191,16 @@
         and name like  CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) 
       </if>
   </select>
+  
+<!--     <select id="getTotal"  resultType="java.lang.Integer">
+    select 
+         count(id)
+    from user_info
+    where 1=1
+    <if test="name != null" >
+        and name like  CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) 
+      </if>
+  </select> -->
   
   
 </mapper>
