@@ -1,6 +1,8 @@
-package issac.demo.vo;
+package issac.demo.dto;
 
 import java.util.List;
+
+import issac.demo.bo.DataTableBasicBean;
 
 public class DataTableResult {
 

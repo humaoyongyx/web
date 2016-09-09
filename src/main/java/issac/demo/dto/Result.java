@@ -1,4 +1,4 @@
-package issac.demo.vo;
+package issac.demo.dto;
 
 public class Result {
 
