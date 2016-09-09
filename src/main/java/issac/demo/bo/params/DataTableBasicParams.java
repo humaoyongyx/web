@@ -1,4 +1,4 @@
-package issac.demo.bo;
+package issac.demo.bo.params;
 
 public class DataTableBasicParams {
 	private int draw;

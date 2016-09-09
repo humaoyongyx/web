@@ -24,7 +24,7 @@
 													"data" : function(d) {
 														var level1 = "test";
 														//添加额外的参数传给服务器  
-														d.test = level1;
+														d.name = level1;
 													}
 												},
 												"processing" : true,
@@ -91,17 +91,20 @@
 											});
 
 							$('#uploadForm').submit(function() {
-                              if($("#file").val()==""){
+                            /*   if($("#file").val()==""){
                             	   alert("请选择文件");
                                    return false;
-                              }
+                              } */
 								var options = {
 									//dataType : "json",  
 									beforeSubmit : function() {
 									},
 									success : function(result) {
-										$("#img").attr("src",result);
-										 swal("", "上传成功！","success");
+                                       if(result !="fail"){
+                                    	   $("#img").attr("src",result);
+  										 swal("", "上传成功！","success");
+										}
+										
 									},
 									error : function(result) {
 										alert(result);

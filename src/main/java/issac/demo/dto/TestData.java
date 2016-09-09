@@ -1,4 +1,6 @@
-package issac.demo.vo;
+package issac.demo.dto;
+
+import issac.demo.bo.DataTableBasicBean;
 
 public class TestData extends DataTableBasicBean {
 

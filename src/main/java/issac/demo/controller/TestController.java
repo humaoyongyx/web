@@ -1,6 +1,5 @@
 package issac.demo.controller;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +17,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import issac.demo.bo.DataTableBasicParams;
+import issac.demo.bo.DataTableBasicBean;
+import issac.demo.bo.params.DataTableBasicParams;
+import issac.demo.dto.DataTableResult;
+import issac.demo.dto.TestData;
 import issac.demo.service.TestService;
-import issac.demo.vo.DataTableBasicBean;
-import issac.demo.vo.DataTableResult;
-import issac.demo.vo.TestData;
+import issac.demo.service.UploadPictureService;
 
 @Controller
 @RequestMapping("/test")
 public class TestController {
+
+	@Value("#{propertiesReader[uploadDir]}")
+	private String uploadDir;
 
 	@Resource
 	TestService testService;
@@ -35,10 +39,19 @@ public class TestController {
 		return testService.getData();
 	}
 
+	@Resource
+	UploadPictureService uploadPictureService;
+
 	@RequestMapping("/test2")
 	@ResponseBody
 	public void testTwo() {
 		// testService.insert();
+	}
+
+	@RequestMapping("/test")
+	@ResponseBody
+	public void test(HttpServletRequest request) {
+		System.out.println(uploadDir);
 	}
 
 
@@ -57,23 +70,11 @@ public class TestController {
 
 		System.out.println("开始");
 		System.out.println("hidden:" + hidden);
-		String path = request.getSession().getServletContext().getRealPath("/") + "upload/";
-		String fileName = file.getOriginalFilename();
-		//	        String fileName = new Date().getTime()+".jpg";  
-		System.out.println(path);
-		File targetFile = new File(path, fileName);
-		if (!targetFile.exists()) {
-			targetFile.mkdirs();
+		String result = "fail";
+		if (file != null && !file.isEmpty()) {
+			result = uploadPictureService.upload(file);
 		}
-
-		//保存  
-		try {
-			file.transferTo(targetFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return request.getContextPath() + "/upload/" + fileName;
+		return result;
 	}
 
 	@RequestMapping("/getDataTablePage")
@@ -86,7 +87,7 @@ public class TestController {
 	public static DataTableResult generateData(int draw, int base, int length) {
 		List<DataTableBasicBean> testDatas = new ArrayList<>();
 		for (int i = base; i < base + length; i++) {
-			testDatas.add(new TestData().setName("name" + i).setPosition("position" + i).setSalary((double) i).setStartDate(sdf.format(new Date())).setDT_RowClass("rowClass" + i).setDT_RowId("rowId" + i));
+			testDatas.add(new TestData().setName("name" + i).setPosition("position" + i).setSalary((double) i).setStartDate(sdf.format(new Date())).setDTRowClass("rowClass" + i).setDTRowId("rowId" + i));
         }
 		DataTableResult dtResult = new DataTableResult();
 		dtResult.setDraw(draw);

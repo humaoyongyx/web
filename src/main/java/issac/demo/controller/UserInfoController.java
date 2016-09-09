@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import issac.demo.bo.params.UserInfoParams;
+import issac.demo.dto.Result;
 import issac.demo.model.UserInfo;
 import issac.demo.service.UserInfoService;
 import issac.demo.utils.ExcelUtils;
-import issac.demo.vo.Result;
 
 @Controller
 @RequestMapping("/userInfo")
@@ -34,6 +35,12 @@ public class UserInfoController {
 		return "userinfo";
 	}
 
+	@RequestMapping(value = "/page2", method = RequestMethod.GET)
+	public String userInfoPage2(HttpServletRequest request) {
+		List<UserInfo> userInfos = userInfoService.findAll();
+		request.setAttribute("userInfos", userInfos);
+		return "userinfo2";
+	}
 	@RequestMapping(value = "/getAll", method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody Object getAll() {
 		List<UserInfo> userInfos = userInfoService.findAll();
@@ -61,6 +68,7 @@ public class UserInfoController {
 		try {
 			userInfoService.insert(userInfo);
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setMessage("insert error");
 			return result;
 		}
@@ -82,16 +90,23 @@ public class UserInfoController {
 	}
 
 	@RequestMapping(value = "/exportExcel", method = { RequestMethod.GET, RequestMethod.POST })
-	public void exportExcel(HttpServletResponse response) {
+	public void exportExcel(HttpServletResponse response, String name) {
+		System.out.println(name);
 		String[] header = { "姓名", "薪资", "性别", "描述", "id" };
 		String[] fieldNames = { "sex", "salary", "sex", "descn", "id" };
 		try {
 			//	ExcelUtils.exportExcel("test", header, userInfoService.findAll(), response);
 			//ExcelUtils.exportExcel("测试", "测试sheet", header, fieldNames, userInfoService.findAll(), response);
-			ExcelUtils.exportExcel("测试", userInfoService.findAll(), response);
+			ExcelUtils.exportExcel("测试", userInfoService.getList(name), response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	@RequestMapping(value = "/getUserInfoPage", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody Object getUserInfoPage(UserInfoParams params) {
+		System.out.println(params);
+		return userInfoService.getUserInfoPage(params);
 	}
 }

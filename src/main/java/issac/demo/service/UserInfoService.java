@@ -6,6 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import issac.demo.bo.params.UserInfoParams;
+import issac.demo.dto.DataTableResult;
 import issac.demo.mapper.UserInfoMapper;
 import issac.demo.model.UserInfo;
 
@@ -32,6 +34,22 @@ public class UserInfoService {
 
 	public List<UserInfo> findAll() {
 		return userInfoMapper.selectAll();
+	}
+
+	public List<UserInfo> getList(String name) {
+		return userInfoMapper.getList(name);
+	}
+
+	public DataTableResult getUserInfoPage(UserInfoParams params) {
+		List<UserInfo> pageList = userInfoMapper.getPageList(params.getStart(), params.getLength(), params.getName());
+		DataTableResult result = new DataTableResult();
+		result.setDraw(params.getDraw());
+		int total = userInfoMapper.getTotal(params.getName());
+		result.setRecordsTotal(total);
+		result.setRecordsFiltered(total);
+		result.setData(pageList);
+		return result;
+		
 	}
 
 }

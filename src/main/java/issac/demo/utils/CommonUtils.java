@@ -19,4 +19,33 @@ public class CommonUtils {
 		return nativeValue;
 	}
 
+	public static String normalizePath(String path, String... paths) {
+		StringBuffer sb = new StringBuffer();
+		if (path == null || "".equals(path.trim())) {
+			return "";
+		}
+		path = path.replace("\\", "/");
+		if (!path.endsWith("/")) {
+			path = path + "/";
+		}
+		sb.append(path);
+		if (paths == null) {
+			return sb.toString();
+		}
+	
+		for (String p : paths) {
+			if (p != null && !"".equals(p.trim())) {
+				p = p.replace("\\", "/");
+				if (p.startsWith("/")) {
+					p = p.substring(1);
+				}
+				if (!p.endsWith("/")) {
+					p = p + "/";
+				}
+				sb.append(p);
+			}
+		}
+		return sb.toString();
+	}
+
 }
