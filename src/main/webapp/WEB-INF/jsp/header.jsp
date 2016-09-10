@@ -6,7 +6,8 @@
 
 <script type="text/javascript" src="${path}/resources/js/jquery.js"></script>
 <script type="text/javascript" src="${path}/resources/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${path}/resources/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="${path}/resources/js/jquery.dataTables.min.js"></script> 
+<%-- <script type="text/javascript" src="${path}/resources/js/jquery.dataTables.js"></script> --%>
 <script type="text/javascript" src="${path}/resources/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/sweetalert.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/jquery.form.min.js"></script>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script>
-     //init plugins defaults
+	//init plugins defaults
 	$.extend($.fn.datepicker.defaults, {
 		language : 'zh-CN'
 	});
@@ -30,4 +30,24 @@
 			}
 		}
 	});
+
+	//extend plugins
+	$.fn.DataTableServer = function(config) {
+		var defautConfig = {
+			"dom" : "tip",
+			"processing" : true,
+			"serverSide" : true,
+			"lengthChange" : false,//是否允许用户自定义显示数量
+			"pageLength" : 10
+		//"searching": false,//本地搜索
+		//  "ordering": false, //排序功能
+		// "Info": true,//页脚信息
+		// "bPaginate": true, //翻页功能
+		//  "bFilter": false, //列筛序功能 
+		};
+		if (config) {
+			$.extend(true, defautConfig, config);
+		}
+		return $(this).DataTable(defautConfig);
+	}
 </script>
