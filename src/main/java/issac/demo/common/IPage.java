@@ -7,5 +7,5 @@ import issac.demo.bo.params.DataTableBasicParams;
 
 public interface IPage {
 	public List<DataTableBasicBean> getPageList(DataTableBasicParams params);
-	public int getTotal(DataTableBasicParams params);
+	public int getPageTotal(DataTableBasicParams params);
 }

@@ -5,17 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<%-- <link href="${path}/resources/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" /> --%>
-
-<link href="${path}/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="${path}/resources/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="${path}/resources/css/sweetalert.css" rel="stylesheet" type="text/css" />
-
-<script type="text/javascript" src="${path}/resources/js/jquery.js"></script>
-<script type="text/javascript" src="${path}/resources/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${path}/resources/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="${path}/resources/js/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="${path}/resources/js/sweetalert.min.js"></script>
+<%@include file="header.jsp"%>
 
 <title>userinfo page</title>
 
@@ -42,6 +32,7 @@
              "ordering": false, //排序功能
              "Info": true,//页脚信息
              "pageLength": 10,
+             responsive: true,
              "order": [
                        [0, "asc" ]
                    ],//第一列排序图标改为默认
@@ -78,7 +69,7 @@
 					"targets" : [ 5 ],
 					"render": function(data, type, row) { // 返回自定义内容
 						if(!$.isEmptyObject(data)){
-							 return ' <img id="img" width="60px" height="40px" alt="" src="'+data+'" />';
+							 return ' <img class="img" width="60px" height="40px" alt="" src="'+data+'" />';
 						}else{
 							return "";
 						}
@@ -95,7 +86,7 @@
 				}
 				
 				],
-				"oLanguage" : {//国际语言转化
+		/* 	 	"language" : {//国际语言转化
 					"sLengthMenu" : "显示 _MENU_ 记录",
 					"sZeroRecords" : "对不起，查询不到任何相关数据",
 					"sEmptyTable" : "未有相关数据",
@@ -112,22 +103,89 @@
 						"sNext" : " 下一页 ",
 						"sLast" : " 尾页 "
 					}
-				},
+				},  */
 			});
 		 
 		/*  $('#userinfo_seach').on( 'keyup click', function () {
 			   dTable.search( $('#userinfo_seach').val(), false,false).draw();
 		    } ); */
+		    
+			$('#uploadForm').submit(function() {
+                /*   if($("#file").val()==""){
+                	   alert("请选择文件");
+                       return false;
+                  } */
+					var options = {
+						//dataType : "json",  
+						beforeSubmit : function() {
+						},
+						success : function(result) {
+                           if(result !="fail"){
+								 swal("", "上传成功！","success");
+								 //document.location.reload(true);
+								 //document.location.replace(location.href) ;
+									/* $(".img","#example").each(function(index,obj){
+										$(obj).attr("src",$(obj).attr("src"));
+									}); */
+								 setTimeout( "pageReload()" , 1000 );
+							
+							}
+							
+						},
+						error : function(result) {
+							alert(result);
+						}
+					};
+					$(this).ajaxSubmit(options);
+					return false;
+				});
+		    
+			 $('#selectDate').datepicker({
+				
+			 });     
 		 
 		});
 		
 		function reload() {
 			dTable.ajax.reload();
 		}
+		
+		function pageReload(){
+			document.location.reload(true);
+		}
+		function ajaxSubmit() {
+			$('#uploadForm').submit();
+		}
 	</script>
 	<h1>userinfo page</h1>
-	<div>
 	
+	<input type="text" class="form-control" id="selectDate">
+	<form class="form-inline" role="form" id="formAdd">
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputEmail2">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">@</div>
+      <input class="form-control" type="email" placeholder="Enter email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputPassword2">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+  </div>
+  <button type="submit" class="btn btn-default">Sign in</button>
+</form>
+	
+	<div>
+			<form id="uploadForm" action="${path}/test/upload" method="post"
+			enctype="multipart/form-data">
+			<input id="file" type="file" name="file" /> <br /> <input
+				type="button" value="Submit" class="btn btn-primary"
+				onclick="ajaxSubmit()" /> <br /> <input type="hidden"
+				name="hidden" value="hidden" />
+		</form>
 	<form id="userinfoForm" action="${path}/userInfo/exportExcel">
            <input type="hidden" name="test" value="test"/>
             <div  class="pull-right">
@@ -210,7 +268,7 @@
 		$.ajax({
 			   type: "POST",
 			   url: "${path}/userInfo/insert",
-			   data: {name:'Fiona White',salary:'1234',sex:'男',descn:'Edinburgh',photo:'/pics/login_logo.png'},
+			   data: {name:'issac hu',salary:'1234',sex:'男',descn:'Edinburgh',photo:'/pics/google.png'},
 			   success: function(result){
 				   result=$.parseJSON(result);
 			     if(result.status==1){
@@ -225,6 +283,26 @@
 			});
 	 
   }
+  
+  function userInfoAdd2(data){
+		$.ajax({
+			   type: "POST",
+			   url: "${path}/userInfo/insert",
+			   data: data,
+			   success: function(result){
+				   result=$.parseJSON(result);
+			     if(result.status==1){
+			    	 //dTable.row.add( [null,'Fiona White', 1234, '男','Edinburgh','',''] ).draw();
+			    	// dTable.row.add( {name:"Fiona White"} ).draw();
+			    	// document.location.reload();
+			    	  dTable.ajax.reload();
+			      }else{
+			    	 swal("", "增加失败！","error");
+			     }
+			   }
+			});
+	 
+}
   
   function userInfoSearch(){
 	  dTable.ajax.reload();
