@@ -134,7 +134,16 @@
 						
 					},
 					{
-						   "targets": [6], // 目标列位置，下标从0开始
+						"name": "createTime",  
+						"data":"createTime",
+						"targets" : [ 6 ],
+						"render": function(data, type, row) { // 返回自定义内容
+                              return row.createTime     ;           
+	                    }
+						
+					},
+					{
+						   "targets": [7], // 目标列位置，下标从0开始
 	                       "data": "id", // 数据列名
 	                       "render": function(data, type, row) { // 返回自定义内容
 	                           return ' <input type="button" class="btn btn-primary" value="删除" onclick="userInfoDelete('+data+')"/>';
@@ -182,9 +191,9 @@
 				
 			 });     
 			 $('#date').datetimepicker({
-					 showSecond: true, 
-				     showMillisec: false, 
-				     timeFormat: 'hh:mm:ss'
+					// showSecond: true, 
+				 //    showMillisec: false, 
+				//     timeFormat: 'hh:mm:ss'
 			 });
 		 
 		});
@@ -249,6 +258,7 @@
 					<th>性别</th>
 					<th>描述</th>
 					<th>照片</th>
+					<th>创建时间</th>
 					<th>操作</th>
 				</tr>
 			</thead>

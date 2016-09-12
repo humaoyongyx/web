@@ -57,7 +57,7 @@
 					ampm: false,
 					amNames: ['AM', 'A'],
 					pmNames: ['PM', 'P'],
-					timeFormat: 'hh:mm tt',
+					timeFormat: 'HH:mm:ss',
 					timeSuffix: '',
 					timeOnlyTitle: '选择时间',
 					timeText: '时间',

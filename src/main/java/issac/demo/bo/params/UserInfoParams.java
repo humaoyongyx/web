@@ -1,10 +1,8 @@
 package issac.demo.bo.params;
 
-import java.util.Date;
-
 public class UserInfoParams extends DataTableBasicParams {
 	private String name;
-	private Date date;
+	private String date;
 
 	public String getName() {
 		return name;
@@ -14,12 +12,11 @@ public class UserInfoParams extends DataTableBasicParams {
 		this.name = name;
 	}
 
-
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
