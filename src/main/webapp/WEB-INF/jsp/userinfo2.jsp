@@ -181,6 +181,11 @@
 			 $('#selectDate').datepicker({
 				
 			 });     
+			 $('#date').datetimepicker({
+					 showSecond: true, 
+				     showMillisec: false, 
+				     timeFormat: 'hh:mm:ss'
+			 });
 		 
 		});
 		
@@ -194,11 +199,17 @@
 		function ajaxSubmit() {
 			$('#uploadForm').submit();
 		}
+		
+		
 	</script>
 	<h1>userinfo page</h1>
 
-	<input type="text" class="form-control" id="selectDate">
-	<form class="form-inline" role="form" id="formAdd">
+	<input type="text" id="selectDate">
+	<form class="form-inline" role="form" id="formAdd" action="${path}/test/testParams" >
+
+		<div class="form-group">
+			<label class="sr-only" for="date">Email address</label>	<input type="text" id="date"  name ="date" class="form-control" placeholder="selectDateTime"/> 
+		</div>
 		<div class="form-group">
 			<label class="sr-only" for="exampleInputEmail2">Email address</label> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
 		</div>
@@ -209,7 +220,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="sr-only" for="exampleInputPassword2">Password</label> <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+			<label class="sr-only" for="exampleInputPassword2">Password</label> <input type="text" class="form-control" id="name" name ="name"  placeholder="Password">
 		</div>
 		<button type="submit" class="btn btn-default">Sign in</button>
 	</form>

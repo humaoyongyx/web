@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import issac.demo.bo.DataTableBasicBean;
 import issac.demo.bo.params.DataTableBasicParams;
+import issac.demo.bo.params.UserInfoParams;
 import issac.demo.dto.DataTableResult;
 import issac.demo.dto.TestData;
 import issac.demo.service.TestService;
@@ -95,6 +96,12 @@ public class TestController {
 		dtResult.setRecordsFiltered(101);
 		dtResult.setData(testDatas);
 		return dtResult;
+	}
+
+	@RequestMapping("/testParams")
+	@ResponseBody
+	public void testParams(UserInfoParams params) {
+		System.out.println(params);
 	}
 
 

@@ -14,6 +14,8 @@
 	<context:component-scan base-package="issac.demo.controller">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+
+
 	<!--处理映射@requestmapping，否则不能映射到对应的视图404 -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
 
@@ -31,6 +33,16 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+<!--    <mvc:annotation-driven conversion-service="myDateConverter" />
+    <bean id="myDateConverter"
+        class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="issac.demo.spring.MyDateConverter"></bean>
+            </set>
+        </property>
+    </bean> -->
 
 	 <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
@@ -44,12 +56,23 @@
                     </property>
                 </bean>
                 <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <!-- 解决ie下载问题 -->
                     <property name="supportedMediaTypes">
                         <list>
                             <value>text/html; charset=UTF-8</value>
                             <value>application/json;charset=UTF-8</value>
                         </list>
                     </property>
+                   <!-- 全局设置date转换格式 -->
+                     <property name="objectMapper">    
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">    
+                        <property name="dateFormat">    
+                            <bean class="java.text.SimpleDateFormat">    
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />    
+                            </bean>    
+                        </property>    
+                    </bean>    
+                </property>    
                 </bean>
             </list>
         </property>

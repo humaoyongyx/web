@@ -9,36 +9,36 @@ import org.springframework.stereotype.Service;
 import issac.demo.bo.params.UserInfoParams;
 import issac.demo.common.Page;
 import issac.demo.dto.DataTableResult;
-import issac.demo.mapper.UserInfoMapper;
+import issac.demo.mapper.UserInfoMapperDao;
 import issac.demo.model.UserInfo;
 
 @Service
 public class UserInfoService {
 	@Resource
-	UserInfoMapper userInfoMapper;
+	UserInfoMapperDao userInfoMapperDao;
 
 	public void insert(UserInfo userInfo) {
-		userInfoMapper.insertSelective(userInfo);
+		userInfoMapperDao.insertSelective(userInfo);
 	}
 
 	public void update(UserInfo userInfo) {
-		userInfoMapper.updateByPrimaryKeySelective(userInfo);
+		userInfoMapperDao.updateByPrimaryKeySelective(userInfo);
 	}
 
 	public void delete(Integer id) {
-		userInfoMapper.deleteByPrimaryKey(id);
+		userInfoMapperDao.deleteByPrimaryKey(id);
 	}
 
 	public UserInfo findById(Integer id) {
-		return userInfoMapper.selectByPrimaryKey(id);
+		return userInfoMapperDao.selectByPrimaryKey(id);
 	}
 
 	public List<UserInfo> findAll() {
-		return userInfoMapper.selectAll();
+		return userInfoMapperDao.selectAll();
 	}
 
 	public List<UserInfo> getList(String name) {
-		return userInfoMapper.getList(name);
+		return userInfoMapperDao.getList(name);
 	}
 
 	public DataTableResult getUserInfoPage(UserInfoParams params) {
@@ -51,7 +51,7 @@ public class UserInfoService {
 		result.setData(pageList);
 		return result;*/
 		
-		return new Page(userInfoMapper).getPageResult(params);
+		return new Page(userInfoMapperDao).getPageResult(params);
 
 	}
 
