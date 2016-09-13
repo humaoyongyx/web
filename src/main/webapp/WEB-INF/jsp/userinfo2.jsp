@@ -190,7 +190,7 @@
 			 $('#selectDate').datepicker({
 				
 			 });     
-			 $('#date').datetimepicker({
+			 $('#createTime').datetimepicker({
 					// showSecond: true, 
 				 //    showMillisec: false, 
 				//     timeFormat: 'hh:mm:ss'
@@ -209,36 +209,59 @@
 			$('#uploadForm').submit();
 		}
 		
+		function userInfo_Add(){
+			var options = {
+					 url:  "${path}/test/testParams" ,
+				     type:  "post",
+					//dataType : "json",  
+					beforeSubmit : function() {
+					},
+					success : function(result) {
+                       if(result !="fail"){
+							 swal("", "上传成功！","success");
+						}
+						
+					},
+					error : function(result) {
+						alert(result);
+					}
+				};
+				$("#formAdd").ajaxSubmit(options);
+		}
+		
 		
 	</script>
 	<h1>userinfo page</h1>
 
-	<input type="text" id="selectDate">
 	<form class="form-inline" role="form" id="formAdd" action="${path}/test/testParams" >
 
+	     <div class="form-group">
+			<label class="sr-only" for="name">Name</label>	<input type="text" id="name"  name ="name" class="form-control" placeholder="Name"/> 
+		</div>
+		  <div class="form-group">
+			<label class="sr-only" for="salary">Salary</label>	<input type="text" id="salary"  name ="salary" class="form-control" placeholder="Salary"/> 
+		</div>
+		 <div class="form-group">
+			<label class="sr-only" for="sex">Sex</label>	<input type="text" id="sex"  name ="sex" class="form-control" placeholder="Sex"/> 
+		</div>
+		
 		<div class="form-group">
-			<label class="sr-only" for="date">Email address</label>	<input type="text" id="date"  name ="date" class="form-control" placeholder="selectDateTime"/> 
+			<label class="sr-only" for="descn">Descn</label>	<input type="text" id="descn"  name ="descn" class="form-control" placeholder="Descn"/> 
 		</div>
 		<div class="form-group">
-			<label class="sr-only" for="exampleInputEmail2">Email address</label> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+			<label class="sr-only" for="photo">Photo</label>	<input type="file" id="photo"  name ="photoFile" class="form-control" placeholder="Photo"/> 
 		</div>
 		<div class="form-group">
-			<div class="input-group">
-				<div class="input-group-addon">@</div>
-				<input class="form-control" type="email" placeholder="Enter email">
-			</div>
+			<label class="sr-only" for="createTime">CreateTime</label>	<input type="text" id="createTime"  name ="createTime" class="form-control" placeholder="CreateTime"/> 
 		</div>
-		<div class="form-group">
-			<label class="sr-only" for="exampleInputPassword2">Password</label> <input type="text" class="form-control" id="name" name ="name"  placeholder="Password">
-		</div>
-		<button type="submit" class="btn btn-default">Sign in</button>
+		<button type="button" class="btn btn-default"  onclick="userInfo_Add()" >增加</button>
 	</form>
 
 	<div>
-		<form id="uploadForm" action="${path}/test/upload" method="post" enctype="multipart/form-data">
+	<%-- 	<form id="uploadForm" action="${path}/test/upload" method="post" enctype="multipart/form-data">
 			<input id="file" type="file" name="file" /> <br /> <input type="button" value="Submit" class="btn btn-primary" onclick="ajaxSubmit()" /> <br /> <input type="hidden"
 				name="hidden" value="hidden" />
-		</form>
+		</form> --%>
 		<form id="userinfoForm" action="${path}/userInfo/exportExcel">
 			<input type="hidden" name="test" value="test" />
 			<div class="pull-right">

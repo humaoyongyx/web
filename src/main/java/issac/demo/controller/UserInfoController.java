@@ -12,7 +12,9 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import issac.demo.bo.params.UserInfoParams;
 import issac.demo.dto.Result;
@@ -109,5 +111,12 @@ public class UserInfoController {
 	public @ResponseBody Object getUserInfoPage(UserInfoParams params) {
 		System.out.println(params);
 		return userInfoService.getUserInfoPage(params);
+	}
+
+	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody Object add(@RequestParam(value = "photoFile", required = false) MultipartFile photoFile, UserInfoParams params) {
+		System.out.println(photoFile.isEmpty());
+		System.out.println(params);
+		return "success";
 	}
 }

@@ -15,7 +15,6 @@ public class UserInfoBean extends DataTableBasicBean {
 
 	private String photo;
 
-	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private String createTime;
 
 	public Integer getId() {
