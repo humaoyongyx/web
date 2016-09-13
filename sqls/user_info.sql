@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localmysql
-Source Server Version : 50628
+Source Server Version : 50710
 Source Host           : localhost:3306
 Source Database       : demo
 
 Target Server Type    : MYSQL
-Target Server Version : 50628
+Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2016-09-09 14:17:10
+Date: 2016-09-13 20:30:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,5 +26,6 @@ CREATE TABLE `user_info` (
   `sex` varchar(2) DEFAULT NULL,
   `descn` varchar(100) DEFAULT NULL,
   `photo` varchar(40) DEFAULT NULL,
+  `createTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;

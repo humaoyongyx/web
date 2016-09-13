@@ -127,7 +127,7 @@ public class UserInfoController {
 		if (params.getName() == null || "".equals(params.getName().trim())) {
 			return "fail";
 		}
-		userInfoService.insert((UserInfoBean) CommonUtils.transferClass(params, UserInfoBean.class));
+		userInfoService.insert(CommonUtils.transferClass(params, UserInfoBean.class));
 		return "success";
 	}
 }

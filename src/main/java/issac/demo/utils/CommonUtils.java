@@ -2,10 +2,13 @@ package issac.demo.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+
+import issac.demo.model.UserInfo;
 
 public class CommonUtils {
 
@@ -74,7 +77,8 @@ public class CommonUtils {
 		}
 		return paramTypes;
 	}
-	public static Object transferClass(Object origin, Class<?> target) {
+
+	public static <T> T transferClass(Object origin, Class<T> target) {
 		
 		if (origin == null || target == null) {
 			return null;
@@ -87,7 +91,7 @@ public class CommonUtils {
 		}
 		Field[] targetFields = target.getDeclaredFields();
 
-		Object targetObject = null;
+		T targetObject = null;
 		try {
 			targetObject = target.newInstance();
 		} catch (Exception e) {
@@ -109,4 +113,24 @@ public class CommonUtils {
 		return targetObject;
 	}
 
+	public static <T> T setMethod(String fieldName, T target, Object value) {
+		if (fieldName == null || fieldName.trim().equals("")) {
+			return null;
+		}
+
+		String methodName="set"+ StringUtils.capitalize(fieldName);
+		try {
+			Method method = target.getClass().getDeclaredMethod(methodName, getMethodParamTypes(target, methodName));
+			method.invoke(target, value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return target;
+
+	}
+
+	public static void main(String[] args) {
+		UserInfo params = new UserInfo();
+		System.out.println(setMethod("createTime", params, new Date()).getCreateTime());
+	}
 }

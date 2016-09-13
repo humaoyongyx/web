@@ -1,12 +1,16 @@
 package issac.demo.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,6 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -28,22 +37,22 @@ public class ExcelUtils {
 	}
 
 	public static <E> void exportExcel(String fileName, String[] headerNames, List<E> data, HttpServletResponse response) {
-		List<ExcelSetting> headerList = new LinkedList<>();
+		List<ExcelExportSetting> headerList = new LinkedList<>();
 		XSSFWorkbook wb = new XSSFWorkbook();
 		for (int i = 0; i < headerNames.length; i++) {
 			String headName = headerNames[i];
-			ExcelSetting excelSetting = getDefaultExcelSetting(wb);
+			ExcelExportSetting excelSetting = getDefaultExcelSetting(wb);
 			headerList.add(excelSetting.setHeadName(headName));
 		}
 		exportExcel(fileName, fileName, headerList, data, wb, false, response);
 	}
 
 	public static <E> void exportExcel(String fileName, String sheetName, String[] headerNames, String[] fieldNames, List<E> data, HttpServletResponse response) {
-		List<ExcelSetting> headerList = new LinkedList<>();
+		List<ExcelExportSetting> headerList = new LinkedList<>();
 		XSSFWorkbook wb = new XSSFWorkbook();
 		for (int i = 0; i < headerNames.length; i++) {
 			String headName = headerNames[i];
-			ExcelSetting excelSetting = getDefaultExcelSetting(wb);
+			ExcelExportSetting excelSetting = getDefaultExcelSetting(wb);
 			headerList.add(excelSetting.setHeadName(headName).setFieldName(fieldNames[i]));
 		}
 		exportExcel(fileName, sheetName, headerList, data, wb, false, response);
@@ -53,24 +62,24 @@ public class ExcelUtils {
 	 * 
 	 * @param fileName  导出的Excel名称
 	 * @param sheetName 导出的Excel第一个sheet的名称
-	 * @param header 可以设置headerName、fieldName、样式等信息，注意header和field是有顺序的，并且保证它们的顺序和数量一致
+	 * @param headers 可以设置headerName、fieldName、样式等信息，注意header和field是有顺序的，并且保证它们的顺序和数量一致
 	 * @param data 导出的Excel数据
 	 * @param wb   
 	 * @param enableFieldsAutoGet  开启之后，header和field将自动利用Java反射字段来获取，并且使用默认的样式
 	 * @param response 
 	 */
-	public static <E> void exportExcel(String fileName, String sheetName, List<ExcelSetting> header, List<E> data, XSSFWorkbook wb, boolean enableFieldsAutoGet, HttpServletResponse response) {
-		if (header == null) {
-			header = new LinkedList<>();
+	public static <E> void exportExcel(String fileName, String sheetName, List<ExcelExportSetting> headers, List<E> data, XSSFWorkbook wb, boolean enableFieldsAutoGet, HttpServletResponse response) {
+		if (headers == null) {
+			headers = new LinkedList<>();
 		}
 		if (data == null) {
 			data = new LinkedList<>();
 		}
 		XSSFSheet sheet = wb.createSheet(fileName);
 		int currentRowNo = 0;
-		writeHead(header, sheet, data, currentRowNo, enableFieldsAutoGet, wb);
+		writeHead(headers, sheet, data, currentRowNo, enableFieldsAutoGet, wb);
 		currentRowNo++;
-		writeBody(header, sheet, data, currentRowNo, enableFieldsAutoGet, wb);
+		writeBody(headers, sheet, data, currentRowNo, enableFieldsAutoGet, wb);
 		currentRowNo = currentRowNo + data.size();
 		writeToPage(sheetName, response, wb);
 	}
@@ -111,7 +120,7 @@ public class ExcelUtils {
 		return cellStyle;
 	}
 
-	private static <E> void writeHead(List<ExcelSetting> header, XSSFSheet sheet, List<E> data, int currentRowNo, boolean enableFieldsAutoGet, XSSFWorkbook wb) {
+	private static <E> void writeHead(List<ExcelExportSetting> header, XSSFSheet sheet, List<E> data, int currentRowNo, boolean enableFieldsAutoGet, XSSFWorkbook wb) {
 
 		XSSFRow headerRow = sheet.createRow(currentRowNo);
 
@@ -155,7 +164,7 @@ public class ExcelUtils {
 
 	}
 
-	private static <E> void writeBody(List<ExcelSetting> header, XSSFSheet sheet, List<E> data, int currentRowNo, boolean enableFieldsAutoGet, XSSFWorkbook wb) {
+	private static <E> void writeBody(List<ExcelExportSetting> header, XSSFSheet sheet, List<E> data, int currentRowNo, boolean enableFieldsAutoGet, XSSFWorkbook wb) {
 		XSSFRow contentRow = null;
 		String[] fieldNames = null;
 		XSSFCellStyle[] bodyCellStyles = null;
@@ -262,10 +271,136 @@ public class ExcelUtils {
 		}
 	}
 
-	public static ExcelSetting getDefaultExcelSetting(XSSFWorkbook wb) {
-		return new ExcelSetting().setHeadCellStyle(getDefaultHeadStyle(wb)).setBodyCellStyle(getDefaultBodyStyle(wb)).setWidth(20);
+	public static ExcelExportSetting getDefaultExcelSetting(XSSFWorkbook wb) {
+		return new ExcelExportSetting().setHeadCellStyle(getDefaultHeadStyle(wb)).setBodyCellStyle(getDefaultBodyStyle(wb)).setWidth(20);
 	}
-	public static class ExcelSetting {
+
+	private static final SimpleDateFormat sdf_import = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	private static final SimpleDateFormat sdf_default = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	public static List<T> importExcel(InputStream inputStream, List<ExcelImportSetting> headers, Class<T> clazz, int rowStart, int sheetNum) {
+
+		return null;
+
+	}
+
+	public static List<T> importExcel(Workbook workbook, List<ExcelImportSetting> headers, Class<T> clazz, int rowStart, int sheetNum) {
+		Sheet sheet = workbook.getSheetAt(sheetNum);
+
+		List<T> list = new LinkedList<>();
+		// 遍历所有行  
+		// for (Row row : sheet)  
+		// 除去表头即第一行  
+		for (int i = rowStart; i <= sheet.getLastRowNum(); i++) {
+			Row row = sheet.getRow(i);
+			T target = null;
+			try {
+				target = clazz.newInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			for (int j = 0; j < headers.size(); j++) {
+				ExcelImportSetting header = headers.get(i);
+				String fieldFormat = header.getFieldFormat();
+				String fieldType = header.getFieldType();
+				String fieldName = header.getFieldName();
+				Cell cell = row.getCell(j);
+				if (checkCellType(cell.getCellType())) {
+					if (fieldType.equals(ExcelImportSetting.DATE_TYPE)) {
+						Date dateCellValue = cell.getDateCellValue();
+						CommonUtils.setMethod(fieldName, target, dateCellValue);
+
+					} else if (fieldType.equals(ExcelImportSetting.NUMBER_TYPE)) {
+						double numericCellValue = cell.getNumericCellValue();
+						CommonUtils.setMethod(fieldName, target, numericCellValue);
+					} else {
+						SimpleDateFormat sdf = null;
+						if (fieldFormat == null || fieldFormat.trim().equals("")) {
+							sdf = sdf_import;
+						} else {
+							sdf = new SimpleDateFormat(fieldFormat);
+						}
+						try {
+							Date parseDate = sdf.parse(cell.getStringCellValue());
+							String formatDate = sdf_default.format(parseDate);
+							CommonUtils.setMethod(fieldName, target, formatDate);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+
+					}
+
+				}
+
+			}
+			list.add(target);
+		}
+		return list;
+
+	}
+
+	private static boolean checkCellType(int cellType) {
+		switch (cellType) {
+		// 字符串  
+		case Cell.CELL_TYPE_STRING:
+			return true;
+		// 数字  
+		case Cell.CELL_TYPE_NUMERIC:
+			return true;
+		// boolean  
+		case Cell.CELL_TYPE_BOOLEAN:
+			return true;
+		// 方程式  
+		case Cell.CELL_TYPE_FORMULA:
+			return true;
+		case Cell.CELL_TYPE_BLANK:
+			return false;
+		case Cell.CELL_TYPE_ERROR:
+			return false;
+		// 空值  
+		default:
+			return false;
+		}
+	}
+
+	public static class ExcelImportSetting {
+		private static final String DATE_TYPE = "DATE_TYPE";
+		private static final String NUMBER_TYPE = "NUMBER_TYPE";
+		private static final String STRING_TYPE = "STRING_TYPE";
+		private String fieldName;
+		private String fieldType = STRING_TYPE;
+		private String fieldFormat;
+
+		public String getFieldName() {
+			return fieldName;
+		}
+
+		public ExcelImportSetting setFieldName(String fieldName) {
+			this.fieldName = fieldName;
+			return this;
+		}
+
+		public String getFieldType() {
+			return fieldType;
+		}
+
+		public ExcelImportSetting setFieldType(String fieldType) {
+			this.fieldType = fieldType;
+			return this;
+		}
+
+		public String getFieldFormat() {
+			return fieldFormat;
+		}
+
+		public ExcelImportSetting setFieldFormat(String fieldFormat) {
+			this.fieldFormat = fieldFormat;
+			return this;
+		}
+
+	}
+
+	public static class ExcelExportSetting {
 		private String headName;
 		private String fieldName;
 		private Integer width;
@@ -276,7 +411,7 @@ public class ExcelUtils {
 			return headName;
 		}
 
-		public ExcelSetting setHeadName(String headName) {
+		public ExcelExportSetting setHeadName(String headName) {
 			this.headName = headName;
 			return this;
 		}
@@ -285,7 +420,7 @@ public class ExcelUtils {
 			return fieldName;
 		}
 
-		public ExcelSetting setFieldName(String fieldName) {
+		public ExcelExportSetting setFieldName(String fieldName) {
 			this.fieldName = fieldName;
 			return this;
 		}
@@ -294,7 +429,7 @@ public class ExcelUtils {
 			return width;
 		}
 
-		public ExcelSetting setWidth(Integer width) {
+		public ExcelExportSetting setWidth(Integer width) {
 			this.width = width;
 			return this;
 		}
@@ -303,7 +438,7 @@ public class ExcelUtils {
 			return headCellStyle;
 		}
 
-		public ExcelSetting setHeadCellStyle(XSSFCellStyle cellStyle) {
+		public ExcelExportSetting setHeadCellStyle(XSSFCellStyle cellStyle) {
 			this.headCellStyle = cellStyle;
 			return this;
 		}
@@ -312,7 +447,7 @@ public class ExcelUtils {
 			return bodyCellStyle;
 		}
 
-		public ExcelSetting setBodyCellStyle(XSSFCellStyle bodyCellStyle) {
+		public ExcelExportSetting setBodyCellStyle(XSSFCellStyle bodyCellStyle) {
 			this.bodyCellStyle = bodyCellStyle;
 			return this;
 		}
