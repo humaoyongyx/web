@@ -16,4 +16,5 @@ public interface UserInfoMapperDao extends IPage {
 
 	int getTotal(@Param("name") String name);
 
+	int insertSelective(UserInfoBean userInfoBean);
 }

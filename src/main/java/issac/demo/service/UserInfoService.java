@@ -37,6 +37,9 @@ public class UserInfoService {
 		return userInfoMapper.selectByPrimaryKey(id);
 	}
 
+	public void insert(UserInfoBean userInfoBean) {
+		userInfoMapperDao.insertSelective(userInfoBean);
+	}
 	public List<UserInfoBean> findAll() {
 		return userInfoMapperDao.selectAll();
 	}

@@ -20,7 +20,9 @@ import issac.demo.bo.params.UserInfoParams;
 import issac.demo.dto.Result;
 import issac.demo.model.UserInfo;
 import issac.demo.model.UserInfoBean;
+import issac.demo.service.UploadPictureService;
 import issac.demo.service.UserInfoService;
+import issac.demo.utils.CommonUtils;
 import issac.demo.utils.ExcelUtils;
 
 @Controller
@@ -30,6 +32,8 @@ public class UserInfoController {
 	Logger logger = Logger.getLogger(UserInfoController.class);
 	@Resource
 	UserInfoService userInfoService;
+	@Resource
+	UploadPictureService uploadPictureService;
 
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public String userInfoPage(HttpServletRequest request) {
@@ -115,8 +119,15 @@ public class UserInfoController {
 
 	@RequestMapping(value = "/add", method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody Object add(@RequestParam(value = "photoFile", required = false) MultipartFile photoFile, UserInfoParams params) {
-		System.out.println(photoFile.isEmpty());
+		if (photoFile != null && !photoFile.isEmpty()) {
+			System.out.println(photoFile.getOriginalFilename());
+			params.setPhoto(uploadPictureService.upload(photoFile));
+		}
 		System.out.println(params);
+		if (params.getName() == null || "".equals(params.getName().trim())) {
+			return "fail";
+		}
+		userInfoService.insert((UserInfoBean) CommonUtils.transferClass(params, UserInfoBean.class));
 		return "success";
 	}
 }

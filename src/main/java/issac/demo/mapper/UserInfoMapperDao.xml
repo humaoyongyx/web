@@ -54,6 +54,54 @@
 			and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%' )
 		</if>
 	</select>
-
+ <insert id="insertSelective" parameterType="issac.demo.model.UserInfoBean" >
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="descn != null" >
+        descn,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=DOUBLE},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="descn != null" >
+        #{descn,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+       str_to_date(#{createTime,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%i:%s')
+      </if>
+    </trim>
+  </insert>
 
 </mapper>

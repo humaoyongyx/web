@@ -33,6 +33,9 @@ public class UploadPictureService {
 
 	public String upload(MultipartFile file, String newFileName) {
 		File piciture = new File(CommonUtils.normalizePath(uploadDir) + newFileName);
+		/*	if (piciture.exists()) {
+				return CommonUtils.normalizePath(picBaseURL) + newFileName;
+			}*/
 		try {
 			file.transferTo(piciture);
 		} catch (Exception e) {

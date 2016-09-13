@@ -211,15 +211,18 @@
 		
 		function userInfo_Add(){
 			var options = {
-					 url:  "${path}/test/testParams" ,
 				     type:  "post",
 					//dataType : "json",  
 					beforeSubmit : function() {
 					},
 					success : function(result) {
-                       if(result !="fail"){
-							 swal("", "上传成功！","success");
-						}
+                       if(result =="success"){
+                    	   $("#formAdd").resetForm();
+                    	   reload();
+                    	   swal("", "上传成功！","success");
+                       }else{
+                    	   swal("", "上传失败！","error");
+                       }
 						
 					},
 					error : function(result) {
@@ -233,7 +236,7 @@
 	</script>
 	<h1>userinfo page</h1>
 
-	<form class="form-inline" role="form" id="formAdd" action="${path}/test/testParams" >
+	<form class="form-inline" role="form" id="formAdd" action="${path}/userInfo/add"   enctype="multipart/form-data">
 
 	     <div class="form-group">
 			<label class="sr-only" for="name">Name</label>	<input type="text" id="name"  name ="name" class="form-control" placeholder="Name"/> 
