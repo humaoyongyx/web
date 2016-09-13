@@ -58,12 +58,12 @@
 			"processing" : true,
 			"serverSide" : true,
 			"lengthChange" : false,//是否允许用户自定义显示数量
-			"pageLength" : 10
-		//"searching": false,//本地搜索
-		//  "ordering": false, //排序功能
-		// "Info": true,//页脚信息
-		// "bPaginate": true, //翻页功能
-		//  "bFilter": false, //列筛序功能 
+			"pageLength" : 10,
+		    "searching": false,//本地搜索
+		    "ordering": false, //排序功能
+		    "Info": true,//页脚信息
+	     	"bPaginate": true, //翻页功能
+		    "bFilter": false //列筛序功能 
 		};
 		if (config) {
 			$.extend(true, defautConfig, config);

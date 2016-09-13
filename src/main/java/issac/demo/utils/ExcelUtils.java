@@ -22,7 +22,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelUtils {
-
 	public static <E> void exportExcel(String fileName, List<E> data, HttpServletResponse response) {
 		XSSFWorkbook wb = new XSSFWorkbook();
 		exportExcel(fileName, fileName, null, data, wb, true, response);

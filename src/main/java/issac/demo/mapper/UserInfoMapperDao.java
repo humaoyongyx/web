@@ -5,14 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import issac.demo.common.IPage;
-import issac.demo.model.UserInfo;
+import issac.demo.model.UserInfoBean;
 
-public interface UserInfoMapperDao extends UserInfoMapper, IPage {
-	List<UserInfo> selectAll();
+public interface UserInfoMapperDao extends IPage {
+	List<UserInfoBean> selectAll();
 
-	List<UserInfo> getList(@Param("name") String name);
+	List<UserInfoBean> getList(@Param("name") String name);
 
-	List<UserInfo> getPageList(@Param("start") Integer start, @Param("end") Integer end, @Param("name") String name);
+	List<UserInfoBean> getPageList(@Param("start") Integer start, @Param("end") Integer end, @Param("name") String name);
 
 	int getTotal(@Param("name") String name);
 

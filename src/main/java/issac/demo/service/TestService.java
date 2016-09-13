@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import issac.demo.mapper.UserInfoMapper;
 import issac.demo.model.UserInfo;
 
+
 @Service
 public class TestService {
 

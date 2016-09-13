@@ -7,6 +7,7 @@ import org.junit.Test;
 import issac.demo.mapper.UserInfoMapper;
 import issac.demo.model.UserInfo;
 
+
 public class SimpleTest extends AbstractBaseTest {
 	@Resource
 	UserInfoMapper userInfoMapper;

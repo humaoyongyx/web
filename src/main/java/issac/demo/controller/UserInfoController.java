@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import issac.demo.bo.params.UserInfoParams;
 import issac.demo.dto.Result;
 import issac.demo.model.UserInfo;
+import issac.demo.model.UserInfoBean;
 import issac.demo.service.UserInfoService;
 import issac.demo.utils.ExcelUtils;
 
@@ -30,20 +31,20 @@ public class UserInfoController {
 
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public String userInfoPage(HttpServletRequest request) {
-		List<UserInfo> userInfos = userInfoService.findAll();
+		List<UserInfoBean> userInfos = userInfoService.findAll();
 		request.setAttribute("userInfos", userInfos);
 		return "userinfo";
 	}
 
 	@RequestMapping(value = "/page2", method = RequestMethod.GET)
 	public String userInfoPage2(HttpServletRequest request) {
-		List<UserInfo> userInfos = userInfoService.findAll();
+		List<UserInfoBean> userInfos = userInfoService.findAll();
 		request.setAttribute("userInfos", userInfos);
 		return "userinfo2";
 	}
 	@RequestMapping(value = "/getAll", method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody Object getAll() {
-		List<UserInfo> userInfos = userInfoService.findAll();
+		List<UserInfoBean> userInfos = userInfoService.findAll();
 		Map<String, Object> data = new HashMap<>();
 		data.put("data", userInfos);
 		return data;
