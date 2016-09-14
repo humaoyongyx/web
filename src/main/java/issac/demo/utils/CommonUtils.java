@@ -2,8 +2,10 @@ package issac.demo.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -129,8 +131,43 @@ public class CommonUtils {
 
 	}
 
+	public static Boolean checkNullObject(List<String> fieldNames, Object target) {
+		if (fieldNames == null || fieldNames.isEmpty()) {
+			return null;
+		}
+		boolean flag = true;
+		for (String fieldName : fieldNames) {
+			Object value = getMethod(fieldName, target);
+			if (value != null) {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+	}
+
+	public static Object getMethod(String fieldName, Object target) {
+		if (fieldName == null || fieldName.trim().equals("")) {
+			return null;
+		}
+		String methodName = "get" + StringUtils.capitalize(fieldName);
+		Object returnValue = null;
+		try {
+			Method method = target.getClass().getDeclaredMethod(methodName);
+			returnValue = method.invoke(target);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return returnValue;
+	}
+
 	public static void main(String[] args) {
 		UserInfo params = new UserInfo();
 		System.out.println(setMethod("createTime", params, new Date()).getCreateTime());
+		List<String> list = new ArrayList<>();
+		list.add("name");
+		list.add("id");
+		params.setName("test");
+		System.out.println(checkNullObject(list, params));
 	}
 }

@@ -104,4 +104,17 @@
     </trim>
   </insert>
 
+<insert id="batchInsertSelective"  parameterType="java.util.List">  
+    insert into user_info  (name, salary, sex, descn, photo,  createTime)
+    values  
+    <foreach collection="list" item="item" index="index" separator="," >  
+       (#{item.name,jdbcType=VARCHAR},
+        #{item.salary,jdbcType=DOUBLE},
+        #{item.sex,jdbcType=VARCHAR},
+        #{item.descn,jdbcType=VARCHAR},
+        #{item.photo,jdbcType=VARCHAR},
+       str_to_date(#{item.createTime,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%i:%s'))
+    </foreach>  
+</insert>  
+
 </mapper>

@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -312,6 +313,11 @@ public class ExcelUtils {
 			}
 		}
 
+		List<String> fieldNames = new ArrayList<>();
+		for (ExcelImportSetting setting : headers) {
+			fieldNames.add(setting.getFieldName());
+		}
+
 		for (int i = rowStart; i <= sheet.getLastRowNum(); i++) {
 			Row row = sheet.getRow(i);
 			T target = null;
@@ -330,20 +336,22 @@ public class ExcelUtils {
 				String cellValue = getCellValue(cell);
 				switch (methodType) {
 				case "java.util.Date": {
-					Date date = null;
-					try {
-						SimpleDateFormat sdf = null;
-						if (fieldFormat == null || fieldFormat.trim().equals("")) {
-							sdf = sdf_import;
-						} else {
-							sdf = new SimpleDateFormat(fieldFormat);
+					if (cellValue != null && !cellValue.trim().equals("")) {
+						Date date = null;
+						try {
+							SimpleDateFormat sdf = null;
+							if (fieldFormat == null || fieldFormat.trim().equals("")) {
+								sdf = sdf_import;
+							} else {
+								sdf = new SimpleDateFormat(fieldFormat);
+							}
+							Date parseDate = sdf.parse(cellValue);
+							CommonUtils.setMethod(fieldName, target, parseDate);
+						} catch (ParseException e) {
+							e.printStackTrace();
 						}
-						Date parseDate = sdf.parse(cellValue);
-						CommonUtils.setMethod(fieldName, target, parseDate);
-					} catch (ParseException e) {
-						e.printStackTrace();
+						CommonUtils.setMethod(fieldName, target, date);
 					}
-					CommonUtils.setMethod(fieldName, target, date);
 					header.setFieldType(Date.class.toString());
 					break;
 				}
@@ -392,7 +400,9 @@ public class ExcelUtils {
 							e.printStackTrace();
 						}
 					}
-					CommonUtils.setMethod(fieldName, target, cellValue);
+					if (cellValue != null && !cellValue.trim().equals("")) {
+						CommonUtils.setMethod(fieldName, target, cellValue);
+					}
 					header.setFieldType(String.class.toString());
 					break;
 				}
@@ -400,7 +410,10 @@ public class ExcelUtils {
 				}
 
 			}
-			list.add(target);
+			if (!CommonUtils.checkNullObject(fieldNames, target)) {
+				list.add(target);
+			}
+
 		}
 		return list;
 
@@ -564,9 +577,9 @@ public class ExcelUtils {
 
 	public static void main(String[] args) throws FileNotFoundException, ParseException {
 		String path = ExcelUtils.class.getResource("").getPath();
-			String fileName = "test.xlsx";
-			System.out.println(path);
-			InputStream inputStream = new FileInputStream(new File(path + fileName));
+		String fileName = "test.xlsx";
+		System.out.println(path);
+		InputStream inputStream = new FileInputStream(new File(path + fileName));
 		System.out.println(importExcel(inputStream, null, UserInfoBean.class));
 		//System.out.println(CommonUtils.getMethodParamTypes(new UserInfo(), "setSalary")[0] == Double.class);
 
