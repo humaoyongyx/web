@@ -1,5 +1,8 @@
 package issac.demo.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,17 +21,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import issac.demo.model.UserInfoBean;
 
 public class ExcelUtils {
 	public static <E> void exportExcel(String fileName, List<E> data, HttpServletResponse response) {
@@ -278,19 +286,32 @@ public class ExcelUtils {
 	private static final SimpleDateFormat sdf_import = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	private static final SimpleDateFormat sdf_default = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	public static List<T> importExcel(InputStream inputStream, List<ExcelImportSetting> headers, Class<T> clazz, int rowStart, int sheetNum) {
-
-		return null;
+	public static <T> List<T> importExcel(InputStream inputStream, List<ExcelImportSetting> headers, Class<T> clazz) {
+		Workbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return importExcel(workbook, headers, clazz, 1, 0);
 
 	}
 
-	public static List<T> importExcel(Workbook workbook, List<ExcelImportSetting> headers, Class<T> clazz, int rowStart, int sheetNum) {
+	public static <T> List<T> importExcel(Workbook workbook, List<ExcelImportSetting> headers, Class<T> clazz, int rowStart, int sheetNum) {
 		Sheet sheet = workbook.getSheetAt(sheetNum);
 
 		List<T> list = new LinkedList<>();
-		// 遍历所有行  
-		// for (Row row : sheet)  
-		// 除去表头即第一行  
+		if (headers == null || headers.isEmpty()) {
+			Row row = sheet.getRow(0);
+			headers = new LinkedList<>();
+			ExcelImportSetting excelImportSetting = null;
+			for (Cell cell : row) {
+				excelImportSetting = new ExcelImportSetting();
+				excelImportSetting.setFieldName(cell.getStringCellValue());
+				headers.add(excelImportSetting);
+			}
+		}
+
 		for (int i = rowStart; i <= sheet.getLastRowNum(); i++) {
 			Row row = sheet.getRow(i);
 			T target = null;
@@ -300,35 +321,81 @@ public class ExcelUtils {
 				e.printStackTrace();
 			}
 			for (int j = 0; j < headers.size(); j++) {
-				ExcelImportSetting header = headers.get(i);
-				String fieldFormat = header.getFieldFormat();
-				String fieldType = header.getFieldType();
+				ExcelImportSetting header = headers.get(j);
 				String fieldName = header.getFieldName();
+				String fieldFormat = header.getFieldFormat();
+				Class[] methodParamTypes = CommonUtils.getMethodParamTypes(target, "set" + StringUtils.capitalize(fieldName));
+				String methodType = methodParamTypes[0].getName();
 				Cell cell = row.getCell(j);
-				if (checkCellType(cell.getCellType())) {
-					if (fieldType.equals(ExcelImportSetting.DATE_TYPE)) {
-						Date dateCellValue = cell.getDateCellValue();
-						CommonUtils.setMethod(fieldName, target, dateCellValue);
-
-					} else if (fieldType.equals(ExcelImportSetting.NUMBER_TYPE)) {
-						double numericCellValue = cell.getNumericCellValue();
-						CommonUtils.setMethod(fieldName, target, numericCellValue);
-					} else {
+				String cellValue = getCellValue(cell);
+				switch (methodType) {
+				case "java.util.Date": {
+					Date date = null;
+					try {
 						SimpleDateFormat sdf = null;
 						if (fieldFormat == null || fieldFormat.trim().equals("")) {
 							sdf = sdf_import;
 						} else {
 							sdf = new SimpleDateFormat(fieldFormat);
 						}
+						Date parseDate = sdf.parse(cellValue);
+						CommonUtils.setMethod(fieldName, target, parseDate);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					CommonUtils.setMethod(fieldName, target, date);
+					header.setFieldType(Date.class.toString());
+					break;
+				}
+				case "java.lang.Double": {
+					if (cellValue != null && !cellValue.trim().equals("")) {
+						Double numericCellValue = Double.parseDouble(cellValue);
+						CommonUtils.setMethod(fieldName, target, numericCellValue);
+					}
+					header.setFieldType(Double.class.toString());
+					break;
+				}
+
+				case "java.lang.Float": {
+					if (cellValue != null && !cellValue.trim().equals("")) {
+						Float numericCellValue = Float.parseFloat(cellValue);
+						CommonUtils.setMethod(fieldName, target, numericCellValue);
+					}
+					header.setFieldType(Float.class.toString());
+					break;
+				}
+
+				case "java.lang.Long": {
+					if (cellValue != null && !cellValue.trim().equals("")) {
+						Long numericCellValue = Long.parseLong(cellValue);
+						CommonUtils.setMethod(fieldName, target, numericCellValue);
+					}
+					header.setFieldType(Long.class.toString());
+					break;
+				}
+
+				case "java.lang.Integer": {
+					if (cellValue != null && !cellValue.trim().equals("")) {
+						Integer numericCellValue = Integer.parseInt(cellValue);
+						CommonUtils.setMethod(fieldName, target, numericCellValue);
+					}
+					header.setFieldType(Integer.class.toString());
+					break;
+				}
+
+				default: {
+					if (fieldFormat != null && !fieldFormat.trim().equals("")) {
 						try {
-							Date parseDate = sdf.parse(cell.getStringCellValue());
-							String formatDate = sdf_default.format(parseDate);
-							CommonUtils.setMethod(fieldName, target, formatDate);
+							Date parse = sdf_import.parse(cellValue);
+							cellValue = sdf_default.format(parse);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
-
 					}
+					CommonUtils.setMethod(fieldName, target, cellValue);
+					header.setFieldType(String.class.toString());
+					break;
+				}
 
 				}
 
@@ -339,7 +406,48 @@ public class ExcelUtils {
 
 	}
 
-	private static boolean checkCellType(int cellType) {
+	public static String getCellValue(Cell cell) {
+		String result = "";
+		if (cell == null) {
+			return result;
+		}
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_BLANK:
+			result = "";
+			break;
+		case Cell.CELL_TYPE_BOOLEAN:
+			result = String.valueOf(cell.getBooleanCellValue());
+			break;
+		case Cell.CELL_TYPE_ERROR:
+			result = null;
+			break;
+		case Cell.CELL_TYPE_FORMULA:
+			Workbook wb = cell.getSheet().getWorkbook();
+			CreationHelper crateHelper = wb.getCreationHelper();
+			FormulaEvaluator evaluator = crateHelper.createFormulaEvaluator();
+			result = getCellValue(evaluator.evaluateInCell(cell));
+			break;
+		case Cell.CELL_TYPE_NUMERIC:
+			if (DateUtil.isCellDateFormatted(cell)) {
+				Date theDate = cell.getDateCellValue();
+				result = sdf_import.format(theDate);
+			} else {
+				result = NumberToTextConverter.toText(cell.getNumericCellValue());
+			}
+			break;
+		case Cell.CELL_TYPE_STRING:
+			result = cell.getRichStringCellValue().getString();
+			break;
+		default:
+			result = null;
+		}
+		if (result != null) {
+			result = result.trim();
+		}
+		return result;
+	}
+
+	public static boolean checkCellType(int cellType) {
 		switch (cellType) {
 		// 字符串  
 		case Cell.CELL_TYPE_STRING:
@@ -365,7 +473,7 @@ public class ExcelUtils {
 
 	public static class ExcelImportSetting {
 		private static final String DATE_TYPE = "DATE_TYPE";
-		private static final String NUMBER_TYPE = "NUMBER_TYPE";
+		private static final String DOUBLE_TYPE = "DOUBLE_TYPE";
 		private static final String STRING_TYPE = "STRING_TYPE";
 		private String fieldName;
 		private String fieldType = STRING_TYPE;
@@ -451,6 +559,19 @@ public class ExcelUtils {
 			this.bodyCellStyle = bodyCellStyle;
 			return this;
 		}
+
+	}
+
+	public static void main(String[] args) throws FileNotFoundException, ParseException {
+		String path = ExcelUtils.class.getResource("").getPath();
+			String fileName = "test.xlsx";
+			System.out.println(path);
+			InputStream inputStream = new FileInputStream(new File(path + fileName));
+		System.out.println(importExcel(inputStream, null, UserInfoBean.class));
+		//System.out.println(CommonUtils.getMethodParamTypes(new UserInfo(), "setSalary")[0] == Double.class);
+
+		//	System.out.println(CommonUtils.getMethodParamTypes(new UserInfo(), "set" + StringUtils.capitalize("salary"))[0].getName());
+		//System.out.println(Date.class.getName());
 
 	}
 

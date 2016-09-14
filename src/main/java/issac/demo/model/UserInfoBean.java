@@ -73,4 +73,9 @@ public class UserInfoBean extends DataTableBasicBean {
 		this.createTime = createTime;
 	}
 
+	@Override
+	public String toString() {
+		return "UserInfoBean [id=" + id + ", name=" + name + ", salary=" + salary + ", sex=" + sex + ", descn=" + descn + ", photo=" + photo + ", createTime=" + createTime + "]";
+	}
+
 }
