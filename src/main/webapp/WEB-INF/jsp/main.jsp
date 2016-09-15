@@ -7,31 +7,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%@include file="header.jsp"%>
 
+<style type="text/css">
+#_main_layout_center  .nav-tabs>li>a {
+     padding: 10px 5px 10px 15px;
+ }
+</style>
 <title>Main page</title>
 </head>
 <body>
-
-
+<div id="_main_layout_center">
 <ul class="nav nav-tabs" role="tablist" id="_main_tabs" >
-  <li role="presentation" class="active" id="_main_tabs_li_home"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_home" role="tab" data-toggle="tab"  id="_main_tabs_a_home">Home</a></li>
+  <li role="presentation" class="active" id="_main_tabs_li_home"><a style="padding-right:15px" onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_home" role="tab" data-toggle="tab"  id="_main_tabs_a_home">Home</a></li>
  <!--  <li role="presentation" id="_main_tabs_li_profile"><a onclick="_main_tabs_saveStatus(this)"  href="#_main_tabs_content_profile" role="tab" data-toggle="tab" id="_main_tabs_a_profile">Profile  <button type="button" class="close" onclick="_main_tabs_close('profile')"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a> </li>
  --></ul>
-
+</div>
 <div class="tab-content" id="_main_content" style="width:100%;height:100%">
   <div role="tabpanel" class="tab-pane active" id="_main_tabs_content_home" >
          <iframe src="${path}/userInfo/page2" style="width:100%;height:100%"></iframe>
   </div>
   
-<%--     <div role="tabpanel" class="tab-pane " id="_main_tabs_content_profile">
-         <iframe src="${path}/userInfo/page2"></iframe>
-  </div> --%>
 </div>
   
 <div>
-      <input type="button" value="add" onclick="_main_tabs_addTab( <c:out value='${obj}'/>)">
+      <%-- <input type="button" value="add" onclick="_main_tabs_addTab( <c:out value='${obj}'/>)"> --%>
+      <input type="button" value="add" onclick="_main_tabs_addTab(_main_tabs_id )">
 </div>
 
 <script>
+
+
+$(document).ready(function() {
+});
+
 _main_tabs_lastActived_id=new Array();
 _main_tabs_lastActived_id.push("home");
 
@@ -68,17 +75,30 @@ function stopEventBubble(event){
     }
 }
 
-var  id=0;
+/* var  id=0;
 function _main_tabs_addTab(obj){
 	  	  $("#_main_content").append(
 			'<div role="tabpanel" class="tab-pane " id="_main_tabs_content_'+id+'">Settings'+id+'</div>'
 	      );
 	     $("#_main_tabs").append(
-			  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">Settings'+id+'<button type="button" class="close" onclick="_main_tabs_close('+id+')"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
+			  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">Settings'+id+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close('+id+')"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
  	  );
 		_main_tabs_lastActived_id.unshift(id+"");
      id++;
      $('#_main_tabs a:last').tab('show');
+} */
+
+_main_tabs_id=0;
+function _main_tabs_addTab(id){
+	  $("#_main_content").append(
+		'<div role="tabpanel" class="tab-pane " id="_main_tabs_content_'+id+'">Settings'+id+'</div>'
+    );
+   $("#_main_tabs").append(
+		  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">Settings'+id+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close('+id+')"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
+ );
+	_main_tabs_lastActived_id.unshift(id+"");
+	_main_tabs_id++;
+$('#_main_tabs a:last').tab('show');
 }
 
 function _main_tabs_saveStatus(obj){
@@ -91,8 +111,16 @@ function _main_tabs_saveStatus(obj){
 	_main_tabs_lastActived_id.unshift(id);
 }
 
-</script>
+function _main_tabs_showTabs(id){
+	var aId="_main_tabs_a_"+id;
+	if($.inArray(id,_main_tabs_lastActived_id)!=-1){
+	    $(aId).tab('show');
+	}else{
+		_main_tabs_addTab(id);
+	}
+}
 
+</script>
 
 
 </body>

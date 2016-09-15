@@ -9,10 +9,14 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSON;
+
+import issac.demo.dto.TreeViewResult;
 import issac.demo.mapper.UserInfoMapper;
 import issac.demo.mapper.UserInfoMapperDao;
 import issac.demo.model.UserInfo;
 import issac.demo.model.UserInfoBean;
+import issac.demo.service.MenuService;
 import issac.demo.utils.ExcelUtils;
 
 
@@ -22,6 +26,9 @@ public class SimpleTest extends AbstractBaseTest {
 
 	@Resource
 	UserInfoMapperDao userInfoMapperDao;
+
+	@Resource
+	MenuService menuService;
 
 	@Test
 	public void testOne() {
@@ -40,6 +47,12 @@ public class SimpleTest extends AbstractBaseTest {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Test
+	public void testTreeView() {
+		TreeViewResult treeViewMenus = menuService.getTreeViewMenus();
+		System.out.println(JSON.toJSON(treeViewMenus));
 	}
 
 }

@@ -1,9 +1,81 @@
-/* .ui-timepicker  */
-.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; } 
-.ui-timepicker-div dl { text-align: left; } 
-.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; } 
-.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; } 
-.ui-timepicker-div td { font-size: 90%; } 
-.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; } 
-.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_second_label, 
-.ui_tpicker_millisec_label,.ui_tpicker_time_label{padding-left:20px} 
+.main_page {
+	font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color: #f3f3f4;
+	color: #676a6c;
+	height:100%;
+}
+.header_logo {
+
+	height:50px;
+	width:100%;
+}
+.clear_padding_margin {
+	padding:0px ;
+	margin:0px ;
+}
+
+.clear-border_radius {
+	border-radius:0px;
+}
+
+
+.left_layout {
+    background-color: #2f4050;
+	border:1px solid green;
+	height: 100%;
+}
+
+.right_layout {
+	border:1px solid  green;
+	height: 100%;
+}
+
+.cursor_pointer {
+	cursor: pointer;
+}
+
+.left_layout a {
+	
+	padding: 12px 20px;
+	text-decoration: none;
+	color: #9fb1c2;
+	font-weight: bold;
+	font-size: 13px;
+	display: block;
+	
+}
+
+.left_layout a:hover {
+	color: #fff;
+	background-color: #000;
+}
+
+
+
+.menu .nav ul.nav {
+    border-left:3px solid  #1ab394;
+	padding: 0px;
+	margin: 0px;
+
+}
+
+.menu .nav ul.nav>li>a {
+	padding: 5px 25px;
+	margin: 0px;
+    cursor: pointer;
+}
+
+
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img{
+	margin: auto;
+}
+
+.toggle_menu {
+  height:50px;
+  width: 100%;
+  background-color: darkgray
+}
+.rigth_main{
+	height: 100%;
+	padding-top:50px;
+}

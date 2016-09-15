@@ -5,6 +5,9 @@
 <link href="${path}/resources/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resources/css/bootstrap-treeview.min.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resources/css/project/project.css" rel="stylesheet" type="text/css" />
+
 
 <script type="text/javascript" src="${path}/resources/js/jquery.js"></script>
 <script type="text/javascript"  src="${path}/resources/js/bootstrap.min.js"></script>
@@ -14,6 +17,6 @@
 <script type="text/javascript" src="${path}/resources/js/sweetalert.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/jquery.form.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/jquery-ui-timepicker-addon.js"></script> 
-
+<script type="text/javascript" src="${path}/resources/js/bootstrap-treeview.min.js"></script>
 
 <%@include file="../js/initJS.jsp"%>
