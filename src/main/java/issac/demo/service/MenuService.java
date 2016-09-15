@@ -36,6 +36,7 @@ public class MenuService {
 			if (menuBean.getPid() != null && menuBean.getPid() == root.getId()) {
 				
 				if (checkFolder(menuBean, menuList)) {
+					map.put(menuBean.getOrderNo(), menuBean);
 					handleMenus(menuBean, menuList);
 				} else {
 					map.put(menuBean.getOrderNo(), menuBean);
