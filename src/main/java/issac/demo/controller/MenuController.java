@@ -20,4 +20,9 @@ public class MenuController {
 		return menuService.getTreeViewMenus();
 	}
 
+	@RequestMapping("/settings")
+	public String menuSettings() {
+		return "menu/settings";
+	}
+
 }
