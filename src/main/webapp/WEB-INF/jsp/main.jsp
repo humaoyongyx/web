@@ -20,6 +20,7 @@ _main_tabs_lastActived_id=new Array();
 _main_tabs_lastActived_id.push("home");
 
 function _main_tabs_close(id,event) {
+	  console.log(event)
 	  var aId="#_main_tabs_a_"+id;
 	  var liId="#_main_tabs_li_"+id;
 	  var cId="#_main_tabs_content_"+id;
@@ -52,31 +53,19 @@ function stopEventBubble(event){
     }
 }
 
-/* var  id=0;
-function _main_tabs_addTab(obj){
-	  	  $("#_main_content").append(
-			'<div role="tabpanel" class="tab-pane " id="_main_tabs_content_'+id+'">Settings'+id+'</div>'
-	      );
-	     $("#_main_tabs").append(
-			  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">Settings'+id+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close('+id+')"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
- 	  );
-		_main_tabs_lastActived_id.unshift(id+"");
-     id++;
-     $('#_main_tabs a:last').tab('show');
-} */
 
-_main_tabs_id=0;
+/* _main_tabs_id=0;
 function _main_tabs_addTab(id){
 	  $("#_main_content").append(
 		'<div role="tabpanel" class="tab-pane " id="_main_tabs_content_'+id+'">Settings'+id+'</div>'
     );
    $("#_main_tabs").append(
-		  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">Settings'+id+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close(\''+id+'\')"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
+		  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">Settings'+id+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close(\''+id+'\',event)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
  );
 	_main_tabs_lastActived_id.unshift(id+"");
 	_main_tabs_id++;
 $('#_main_tabs a:last').tab('show');
-}
+} */
 
 
 
@@ -85,7 +74,7 @@ function _main_tabs_addTab(id,url,name){
 		   '<div role="tabpanel" class="tab-pane " id="_main_tabs_content_'+id+'">  <iframe id="_main_tabs_iframe_'+id+'" src="${path}'+url+'" style="border:0px;width:100%;" onload="resizeIframeHeight(this)"></iframe></div>'
       );
 	  $("#_main_tabs").append(
-				  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">'+name+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close(\''+id+'\')"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
+				  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">'+name+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close(\''+id+'\',event)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
 	  );
 	_main_tabs_lastActived_id.unshift(id+"");
 $('#_main_tabs a:last').tab('show');
@@ -102,7 +91,9 @@ function _main_tabs_saveStatus(obj){
 	});
 	_main_tabs_lastActived_id.unshift(id);
 }
-function _main_tabs_showTabs(id){
+
+
+/* function _main_tabs_showTabs(id){
 	var aId="#_main_tabs_a_"+id;
 	if($.inArray(id,_main_tabs_lastActived_id)!=-1){
 	    $(aId).tab('show');
@@ -115,7 +106,7 @@ function _main_tabs_showTabs(id){
 	}else{
 		_main_tabs_addTab(id);
 	}
-}
+} */
 
 
 function _main_tabs_showTabs(id,url,name){
