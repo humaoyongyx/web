@@ -20,7 +20,6 @@ _main_tabs_lastActived_id=new Array();
 _main_tabs_lastActived_id.push("home");
 
 function _main_tabs_close(id,event) {
-	  console.log(event)
 	  var aId="#_main_tabs_a_"+id;
 	  var liId="#_main_tabs_li_"+id;
 	  var cId="#_main_tabs_content_"+id;
@@ -39,10 +38,10 @@ function _main_tabs_close(id,event) {
 				_main_tabs_lastActived_id.splice(i,1);
 			}
 		});
-	  stopEventBubble(event);
+	  _stopEventBubble(event);
 }
 
-function stopEventBubble(event){
+function _stopEventBubble(event){
     var e=event || window.event;
 
     if (e && e.stopPropagation){

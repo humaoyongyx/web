@@ -26,9 +26,6 @@ public class MenuBean {
 
 
 	public String getText() {
-		if (text != null) {
-			text = "<span style=\"padding-left:5px \">" + text + "</span>";
-		}
 		return text;
 	}
 

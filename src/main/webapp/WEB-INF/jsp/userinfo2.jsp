@@ -234,8 +234,11 @@
 		
 		
 	</script>
-	<h1>userinfo page</h1>
-
+	
+ 	<div class="container-fluid">
+ 	
+ 	<h1>userinfo page</h1>
+ 	
 	<form class="form-inline" role="form" id="formAdd" action="${path}/userInfo/add"   enctype="multipart/form-data">
 
 	     <div class="form-group">
@@ -260,7 +263,6 @@
 		<button type="button" class="btn btn-default"  onclick="userInfo_Add()" >增加</button>
 	</form>
 
-	<div>
 	<%-- 	<form id="uploadForm" action="${path}/test/upload" method="post" enctype="multipart/form-data">
 			<input id="file" type="file" name="file" /> <br /> <input type="button" value="Submit" class="btn btn-primary" onclick="ajaxSubmit()" /> <br /> <input type="hidden"
 				name="hidden" value="hidden" />

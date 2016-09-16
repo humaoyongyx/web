@@ -12,7 +12,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import issac.demo.bo.params.MenuParams;
 import issac.demo.dto.TreeViewResult;
+import issac.demo.mapper.MenuMapper;
 import issac.demo.mapper.MenuMapperDao;
 import issac.demo.model.MenuBean;
 
@@ -21,6 +23,9 @@ public class MenuService {
 
 	@Resource
 	MenuMapperDao menuMapperDao;
+
+	@Resource
+	MenuMapper menuMapper;
 
 
 	public void handleMenus(MenuBean root, List<MenuBean> menuList) {
@@ -70,6 +75,24 @@ public class MenuService {
 		TreeViewResult treeViewResult = new TreeViewResult();
 		treeViewResult.setData(menuBeans);
 		return treeViewResult;
+	}
+
+	public List<MenuBean> getAll(MenuParams menuParams) {
+		return menuMapperDao.getAllMenus(menuParams);
+	}
+
+	public void add(MenuParams menuParams) {
+		System.out.println(menuParams);
+		if (menuParams.getId() != null && menuParams.getId() != 0) {
+			menuMapper.updateByPrimaryKeySelective(menuParams);
+		} else {
+			menuMapper.insert(menuParams);
+		}
+
+	}
+
+	public void delete(MenuParams menuParams) {
+		menuMapper.deleteByPrimaryKey(menuParams.getId());
 	}
 
 }

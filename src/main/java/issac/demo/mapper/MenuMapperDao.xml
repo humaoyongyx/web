@@ -18,5 +18,15 @@
     <include refid="Base_Column_List" />
     from menu
   </select>
-
+  
+    <select id="getAllMenus" resultMap="BaseResultMap" parameterType="issac.demo.bo.params.MenuParams" >
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where 1=1
+    <if test="text != null" >
+        and text like  CONCAT('%',#{text,jdbcType=VARCHAR},'%' )
+    </if>
+  </select>
+   
 </mapper>
