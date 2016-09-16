@@ -71,7 +71,7 @@ $('#_main_tabs a:last').tab('show');
 
 function _main_tabs_addTab(id,url,name){
 	  $("#_main_content").append(
-		   '<div role="tabpanel" class="tab-pane " id="_main_tabs_content_'+id+'">  <iframe id="_main_tabs_iframe_'+id+'" src="${path}'+url+'" style="border:0px;width:100%;" onload="resizeIframeHeight(this)"></iframe></div>'
+		   '<div role="tabpanel" class="tab-pane " id="_main_tabs_content_'+id+'">  <iframe id="_main_tabs_iframe_'+id+'" src="${path}'+url+'" style="border:0px;width:100%;" onload="_resizeIframeHeight(this)"></iframe></div>'
       );
 	  $("#_main_tabs").append(
 				  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">'+name+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close(\''+id+'\',event)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
@@ -161,7 +161,7 @@ _main_page_hideMenu=true;
            <!-- menu -->
              
 
-         <div id="menu_treeView"></div>
+         <div id="_menu_treeView"></div>
       
       <!-- end  menu -->     
       </ul>
@@ -204,7 +204,7 @@ _main_page_hideMenu=true;
 
 </nav>
 
-    <div class="container-fluid" id="main">
+    <div class="container-fluid" >
       <div class="row">
             <!-- content -->
             
@@ -216,7 +216,7 @@ _main_page_hideMenu=true;
 			
 			  <div role="tabpanel" class="tab-pane active " id="_main_tabs_content_home" >
 			  
-			        <iframe src="${path}/userInfo/page2"  id="_main_tabs_iframe_home"  style="border:0px;width:100%" onload="resizeIframeHeight(this)"></iframe>
+			        <iframe src="${path}/userInfo/page2"  id="_main_tabs_iframe_home"  style="border:0px;width:100%" onload="_resizeIframeHeight(this)"></iframe>
 			  </div> 
 			  
 			</div>
@@ -232,18 +232,18 @@ _main_page_hideMenu=true;
 <script>
 	
 $(document).ready(function() {
-	  init();
+	  _init();
 
 });
 
-function init(){
-	  initTreeviewData();
+function _init(){
+	  _initTreeviewData();
 }
 	
-function initTreeviewData(){
+function _initTreeviewData(){
 	$.getJSON("${path}/menu/getMenus", function(json){
-		$('#menu_treeView').treeview(json);
-		$('#menu_treeView').on('nodeSelected', function(event, data) {
+		$('#_menu_treeView').treeview(json);
+		$('#_menu_treeView').on('nodeSelected', function(event, data) {
 			var id=data.nameId;
 			var url=data.url;
 			var name=data.text;
@@ -253,7 +253,7 @@ function initTreeviewData(){
 	
 }
 
-function resizeIframeHeight(obj){
+function _resizeIframeHeight(obj){
 	$(obj).height($(document.body).height()-100);
 }
 
