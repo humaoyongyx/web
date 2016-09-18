@@ -25,6 +25,9 @@
 					 "searchable" : false,
 					  "orderable": false,
 					 "render": function(data, type, row) { // 返回自定义内容
+						     if(data==1 || data==2){
+						    	 return "";
+						     }
                              return '<div class="checkbox"><label><input type="checkbox" value="'+data+'" ></label></div>';                       
 	                    }
 					
