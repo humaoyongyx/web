@@ -1,16 +1,14 @@
 package issac.demo.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-
-import issac.demo.model.UserInfo;
 
 public class CommonUtils {
 
@@ -44,7 +42,7 @@ public class CommonUtils {
 		if (paths == null) {
 			return sb.toString();
 		}
-	
+
 		for (String p : paths) {
 			if (p != null && !"".equals(p.trim())) {
 				p = p.replace("\\", "/");
@@ -81,7 +79,7 @@ public class CommonUtils {
 	}
 
 	public static <T> T transferClass(Object origin, Class<T> target) {
-		
+
 		if (origin == null || target == null) {
 			return null;
 		}
@@ -120,7 +118,7 @@ public class CommonUtils {
 			return null;
 		}
 
-		String methodName="set"+ StringUtils.capitalize(fieldName);
+		String methodName = "set" + StringUtils.capitalize(fieldName);
 		try {
 			Method method = target.getClass().getDeclaredMethod(methodName, getMethodParamTypes(target, methodName));
 			method.invoke(target, value);
@@ -161,13 +159,27 @@ public class CommonUtils {
 		return returnValue;
 	}
 
-	public static void main(String[] args) {
-		UserInfo params = new UserInfo();
-		System.out.println(setMethod("createTime", params, new Date()).getCreateTime());
-		List<String> list = new ArrayList<>();
-		list.add("name");
-		list.add("id");
-		params.setName("test");
-		System.out.println(checkNullObject(list, params));
+	public static String base64Encode(String value) {
+		String encodeBase64String = null;
+		encodeBase64String = Base64.encodeBase64String(value.getBytes());
+		return encodeBase64String;
+	}
+
+	public static String base64Decode(String value) {
+		String decodeBase64String = null;
+		byte[] decodeBase64 = Base64.decodeBase64(value);
+		decodeBase64String = new String(decodeBase64);
+		return decodeBase64String;
+	}
+
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		/*	UserInfo params = new UserInfo();
+			System.out.println(setMethod("createTime", params, new Date()).getCreateTime());
+			List<String> list = new ArrayList<>();
+			list.add("name");
+			list.add("id");
+			params.setName("test");
+			System.out.println(checkNullObject(list, params));*/
+		System.out.println(base64Decode("d2ViUmVtZW1iZXJNZUtleQ=="));
 	}
 }
