@@ -10,8 +10,6 @@
 		<spring.version>4.2.7.RELEASE</spring.version>
 		<!-- mybatis版本号 -->
 		<mybatis.version>3.3.1</mybatis.version>
-		<shiro.version>1.2.4</shiro.version>
-		 <aspectj.version>1.8.5</aspectj.version>  
 		<!-- log4j日志文件管理包版本 -->
 		<slf4j.version>1.7.7</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
@@ -214,8 +212,7 @@
 			<version>1.2.17</version>
 		</dependency>
 		
-		<!-- shiro -->
-
+			<!-- shiro -->
 	<dependency>
         <groupId>org.apache.shiro</groupId>
         <artifactId>shiro-core</artifactId>
@@ -241,7 +238,7 @@
             <artifactId>shiro-quartz</artifactId>  
             <version>${shiro.version}</version>  
         </dependency>  
-
+		
 	</dependencies>
 
 

@@ -1,6 +1,5 @@
 package issac.demo.utils;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -42,7 +41,7 @@ public class CommonUtils {
 		if (paths == null) {
 			return sb.toString();
 		}
-
+	
 		for (String p : paths) {
 			if (p != null && !"".equals(p.trim())) {
 				p = p.replace("\\", "/");
@@ -79,7 +78,7 @@ public class CommonUtils {
 	}
 
 	public static <T> T transferClass(Object origin, Class<T> target) {
-
+		
 		if (origin == null || target == null) {
 			return null;
 		}
@@ -118,7 +117,7 @@ public class CommonUtils {
 			return null;
 		}
 
-		String methodName = "set" + StringUtils.capitalize(fieldName);
+		String methodName="set"+ StringUtils.capitalize(fieldName);
 		try {
 			Method method = target.getClass().getDeclaredMethod(methodName, getMethodParamTypes(target, methodName));
 			method.invoke(target, value);
@@ -172,18 +171,14 @@ public class CommonUtils {
 		return decodeBase64String;
 	}
 
-
-	public static void main(String[] args) throws UnsupportedEncodingException {
-
+	public static void main(String[] args) {
 		/*	UserInfo params = new UserInfo();
 			System.out.println(setMethod("createTime", params, new Date()).getCreateTime());
 			List<String> list = new ArrayList<>();
 			list.add("name");
 			list.add("id");
 			params.setName("test");
-			System.out.println(checkNullObject(list, params));*/
-
 			System.out.println(checkNullObject(list, params))*/;
-
+		System.out.println(base64Decode("d2ViUmVtZW1iZXJNZUtleQ=="));
 	}
 }

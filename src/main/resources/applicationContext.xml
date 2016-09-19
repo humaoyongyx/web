@@ -7,13 +7,11 @@
     http://www.springframework.org/schema/context/spring-context-4.2.xsd
     ">
 
-
+	<context:property-placeholder location="classpath:dbconfig.properties" />
 	<context:component-scan base-package="issac.demo">
 		<context:exclude-filter type="regex" expression="issac.demo.controller" />
 	</context:component-scan>
-	
-	<context:property-placeholder location="classpath:dbconfig.properties" />
-	
+
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basenames">
 			<list>
@@ -37,28 +35,6 @@
 		</property>
 	</bean>
 
-<bean class="issac.demo.utils.SpringUtils"/>
-
-  
-      <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="jdbcUrl" value="${db_url}" />
-        <property name="driverClass" value="${driverClassName}" />
-        <property name="user" value="${db_user}" />
-        <property name="password" value="${db_password}" />
-    </bean>
-    
-	 
-	
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
-    	<property name="configLocation" value="classpath:mybatisConfig.xml" />  
-    	<property name="dataSource" ref="dataSource" />  
-    	<property name="mapperLocations" value="classpath*:issac/demo/mapper/*.xml" />
-	</bean>
-    
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-      <property name="basePackage" value="issac.demo.mapper" />
-      <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-    </bean>
-    
+<bean class="issac.demo.utils.SpringUtils"></bean>
 
 </beans>
