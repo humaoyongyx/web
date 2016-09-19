@@ -72,7 +72,7 @@
 		 ]
 	};
 	
-	function modifyCopy(){
+	function modifyCopy(row){
 		 $("#id").val(row.id);
 		 $("#name").val(row.name);
 		 $("#nameId").val(row.nameId);
@@ -140,9 +140,9 @@
 	function modify(){
 		var id=checkSelected1();
 	 	if(id){
-		    userTable.rows().data().each(function(row,i){
+		    dTable.rows().data().each(function(row,i){
 			  if(row.id==id){
-				  modifyCopy();
+				  modifyCopy(row);
 			  }
 		   });
 			$(pageDiv).hide();

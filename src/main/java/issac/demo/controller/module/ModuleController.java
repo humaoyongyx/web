@@ -5,14 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import issac.demo.service.module.ModuleService;
+import issac.demo.utils.ExcelUtils;
 
 @Controller
 @RequestMapping("/module/{moduleId}")
@@ -51,6 +54,18 @@ public class ModuleController {
 		logger.info("module<" + moduleId + "> [/delete] invoked!");
 		new ModuleService<>(moduleId).delete(params);
 		return "success";
+	}
+
+	@RequestMapping(value = "/exportExcel", method = { RequestMethod.GET, RequestMethod.POST })
+	public void exportExcel(HttpServletResponse response, @PathVariable("moduleId") String moduleId, HttpServletRequest request) {
+		Map<String, Object> params = handleRequestParamsToMap(request);
+		logger.info("module<" + moduleId + "> [/exportExcel] invoked!");
+		try {
+			ExcelUtils.exportExcel("导出", new ModuleService<>(moduleId).getPageList(params), response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public Map<String, Object> handleRequestParamsToMap(HttpServletRequest request) {
