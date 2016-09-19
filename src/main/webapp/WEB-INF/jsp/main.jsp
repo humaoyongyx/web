@@ -53,20 +53,6 @@ function _stopEventBubble(event){
 }
 
 
-/* _main_tabs_id=0;
-function _main_tabs_addTab(id){
-	  $("#_main_content").append(
-		'<div role="tabpanel" class="tab-pane " id="_main_tabs_content_'+id+'">Settings'+id+'</div>'
-    );
-   $("#_main_tabs").append(
-		  '<li role="presentation" id="_main_tabs_li_'+id+'"><a onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_'+id+'" role="tab" data-toggle="tab" id="_main_tabs_a_'+id+'">Settings'+id+'<button type="button" class="close" style="margin-top:-10px;margin-left:5px" onclick="_main_tabs_close(\''+id+'\',event)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></a></li>'
- );
-	_main_tabs_lastActived_id.unshift(id+"");
-	_main_tabs_id++;
-$('#_main_tabs a:last').tab('show');
-} */
-
-
 
 function _main_tabs_addTab(id,url,name){
 	  $("#_main_content").append(
@@ -90,22 +76,6 @@ function _main_tabs_saveStatus(obj){
 	});
 	_main_tabs_lastActived_id.unshift(id);
 }
-
-
-/* function _main_tabs_showTabs(id){
-	var aId="#_main_tabs_a_"+id;
-	if($.inArray(id,_main_tabs_lastActived_id)!=-1){
-	    $(aId).tab('show');
-	    $(_main_tabs_lastActived_id).each(function(i,v){
-			if(_main_tabs_lastActived_id[i]==id){
-				_main_tabs_lastActived_id.splice(i,1);
-			}
-		});
-	    _main_tabs_lastActived_id.unshift(id+"");
-	}else{
-		_main_tabs_addTab(id);
-	}
-} */
 
 
 function _main_tabs_showTabs(id,url,name){
@@ -240,7 +210,7 @@ function _init(){
 }
 	
 function _initTreeviewData(){
-	$.getJSON("${path}/menu/getMenus", function(json){
+	$.getJSON("${path}/basic/menus", function(json){
 		$('#_menu_treeView').treeview(json);
 		$('#_menu_treeView').on('nodeSelected', function(event, data) {
 			var id=data.nameId;

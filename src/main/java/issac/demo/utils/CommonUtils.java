@@ -172,7 +172,9 @@ public class CommonUtils {
 		return decodeBase64String;
 	}
 
+
 	public static void main(String[] args) throws UnsupportedEncodingException {
+
 		/*	UserInfo params = new UserInfo();
 			System.out.println(setMethod("createTime", params, new Date()).getCreateTime());
 			List<String> list = new ArrayList<>();
@@ -180,6 +182,8 @@ public class CommonUtils {
 			list.add("id");
 			params.setName("test");
 			System.out.println(checkNullObject(list, params));*/
-		System.out.println(base64Decode("d2ViUmVtZW1iZXJNZUtleQ=="));
+
+			System.out.println(checkNullObject(list, params))*/;
+
 	}
 }

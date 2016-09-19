@@ -77,11 +77,11 @@ public class MenuService {
 		return treeViewResult;
 	}
 
-	public List<MenuBean> getAll(MenuParams menuParams) {
+	public List<MenuBean> find(MenuParams menuParams) {
 		return menuMapperDao.getAllMenus(menuParams);
 	}
 
-	public void add(MenuParams menuParams) {
+	public void addOrUpdate(MenuParams menuParams) {
 		System.out.println(menuParams);
 		if (menuParams.getId() != null && menuParams.getId() != 0) {
 			menuMapper.updateByPrimaryKeySelective(menuParams);

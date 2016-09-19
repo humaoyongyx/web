@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%@include file="../header.jsp"%>
 
+<title>User Page</title>
 
-<title>Resource Page</title>
 </head>
 <body>
 	<script>
@@ -17,17 +17,11 @@
 			});
 	
 	</script>
-	
-
- <div class="container-fluid">	
      <center>
-                    <h1>资源设置</h1>
+           <h1>用户设置</h1>
+  
      </center>
 
- 
- 
- </div>
-  
   
 </body>
 </html>

@@ -18,7 +18,7 @@
  			"dom" : "tip",
  			// "searching": false,
  		  //  "ordering": false,
-			 "ajax": {"url":"${path}/menu/getAll" },
+			 "ajax": {"url":"${path}/module/menu/show" },
 				"columnDefs" : [ {
 					 "data":"id",
 					 "targets" : [ 0 ],
@@ -193,7 +193,7 @@
 					
 					$("input:checked","#menu").each(function(){
 						var id=$(this).val();
-						$.post("${path}/menu/delete", { id:id},
+						$.post("${path}/module/menu/delete", { id:id},
 						          function(result){
 									  if(result =="success"){
 										    reload();
@@ -255,7 +255,7 @@
   <!-- table_page_menu -->
     <div  id="table_page_menu">
     
-  	   <form id="menuForm" action="${path}/menu/exportExcel">
+  	   <form id="menuForm" action="${path}/module/menu/exportExcel">
 			<div class="pull-right">
 				   模糊查询： <input type="text" id="menu_search" name="text"> &nbsp;
 				   <input type="submit" class="btn btn-success" value="导出Excel" />&nbsp;
@@ -291,7 +291,7 @@
 		</div>
 		<div class="clearfix"></div>
 		<br/>
-		<form class="form-horizontal" role="form"  id="form_add_menu" action="${path}/menu/add"">
+		<form class="form-horizontal" role="form"  id="form_add_menu" action="${path}/module/menu/addOrUpdate">
 		     <input type="hidden" id="id" name="id"/>
 			<div class="form-group">
 				<label for="pid" class="col-sm-2 control-label">父目录ID</label>
