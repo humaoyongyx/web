@@ -179,7 +179,7 @@ _main_page_hideMenu=true;
             
           <div id="_main_layout_center">
 			<ul class="nav nav-tabs" role="tablist" id="_main_tabs" >
-			  <li role="presentation" class="active" id="_main_tabs_li_home"><a style="padding-right:15px" onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_home" role="tab" data-toggle="tab"  id="_main_tabs_a_home">Home</a></li>
+			  <li role="presentation" class="active" id="_main_tabs_li_home"><a style="padding-right:15px" onclick="_main_tabs_saveStatus(this)" href="#_main_tabs_content_home" role="tab" data-toggle="tab"  id="_main_tabs_a_home">主页</a></li>
 			</div>
 			<div class="tab-content" id="_main_content" >
 			

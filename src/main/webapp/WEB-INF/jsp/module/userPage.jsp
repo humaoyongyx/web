@@ -253,7 +253,7 @@
 
 		<div class="clearfix"></div>
 		<br/>
-		<table id="user" class="table table-striped table-condensed table-bordered" cellspacing="0" >
+		<table id="user" class="table table-striped table-condensed table-bordered" cellspacing="0"  width="100%">
 			<thead>
 				<tr>
 				    <th>选择</th>

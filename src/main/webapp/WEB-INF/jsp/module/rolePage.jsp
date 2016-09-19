@@ -7,20 +7,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%@include file="../header.jsp"%>
 
-<title>目录设置</title>
+<title>角色设置</title>
 
 </head>
 <body>
 	<script>
-	$(document).ready(function() {
-		 init();
- 		menuTable=	$('#menu').DataTable({
- 			"dom" : "tip",
- 			// "searching": false,
- 		  //  "ordering": false,
-			 "ajax": {"url":"${path}/module/menu/show" },
-				"columnDefs" : [ {
-					 "data":"id",
+	
+	var idPage="role";
+	var pageId="#"+idPage;
+	var tableSearchId=pageId+"_search";
+	var pageDiv="#table_page_"+idPage;
+	var addOrUpdateDiv="#table_addOrUpdate_"+idPage;
+	var addOrUpdateFormDiv="#form_addOrUpdate_"+idPage;
+	
+	var deleteActionUrl="${path}/module/role/delete";
+	var addOrUpdateActionUrl="${path}/module/role/addOrUpdate";
+	var getPageActionUrl="${path}/module/role/show";
+	var dTable;
+	
+	var dTableOptions= {
+ 			 "dom" : "tip",
+			 "ajax": {"url":getPageActionUrl },
+			"columnDefs" : [
+			   {     
+				   "data":"id",
 					 "targets" : [ 0 ],
 					 "searchable" : false,
 					  "orderable": false,
@@ -36,55 +46,47 @@
 					 "data":"id",
 					"targets" : [ 1 ],
 				},{
-					"name": "pid",  
-					 "data":"pid",
+					"name": "name",  
+					 "data":"name",
 					"targets" : [ 2 ],
 					
 				},{
-					"name": "text",  
-					 "data":"text",
-					"targets" : [3],
-					
-				},{
-					"name": "icon", 
-					"data":"icon",
-					"targets" : [4],
-					"render": function(data, type, row) { // 返回自定义内容
-						if(!$.isEmptyObject(data)){
-							 return ' <span class="'+data+'"></span>';
-						}else{
-							return "";
-						}
-                       
-                    }
-				},{
-					"name": "url",  
-					"data":"url",
-					"targets" : [ 5 ]
-				},
-				{
-					"name": "orderNo",  
-					"data":"orderNo",
-					"targets" : [ 6 ]
+					"name": "resourceId",  
+					 "data":"resourceId",
+					"targets" : [ 3 ],
 					
 				}
-				]
-			}); 
+		 ]
+	};
+	
+	function modifyCopy(row){
+		 $("#id").val(row.id);
+		 $("#name").val(row.name);
+		 $("#resourceId").val(row.resourceId);
+	}
+	
+	
+	
+	
+	$(document).ready(function() {
+		  init();
+		  dTable=	$(pageId).DataTable(dTableOptions); 
  		
- 		 $('#menu_search').on( 'keyup click', function () {
- 			    menuTable.search( $('#menu_search').val(), false,false).draw();
+ 		 $(tableSearchId).on( 'keyup click', function () {
+ 			dTable.search( $(tableSearchId).val(), false,false).draw();
  		    } );
  		 
- 		$(addFormDiv).submit(function() {
+ 		$(addOrUpdateFormDiv).submit(function() {
  			var valid=validateForm.form();
  	
  			var options = {
- 				     type:  "post",
+ 				    type:  "post",
+ 				    url:addOrUpdateActionUrl,
  					beforeSubmit : function() {
  					},
  					success : function(result) {
  	                  if(result =="success"){
- 	               	   $(addFormDiv).resetForm();
+ 	               	   $(addOrUpdateFormDiv).resetForm();
  	                 	back();
  	                 	reload();
  	               	     swal("", "新增或修改成功！","success");
@@ -104,41 +106,31 @@
 				return false;
 		
  		});
- 		 
- 		var validateForm=$(addFormDiv).validate();
- 		
+ 		var validateForm=$(addOrUpdateFormDiv).validate();		 
  		 
 	});
 	
-	var idPage="menu";
-	var pageDiv="#table_page_"+idPage;
-	var addDiv="#table_add_"+idPage;
-	var addFormDiv="#form_add_"+idPage;
+
 	
 	function init(){
-		$(addDiv).hide();
+		$(addOrUpdateDiv).hide();
 	}
 	
 	function add(){
 		$(pageDiv).hide();
-		$(addDiv).show();
+		$(addOrUpdateDiv).show();
 	}
 	
 	function modify(){
 		var id=checkSelected1();
 	 	if(id){
-		    menuTable.rows().data().each(function(row,i){
+		    dTable.rows().data().each(function(row,i){
 			  if(row.id==id){
-				 $("#id").val(row.id);
-				 $("#pid").val(row.pid);
-				 $("#text").val(row.text);
-				 $("#icon").val(row.icon);
-				 $("#url").val(row.url);
-				 $("#orderNo").val(row.orderNo);
+				  modifyCopy(row);
 			  }
 		   });
 			$(pageDiv).hide();
-			$(addDiv).show();
+			$(addOrUpdateDiv).show();
 		}else{
 			   swal("", "请选择一项，或只能修改一项！","info");
 		} 
@@ -148,14 +140,14 @@
 	
 	function back(){
 		$(pageDiv).show();
-		$(addDiv).hide();
+		$(addOrUpdateDiv).hide();
 		
 	}
 	
 	function checkSelected1(){
 		var i=0;
 		var id=0;
-		$("input:checked","#menu").each(function(){
+		$("input:checked",pageId).each(function(){
 			  i++;
 			  id=$(this).val();
 		});
@@ -168,7 +160,7 @@
 	
 	function checkSelected(){
 		var flag=false;
-		$("input:checked","#menu").each(function(){
+		$("input:checked",pageId).each(function(){
 				flag= true;
 		});
 		return flag;
@@ -191,9 +183,9 @@
 				  html: false
 				}, function(){
 					
-					$("input:checked","#menu").each(function(){
+					$("input:checked",pageId).each(function(){
 						var id=$(this).val();
-						$.post("${path}/module/menu/delete", { id:id},
+						$.post(deleteActionUrl, { id:id},
 						          function(result){
 									  if(result =="success"){
 										    reload();
@@ -215,31 +207,9 @@
 
 	
 	function reload() {
-		menuTable.ajax.reload();
+		dTable.ajax.reload();
 	}
 	
-	function menu_add(){
-		var options = {
-			     type:  "post",
-				beforeSubmit : function() {
-				},
-				success : function(result) {
-                  if(result =="success"){
-               	   $(addFormDiv).resetForm();
-                 	back();
-                 	reload();
-               	     swal("", "新增或修改成功！","success");
-                  }else{
-               	   swal("", "新增或修改失败！","error");
-                  }
-					
-				},
-				error : function(result) {
-					   swal("", "新增或修改异常！","error");
-				}
-			};
-			$(addFormDiv).ajaxSubmit(options);
-	}
 	</script>
 
  
@@ -247,17 +217,17 @@
   
   	<div class="container-fluid">
   	  <center>
-  	         <h1>目录设置</h1>
+  	         <h1>角色设置</h1>
   	  </center>
   	 
   	 
   	 
-  <!-- table_page_menu -->
-    <div  id="table_page_menu">
+  <!-- table_page_role -->
+    <div  id="table_page_role">
     
-  	   <form id="menuForm" action="${path}/module/menu/exportExcel">
+  	   <form id="roleForm" action="${path}/module/role/exportExcel">
 			<div class="pull-right">
-				   模糊查询： <input type="text" id="menu_search" name="text"> &nbsp;
+				   模糊查询： <input type="text" id="role_search" name="text"> &nbsp;
 				   <input type="submit" class="btn btn-success" value="导出Excel" />&nbsp;
 				   <input type="button" class="btn btn-success" value="新增" onclick="add()" />&nbsp;
 				   <input type="button" class="btn btn-success" value="删除" onclick="del()" />&nbsp;
@@ -267,60 +237,39 @@
 
 		<div class="clearfix"></div>
 		<br/>
-		<table id="menu" class="table table-striped table-condensed table-bordered" cellspacing="0" width="100%">
+		<table id="role" class="table table-striped table-condensed table-bordered" cellspacing="0"  width="100%">
 			<thead>
 				<tr>
 				    <th>选择</th>
 					<th>id</th>
-					<th>父目录ID</th>
 					<th>名称</th>
-					<th>图标</th>
-					<th>资源链接</th>
-					<th>排序</th>
+					<th>资源Id</th>
 				</tr>
 			</thead>
 		</table>
 		
 	</div>	
- <!-- end table_page_menu -->
+ <!-- end table_page_role -->
  
- <!-- table_add_menu -->
- <div id="table_add_menu">
+ <!-- table_add_role -->
+ <div id="table_addOrUpdate_role">
  	   <div class="pull-right">
             <input type="button" class="btn btn-success" value="返回" onclick="back()" />&nbsp;
 		</div>
 		<div class="clearfix"></div>
 		<br/>
-		<form class="form-horizontal" role="form"  id="form_add_menu" action="${path}/module/menu/addOrUpdate">
+		<form class="form-horizontal" role="form"  id="form_addOrUpdate_role" >
 		     <input type="hidden" id="id" name="id"/>
 			<div class="form-group">
-				<label for="pid" class="col-sm-2 control-label">父目录ID</label>
+				<label for="pid" class="col-sm-2 control-label">名称</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pid" name="pid" placeholder="父目录ID" >
+					<input type="text" class="form-control" id="name" name="name" placeholder="名称" required>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="text" class="col-sm-2 control-label">名称</label>
+				<label for="text" class="col-sm-2 control-label">资源Id</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="text" name="text" placeholder="名称" required>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="icon" class="col-sm-2 control-label">图标</label>
-				<div class="col-sm-4">
-					   <input type="text" class="form-control" id="icon" name="icon" placeholder="图标"> 
-				</div>
-			</div>
-		    <div class="form-group">
-				<label for="url" class="col-sm-2 control-label">资源链接</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="url" name="url" placeholder="资源链接" >
-				</div>
-			</div>
-		     <div class="form-group">
-				<label for="orderNo" class="col-sm-2 control-label">顺序</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="orderNo" name="orderNo" placeholder="顺序" required>
+					<input type="text" class="form-control" id="resourceId" name="resourceId" placeholder="资源Id" required>
 				</div>
 			</div>
 			<div class="form-group">
@@ -333,7 +282,7 @@
 
 
 		</div>
-  <!-- end table_add_menu -->
+  <!-- end table_add_role -->
  
  
 	</div>
