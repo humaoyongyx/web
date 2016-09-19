@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSON;
 import issac.demo.dto.TreeViewResult;
 import issac.demo.mapper.UserInfoMapper;
 import issac.demo.mapper.UserInfoMapperDao;
-import issac.demo.model.UserInfo;
+import issac.demo.mapper.auto.ResourceMapper;
 import issac.demo.model.UserInfoBean;
 import issac.demo.service.MenuService;
 import issac.demo.utils.ExcelUtils;
@@ -30,10 +30,20 @@ public class SimpleTest extends AbstractBaseTest {
 	@Resource
 	MenuService menuService;
 
+	@Resource
+	ResourceMapper resourceMapper;
+
 	@Test
 	public void testOne() {
-		UserInfo userInfo = userInfoMapper.selectByPrimaryKey(1);
-		System.out.println(userInfo);
+		/*	UserInfo userInfo = userInfoMapper.selectByPrimaryKey(1);*/
+		issac.demo.model.auto.Resource selectByPrimaryKey = resourceMapper.selectByPrimaryKey(1);
+		issac.demo.model.auto.Resource resource = new issac.demo.model.auto.Resource();
+		resource.setId(5);
+		resource.setName("zengja");
+		resource.setAction("add");
+		resource.setMenuId(2);
+		resourceMapper.insertSelective(resource);
+		System.out.println(selectByPrimaryKey);
 	}
 
 	@Test

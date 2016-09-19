@@ -11,6 +11,8 @@ public class Resource {
 
     private String action;
 
+    private String url;
+
     private Date createTime;
 
     public Integer getId() {
@@ -43,6 +45,14 @@ public class Resource {
 
     public void setAction(String action) {
         this.action = action == null ? null : action.trim();
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
     }
 
     public Date getCreateTime() {

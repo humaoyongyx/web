@@ -1,22 +1,30 @@
 package issac.demo.model;
 
-import java.util.Date;
+public class UserBean extends Module {
 
-public class UserBean {
+	private Integer id;
 
-	private int id;
 	private String name;
-	private String nameId;
-	private int groupId;
-	private int status;
-	private Date createTime;
-	private Date endTime;
 
-	public int getId() {
+	private String nameId;
+
+	private Integer groupId;
+
+	private Integer status;
+
+	private String mobile;
+
+	private String sex;
+
+	private String photo;
+
+	private String address;
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -36,37 +44,52 @@ public class UserBean {
 		this.nameId = nameId;
 	}
 
-	public int getGroupId() {
+	public Integer getGroupId() {
 		return groupId;
 	}
 
-	public void setGroupId(int groupId) {
+	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
-	public Date getEndTime() {
-		return endTime;
+	public String getSex() {
+		return sex;
 	}
 
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
-	
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 }

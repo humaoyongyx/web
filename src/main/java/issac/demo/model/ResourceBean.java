@@ -10,6 +10,8 @@ public class ResourceBean {
 
 	private String action;
 
+	private String url;
+
 	public Integer getId() {
 		return id;
 	}
@@ -40,6 +42,14 @@ public class ResourceBean {
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

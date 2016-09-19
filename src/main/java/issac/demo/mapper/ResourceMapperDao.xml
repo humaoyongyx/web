@@ -6,9 +6,10 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="menuId" property="menuId" jdbcType="INTEGER" />
     <result column="action" property="action" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, menuId, action
+    id, name, menuId, action,url
   </sql>
  
    <select id="getResourceByMenuId" resultMap="BaseResultMap" parameterType="issac.demo.bo.params.ResourceParams" >

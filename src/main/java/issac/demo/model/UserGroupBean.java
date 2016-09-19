@@ -1,18 +1,17 @@
 package issac.demo.model;
 
 public class UserGroupBean {
-	private int id;
-	private String name;
-	private int resourceId;
-	private int menuId;
-	private String url;
-	private String resourceName;
+	private Integer id;
 
-	public int getId() {
+	private String name;
+
+	private Integer resourceId;
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -24,36 +23,12 @@ public class UserGroupBean {
 		this.name = name;
 	}
 
-	public int getResourceId() {
+	public Integer getResourceId() {
 		return resourceId;
 	}
 
-	public void setResourceId(int resourceId) {
+	public void setResourceId(Integer resourceId) {
 		this.resourceId = resourceId;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getResourceName() {
-		return resourceName;
-	}
-
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
-	}
-
-	public int getMenuId() {
-		return menuId;
-	}
-
-	public void setMenuId(int menuId) {
-		this.menuId = menuId;
 	}
 
 }

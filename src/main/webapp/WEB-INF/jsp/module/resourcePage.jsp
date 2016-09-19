@@ -55,10 +55,10 @@
  
                <!-- table_add_menu -->
  <div id="table_add_menu">
- 	   <div class="pull-right">
+<!--  	   <div class="pull-right">
             <input type="button" class="btn btn-success" value="返回" onclick="back()" />&nbsp;
 		</div>
-		<div class="clearfix"></div>
+		<div class="clearfix"></div> -->
 		<br/>
 		
 		<div id="show">

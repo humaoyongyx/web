@@ -6,7 +6,7 @@
 		      <div class="form-group">
 				<label for="pid" class="col-sm-2 control-label">${item.name}</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pid" name="pid"  value="${item.action}" readonly="readonly">
+					<input type="text" class="form-control" id="pid" name="pid"  value="${item.url}" readonly="readonly">
 				</div>
 			</div>
 		              

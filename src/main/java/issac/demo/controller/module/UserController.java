@@ -1,16 +1,24 @@
 package issac.demo.controller.module;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/module/user")
+//@RequestMapping("/module/user")
 public class UserController {
-
-	@RequestMapping("/")
-	public String page() {
-
-		return "/module/userPage";
-	}
+	/*	@Resource
+		UserService userService;
+	
+		@RequestMapping("/")
+		public String page() {
+	
+			return "/module/userPage";
+		}
+	
+		@RequestMapping("/show")
+		public @ResponseBody Object show(UserParams params) {
+			Map<String, Object> data = new HashMap<>();
+			data.put("data", userService.getPageList(params));
+			return data;
+		}*/
 
 }
