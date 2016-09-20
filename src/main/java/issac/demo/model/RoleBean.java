@@ -2,9 +2,8 @@ package issac.demo.model;
 
 public class RoleBean {
 	private Integer id;
-
+	private Integer roleId;
 	private String name;
-
 	private Integer resourceId;
 
 	public Integer getId() {
@@ -13,6 +12,14 @@ public class RoleBean {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getName() {
@@ -30,4 +37,5 @@ public class RoleBean {
 	public void setResourceId(Integer resourceId) {
 		this.resourceId = resourceId;
 	}
+
 }

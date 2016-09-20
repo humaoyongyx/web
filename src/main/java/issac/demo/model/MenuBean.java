@@ -1,5 +1,6 @@
 package issac.demo.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MenuBean {
@@ -116,6 +117,12 @@ public class MenuBean {
 
 	public void setPid(Integer pid) {
 		this.pid = pid;
+	}
+
+	@Override
+	public String toString() {
+		return "MenuBean [id=" + id + ", pid=" + pid + ", text=" + text + ", nameId=" + nameId + ", icon=" + icon + ", selectable=" + selectable + ", tags=" + Arrays.toString(tags) + ", url=" + url + ", nodes=" + nodes
+				+ ", orderNo=" + orderNo + ", resourceId=" + resourceId + "]";
 	}
 
 }

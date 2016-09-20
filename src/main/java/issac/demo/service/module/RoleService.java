@@ -1,8 +1,5 @@
-package issac.demo.test;
+package issac.demo.service.module;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -14,45 +11,24 @@ import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
-import org.junit.Test;
+import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-
-import issac.demo.dto.TreeViewResult;
 import issac.demo.mapper.MenuMapperDao;
 import issac.demo.mapper.RoleMapperDao;
-import issac.demo.mapper.UserInfoMapper;
-import issac.demo.mapper.UserInfoMapperDao;
-import issac.demo.mapper.auto.ResourceMapper;
 import issac.demo.model.MenuBean;
 import issac.demo.model.RoleResourceBean;
-import issac.demo.model.UserInfoBean;
-import issac.demo.service.MenuService;
-import issac.demo.utils.ExcelUtils;
 
-
-public class SimpleTest extends AbstractBaseTest {
-	@Resource
-	UserInfoMapper userInfoMapper;
-
-	@Resource
-	UserInfoMapperDao userInfoMapperDao;
-	@Resource
-	MenuMapperDao menuMapperDao;
-	@Resource
-	MenuService menuService;
-
-	@Resource
-	ResourceMapper resourceMapper;
-
+@Service
+public class RoleService {
 	@Resource
 	RoleMapperDao roleMapperDao;
+	@Resource
+	MenuMapperDao menuMapperDao;
 
-	@Test
-	public void testOne() {
-		List<RoleResourceBean> roleResourceList = roleMapperDao.getRoleResourcePageList(-1);
-		
-		HashMap<Integer, LinkedList<RoleResourceBean>> roleResourceMap=new HashMap<>();
+	public LinkedHashMap<Integer, LinkedList<RoleResourceBean>> getRoleResourcePage(Integer roleId) {
+
+		List<RoleResourceBean> roleResourceList = roleMapperDao.getRoleResourcePageList(roleId);
+		HashMap<Integer, LinkedList<RoleResourceBean>> roleResourceMap = new HashMap<>();
 		LinkedHashMap<Integer, LinkedList<RoleResourceBean>> orderRoleResourceMap = new LinkedHashMap<>();
 		for (RoleResourceBean roleResourceBean : roleResourceList) {
 			LinkedList<RoleResourceBean> list = roleResourceMap.get(roleResourceBean.getMenuPid());
@@ -72,8 +48,7 @@ public class SimpleTest extends AbstractBaseTest {
 				orderRoleResourceMap.put(id, roleResourceMap.get(id));
 			}
 		}
-
-		System.out.println(orderRoleResourceMap);
+		return orderRoleResourceMap;
 	}
 
 	public void handleMenus(MenuBean root, List<MenuBean> menuList, LinkedList<MenuBean> resultList) {
@@ -90,9 +65,9 @@ public class SimpleTest extends AbstractBaseTest {
 	}
 
 	public void orderMenus(MenuBean menuBean, LinkedList<MenuBean> resultList) {
-		int index= resultList.size();
+		int index = resultList.size();
 		for (int i = 0; i < resultList.size(); i++) {
-		 MenuBean menu = resultList.get(i);
+			MenuBean menu = resultList.get(i);
 			if (menuBean.getPid() == menu.getPid()) {
 				if (menuBean.getOrderNo() < menu.getOrderNo()) {
 					index = i;
@@ -132,24 +107,4 @@ public class SimpleTest extends AbstractBaseTest {
 		}
 		return resultList;
 	}
-
-	@Test
-	public void testImportExcel() {
-		String path = SimpleTest.class.getResource("").getPath();
-		try {
-			List<UserInfoBean> importExcel = ExcelUtils.importExcel(new FileInputStream(new File(path + "test.xlsx")), null, UserInfoBean.class);
-			//userInfoMapperDao.batchInsertSelective(importExcel);
-			System.out.println(importExcel);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	@Test
-	public void testTreeView() {
-		TreeViewResult treeViewMenus = menuService.getTreeViewMenus();
-		System.out.println(JSON.toJSON(treeViewMenus));
-	}
-
 }

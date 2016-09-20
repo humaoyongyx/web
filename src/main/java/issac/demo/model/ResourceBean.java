@@ -52,4 +52,9 @@ public class ResourceBean {
 		this.url = url;
 	}
 
+	@Override
+	public String toString() {
+		return "ResourceBean [id=" + id + ", name=" + name + ", menuId=" + menuId + ", action=" + action + ", url=" + url + "]";
+	}
+
 }

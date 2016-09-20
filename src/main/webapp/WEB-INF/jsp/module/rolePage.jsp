@@ -24,6 +24,7 @@
 	var addOrUpdateActionUrl="${path}/module/role/addOrUpdate";
 	var getPageActionUrl="${path}/module/role/show";
 	var dTable;
+	var roleResource="#roleResource";
 	
 	var dTableOptions= {
  			 "dom" : "tip",
@@ -46,14 +47,18 @@
 					 "data":"id",
 					"targets" : [ 1 ],
 				},{
+					"name": "roleId",  
+					 "data":"roleId",
+					"targets" : [ 2],
+				},{
 					"name": "name",  
 					 "data":"name",
-					"targets" : [ 2 ],
+					"targets" : [ 3 ],
 					
 				},{
 					"name": "resourceId",  
 					 "data":"resourceId",
-					"targets" : [ 3 ],
+					"targets" : [ 4 ],
 					
 				}
 		 ]
@@ -61,6 +66,7 @@
 	
 	function modifyCopy(row){
 		 $("#id").val(row.id);
+		 $("#roleId").val(row.roleId);
 		 $("#name").val(row.name);
 		 $("#resourceId").val(row.resourceId);
 	}
@@ -119,6 +125,7 @@
 	function add(){
 		$(pageDiv).hide();
 		$(addOrUpdateDiv).show();
+		$(roleResource).load("${path}/module/role/showRoleResourcePage",{roleId:1});
 	}
 	
 	function modify(){
@@ -242,6 +249,7 @@
 				<tr>
 				    <th>选择</th>
 					<th>id</th>
+					<th>角色id</th>
 					<th>名称</th>
 					<th>资源Id</th>
 				</tr>
@@ -260,6 +268,7 @@
 		<br/>
 		<form class="form-horizontal" role="form"  id="form_addOrUpdate_role" >
 		     <input type="hidden" id="id" name="id"/>
+		     <input type="hidden" id="roleId" name="roleId"/>
 			<div class="form-group">
 				<label for="pid" class="col-sm-2 control-label">名称</label>
 				<div class="col-sm-4">
@@ -272,13 +281,16 @@
 					<input type="text" class="form-control" id="resourceId" name="resourceId" placeholder="资源Id" required>
 				</div>
 			</div>
+			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit"  class="btn btn-success"  >提交</button>
 				</div>
 			</div>
 		</form>
-
+         <div  id="roleResource">
+         
+         </div>
 
 
 		</div>

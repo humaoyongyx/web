@@ -37,7 +37,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import issac.demo.model.UserInfoBean;
+import issac.demo.model.ResourceBean;
 
 public class ExcelUtils {
 	public static <E> void exportExcel(String fileName, List<E> data, HttpServletResponse response) {
@@ -577,10 +577,10 @@ public class ExcelUtils {
 
 	public static void main(String[] args) throws FileNotFoundException, ParseException {
 		String path = ExcelUtils.class.getResource("").getPath();
-		String fileName = "test.xlsx";
+		String fileName = "resource.xlsx";
 		System.out.println(path);
 		InputStream inputStream = new FileInputStream(new File(path + fileName));
-		System.out.println(importExcel(inputStream, null, UserInfoBean.class));
+		System.out.println(importExcel(inputStream, null, ResourceBean.class));
 		//System.out.println(CommonUtils.getMethodParamTypes(new UserInfo(), "setSalary")[0] == Double.class);
 
 		//	System.out.println(CommonUtils.getMethodParamTypes(new UserInfo(), "set" + StringUtils.capitalize("salary"))[0].getName());

@@ -3,11 +3,12 @@
 <mapper namespace="issac.demo.mapper.RoleMapperDao" >
   <resultMap id="BaseResultMap" type="issac.demo.model.RoleBean" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="resourceId" property="resourceId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, resourceId
+    id, roleId, name, resourceId
   </sql>
   
    <select id="getModuleListByParams" resultMap="BaseResultMap"  parameterType="java.util.Map">
@@ -17,11 +18,14 @@
     where 1=1
   </select>
   
-  <insert id="insertSelective" parameterType="java.util.Map" >
+   <insert id="insertSelective"  parameterType="java.util.Map" >
     insert into role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="roleId != null" >
+        roleId,
       </if>
       <if test="name != null" >
         name,
@@ -37,6 +41,9 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -48,9 +55,12 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="java.util.Map" >
+  <update id="updateByPrimaryKeySelective"  parameterType="java.util.Map" >
     update role
     <set >
+      <if test="roleId != null" >
+        roleId = #{roleId,jdbcType=INTEGER},
+      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -68,5 +78,45 @@
     delete from role
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
+  
+  <select id="getRoleResourcePageList"  parameterType="java.lang.Integer" resultType="issac.demo.model.RoleResourceBean">
+		  SELECT
+			t1.menuId,
+			t1.menuPid,
+			t1.menuName,
+			t1.orderNo,
+			t1.resourceId,
+			t1.resourceName,
+			t2.roleId,
+			t2.roleName,
+			t2.resourceId rsId
+		FROM
+			(
+				SELECT
+					m.id menuId,
+					m.pid menuPid,
+					m.text menuName,
+					m.orderNo,
+					rs.id resourceId,
+					rs.`name` resourceName,
+					rs.action
+				FROM
+					menu m,
+					resource rs
+				WHERE
+					m.id = rs.menuId
+			) t1
+		LEFT JOIN (
+			SELECT
+				roleId,
+				NAME roleName,
+				resourceId
+			FROM
+				role
+		) t2 ON t1.resourceId = t2.resourceId
+		AND t2.roleId =  #{roleId,jdbcType=INTEGER}
+        ORDER BY t1.menuPid,t1.orderNo
+  </select>
     
 </mapper>
