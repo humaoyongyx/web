@@ -5,10 +5,9 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="roleId" property="roleId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="resourceId" property="resourceId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, roleId, name, resourceId
+    id, id roleId, name
   </sql>
   
    <select id="getModuleListByParams" resultMap="BaseResultMap"  parameterType="java.util.Map">
@@ -30,9 +29,6 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="resourceId != null" >
-        resourceId,
-      </if>
       <if test="createTime != null" >
         createTime,
       </if>
@@ -47,9 +43,6 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="resourceId != null" >
-        #{resourceId,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -63,9 +56,6 @@
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="resourceId != null" >
-        resourceId = #{resourceId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         createTime = #{createTime,jdbcType=TIMESTAMP},
@@ -109,11 +99,12 @@
 			) t1
 		LEFT JOIN (
 			SELECT
-				roleId,
-				NAME roleName,
-				resourceId
+				ro.id roleId,
+				ro.`name` roleName,
+				ror.resourceId
 			FROM
-				role
+				role ro,role_resource ror
+            WHERE ro.id=ror.roleId
 		) t2 ON t1.resourceId = t2.resourceId
 		AND t2.roleId =  #{roleId,jdbcType=INTEGER}
         ORDER BY t1.menuPid,t1.orderNo

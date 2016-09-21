@@ -55,11 +55,6 @@
 					 "data":"name",
 					"targets" : [ 3 ],
 					
-				},{
-					"name": "resourceId",  
-					 "data":"resourceId",
-					"targets" : [ 4 ],
-					
 				}
 		 ]
 	};
@@ -68,7 +63,6 @@
 		 $("#id").val(row.id);
 		 $("#roleId").val(row.roleId);
 		 $("#name").val(row.name);
-		 $("#resourceId").val(row.resourceId);
 	}
 	
 	
@@ -251,7 +245,6 @@
 					<th>id</th>
 					<th>角色id</th>
 					<th>名称</th>
-					<th>资源Id</th>
 				</tr>
 			</thead>
 		</table>
@@ -275,13 +268,6 @@
 					<input type="text" class="form-control" id="name" name="name" placeholder="名称" required>
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="text" class="col-sm-2 control-label">资源Id</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="resourceId" name="resourceId" placeholder="资源Id" required>
-				</div>
-			</div>
-			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit"  class="btn btn-success"  >提交</button>
