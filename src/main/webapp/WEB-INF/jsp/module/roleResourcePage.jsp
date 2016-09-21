@@ -4,8 +4,8 @@
 		         <h1>sdfds</h1>
 		    <c:forEach items="${roleResourcePage}" var="item">
 		           map键名：${item.key}<Br>
-		             <c:forEach items="${item.value}" var="list">  
-		                  ${list.menuName} ,    ${list.resourceName}  <Br>
+		             <c:forEach items="${item.value}" var="list" >  
+		                  ${list.menuName} ,    ${list.resourceName}    show<input type="checkbox"  name="show"  <c:if test="list.rsId!=null"></c:if>checked="checked"> <Br>
 		              </c:forEach>
 		  </c:forEach>		
 	  

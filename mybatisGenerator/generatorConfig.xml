@@ -43,5 +43,8 @@
        <table tableName="role" domainObjectName="Role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
+         <table tableName="role_resource" domainObjectName="RoleResource" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
     </context>
 </generatorConfiguration>

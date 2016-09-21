@@ -2,10 +2,12 @@ package issac.demo.model.auto;
 
 import java.util.Date;
 
-public class Role {
+public class RoleResource {
     private Integer id;
 
-    private String name;
+    private Integer roleId;
+
+    private Integer resourceId;
 
     private Date createTime;
 
@@ -17,12 +19,20 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Integer getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Integer resourceId) {
+        this.resourceId = resourceId;
     }
 
     public Date getCreateTime() {

@@ -287,6 +287,24 @@ public class ExcelUtils {
 	private static final SimpleDateFormat sdf_import = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	private static final SimpleDateFormat sdf_default = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	public static <T> List<T> importExcel(String[] fieldNames, InputStream inputStream, Class<T> clazz) {
+		Workbook workbook = null;
+		List<ExcelImportSetting> headers=new LinkedList<>();
+         for (String fieldName : fieldNames) {
+        	 ExcelImportSetting setting=new ExcelImportSetting();
+        	 setting.setFieldName(fieldName);
+        	 headers.add(setting);
+		}
+		try {
+			workbook = new XSSFWorkbook(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return importExcel(workbook, headers, clazz, 1, 0);
+
+	}
+
 	public static <T> List<T> importExcel(InputStream inputStream, List<ExcelImportSetting> headers, Class<T> clazz) {
 		Workbook workbook = null;
 		try {
