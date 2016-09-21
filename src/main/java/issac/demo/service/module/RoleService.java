@@ -25,7 +25,42 @@ public class RoleService {
 	@Resource
 	MenuMapperDao menuMapperDao;
 
-	public LinkedHashMap<Integer, LinkedList<RoleResourceBean>> getRoleResourcePage(Integer roleId) {
+	public HashMap<Integer, LinkedHashMap<Integer, LinkedList<RoleResourceBean>>> getRoleResourceMapPage(Integer roleId) {
+
+		List<RoleResourceBean> roleResourceList = roleMapperDao.getRoleResourcePageList(roleId);
+		HashMap<Integer, LinkedHashMap<Integer, LinkedList<RoleResourceBean>>> roleResourceMap = new HashMap<>();
+		HashMap<Integer, LinkedHashMap<Integer, LinkedList<RoleResourceBean>>> orderRoleResourceMap = new LinkedHashMap<>();
+		for (RoleResourceBean roleResourceBean : roleResourceList) {
+			LinkedHashMap<Integer, LinkedList<RoleResourceBean>> map = roleResourceMap.get(roleResourceBean.getMenuPid());
+			if (map != null) {
+				LinkedList<RoleResourceBean> linkedList = map.get(roleResourceBean.getMenuId());
+				if (linkedList != null) {
+					linkedList.add(roleResourceBean);
+				} else {
+					LinkedList<RoleResourceBean> linkedList2 = new LinkedList<>();
+					linkedList2.add(roleResourceBean);
+					map.put(roleResourceBean.getMenuId(), linkedList2);
+				}
+			} else {
+				map = new LinkedHashMap<>();
+				LinkedList<RoleResourceBean> linkedList = new LinkedList<>();
+				linkedList.add(roleResourceBean);
+				map.put(roleResourceBean.getMenuId(), linkedList);
+				roleResourceMap.put(roleResourceBean.getMenuPid(), map);
+			}
+		}
+		LinkedList<MenuBean> orderMenuFolder = getOrderMenuFolder();
+
+		for (MenuBean menuBean : orderMenuFolder) {
+			int id = menuBean.getId();
+			if (roleResourceMap.get(id) != null) {
+				orderRoleResourceMap.put(id, roleResourceMap.get(id));
+			}
+		}
+		return orderRoleResourceMap;
+	}
+
+	public LinkedHashMap<Integer, LinkedList<RoleResourceBean>> getRoleResourceListPage(Integer roleId) {
 
 		List<RoleResourceBean> roleResourceList = roleMapperDao.getRoleResourcePageList(roleId);
 		HashMap<Integer, LinkedList<RoleResourceBean>> roleResourceMap = new HashMap<>();

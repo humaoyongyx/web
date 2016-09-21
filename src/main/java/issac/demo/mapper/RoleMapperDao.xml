@@ -107,7 +107,10 @@
             WHERE ro.id=ror.roleId
 		) t2 ON t1.resourceId = t2.resourceId
 		AND t2.roleId =  #{roleId,jdbcType=INTEGER}
-        ORDER BY t1.menuPid,t1.orderNo
+        ORDER BY
+        	t1.menuPid,
+	       t1.orderNo,
+           t1.resourceId
   </select>
     
 </mapper>

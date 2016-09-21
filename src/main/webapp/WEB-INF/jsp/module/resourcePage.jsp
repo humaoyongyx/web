@@ -12,30 +12,62 @@
 </head>
 <body>
 	<script>
+	     
+	      var menuId;
+	
 			$(document).ready(function() {
 				initTreeviewData();
-		
 			});
-	
-			
 			
 			function initTreeviewData(){
 				$.getJSON("${path}/basic/menus", function(json){
 					$('#resource_menu').treeview(json);
 					$('#resource_menu').treeview('expandAll', { silent: true });
 					    $('#resource_menu').on('nodeSelected', function(event, data) {
-						    /*     console.log(data);
-						           $("#menuId").val(data.id);
-						           $("#form_resource").submit();  */
-						           $("#show").load("${path}/module/resource/show",{menuId:data.id},function(){
-						        	/*    $('#resource_menu').treeview('remove'); */
+					    	       menuId=data.id;
+						           $("#resourcePagePart").load("${path}/module/resource/show",{menuId:data.id},function(){
+						        	   $("#resourcePart_submit").hide();
+					   				   $("#resourcePart_cancel").hide();
 						           });
-						        
 						       
 						});
 					});
 				
 			}
+			
+			
+         function modify_resource(){
+        	 $("input","#resourcePagePart").attr("readonly",false);
+        		$("#resourcePart_submit").show();
+				$("#resourcePart_cancel").show();
+         }
+         function cancel_resource(){
+        	   $("#resourcePagePart").load("${path}/module/resource/show",{menuId:menuId},function(){
+        		   $("#resourcePart_submit").hide();
+   				   $("#resourcePart_cancel").hide();
+        	   });
+         }
+         
+         function submit_resource(){
+        			var options = {
+        				     type:  "post",
+        					 url:"${path}/module/resource/addOrUpdate",
+        					beforeSubmit : function() {
+        					},
+        					success : function(result) {
+                               if(result =="success"){
+                            	   swal("", "上传成功！","success");
+                               }else{
+                            	   swal("", "上传失败！","error");
+                               }
+        						
+        					},
+        					error : function(result) {
+        						alert(result);
+        					}
+        				};
+        				$("#form_addOrUpdate_resource").ajaxSubmit(options);
+         }
 	</script>
 	
 
@@ -47,42 +79,25 @@
  
  <div class="row" >
   <div class="col-md-3" >
-  <br/>
-  <br/>
-                    <div id="resource_menu"></div>
+           <br/>
+           <br/>
+            <div id="resource_menu"></div>
   </div>
   <div class="col-md-8">
  
-               <!-- table_add_menu -->
- <div id="table_add_menu">
-<!--  	   <div class="pull-right">
-            <input type="button" class="btn btn-success" value="返回" onclick="back()" />&nbsp;
-		</div>
-		<div class="clearfix"></div> -->
-		<br/>
-		
-		<div id="show">
-		
-		</div>
-		
-		<form class="form-horizontal" role="form"  id="form_resource" action="${path}/module/resource/show">
-		  
-		   <input type="hidden" id="menuId" name="menuId"/>
-		    <c:forEach items="${resourceBeans}" var="item">
-		      <div class="form-group">
-				<label for="pid" class="col-sm-2 control-label">${item.name}</label>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="pid" name="pid"  value="${item.action}" readonly="readonly">
-				</div>
-			</div>
-		              
-		  </c:forEach>
-		
-		  
-		</form>
-
-		</div>
-  <!-- end table_add_menu -->
+               <!-- table_add_resource -->
+			 <div id="table_add_menu">
+			 
+					<br/>
+				  <form class="form-horizontal" role="form"  id="form_addOrUpdate_resource">	
+				 
+					<div id="resourcePagePart">
+					
+					</div>
+					</form>
+			
+		 </div>
+  <!-- end table_add_resource-->
 </div>
  
  </div>

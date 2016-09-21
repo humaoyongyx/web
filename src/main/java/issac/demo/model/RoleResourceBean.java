@@ -76,11 +76,6 @@ public class RoleResourceBean {
 	}
 
 	public Integer getRsId() {
-		if (rsId == null) {
-			rsId = 0;
-		} else {
-			rsId = 1;
-		}
 		return rsId;
 	}
 
