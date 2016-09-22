@@ -31,7 +31,7 @@
       #{icon,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, 
       #{resourceId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="issac.demo.model.Menu" >
+  <insert id="insertSelective" parameterType="issac.demo.model.Menu"  useGeneratedKeys="true" keyProperty="id">
     insert into menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -80,6 +80,7 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="issac.demo.model.Menu" >
     update menu
     <set >
@@ -104,14 +105,6 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="issac.demo.model.Menu" >
-    update menu
-    set pid = #{pid,jdbcType=INTEGER},
-      text = #{text,jdbcType=VARCHAR},
-      icon = #{icon,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      orderNo = #{orderNo,jdbcType=INTEGER},
-      resourceId = #{resourceId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+  
 </mapper>

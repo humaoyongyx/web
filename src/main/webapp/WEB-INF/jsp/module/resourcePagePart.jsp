@@ -6,7 +6,7 @@
 					      <div class="form-group">
 								<label for="pid" class="col-sm-2 control-label">${item.name}</label>
 								<div class="col-sm-4">
-									<input type="text" class="form-control"  name="resource[${status.index}].name""  value="${item.url}" readonly="readonly">
+									<input type="text" class="form-control"  name="resource[${status.index}].url"  value="${item.url}" readonly="readonly">
 								</div>
 						   </div>
 		  </c:forEach>

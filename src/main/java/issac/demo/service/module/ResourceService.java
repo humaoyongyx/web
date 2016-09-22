@@ -20,4 +20,8 @@ public class ResourceService {
 		return resourceMapperDao.getResourceByMenuId(params);
 	}
 
+	public void updateResourceBatch(List<ResourceBean> resourceBeans) {
+		resourceMapperDao.updateResourceBatch(resourceBeans);
+	}
+
 }

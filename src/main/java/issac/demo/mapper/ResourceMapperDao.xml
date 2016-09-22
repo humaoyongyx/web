@@ -21,5 +21,56 @@
         and menuId=#{menuId,jdbcType=INTEGER}
     </if>
   </select>
+  
+  <update id="updateResourceBatch"  parameterType="java.util.List">
+	 
+	   <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+				update `resource`
+				<set>
+				  url=#{item.url},
+				  createTime=now()
+				</set>
+				 where id = #{item.id}
+	   </foreach>
+		 
+    </update>
  
+  <insert id="replaceIntoSelective" parameterType="issac.demo.model.ResourceBean" >
+    replace into resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="menuId != null" >
+        menuId,
+      </if>
+      <if test="action != null" >
+        action,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="action != null" >
+        #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
 </mapper>

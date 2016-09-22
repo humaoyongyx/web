@@ -10,4 +10,5 @@ public interface RoleMapperDao extends IModule<RoleBean> {
 
 	public List<RoleResourceBean> getRoleResourcePageList(int roleId);
 
+
 }

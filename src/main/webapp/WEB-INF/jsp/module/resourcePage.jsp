@@ -56,14 +56,15 @@
         					},
         					success : function(result) {
                                if(result =="success"){
-                            	   swal("", "上传成功！","success");
+                            	   cancel_resource();
+                            	   swal("", "更新成功！","success");
                                }else{
-                            	   swal("", "上传失败！","error");
+                            	   swal("", "更新失败！","error");
                                }
         						
         					},
         					error : function(result) {
-        						alert(result);
+        						  swal("", "更新失败！","error");
         					}
         				};
         				$("#form_addOrUpdate_resource").ajaxSubmit(options);

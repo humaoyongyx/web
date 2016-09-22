@@ -9,4 +9,8 @@ public interface ResourceMapperDao {
 
 	public List<ResourceBean> getResourceByMenuId(ResourceParams params);
 
+	public void updateResourceBatch(List<ResourceBean> resourceBeans);
+
+	public void replaceIntoSelective(ResourceBean resourceBean);
+
 }
