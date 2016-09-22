@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localmysql
-Source Server Version : 50628
+Source Server Version : 50710
 Source Host           : localhost:3306
 Source Database       : demo
 
 Target Server Type    : MYSQL
-Target Server Version : 50628
+Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2016-09-22 12:15:02
+Date: 2016-09-22 21:00:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `menu` (
   `orderNo` int(11) DEFAULT NULL,
   `resourceId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu

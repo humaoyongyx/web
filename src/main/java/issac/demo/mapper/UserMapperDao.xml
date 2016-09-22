@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="issac.demo.mapper.UserMapperDao" >
   <resultMap id="BaseResultMap" type="issac.demo.model.UserBean" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="nameId" property="nameId" jdbcType="VARCHAR" />
-    <result column="groupId" property="groupId" jdbcType="INTEGER" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, nameId, groupId, status, mobile, sex, photo, address
+    id, name, nameId, roleId, status, mobile, sex, photo, address
   </sql>
   
    <select id="getModuleListByParams" resultMap="BaseResultMap"  parameterType="java.util.Map">
@@ -25,7 +25,7 @@
   
   
   <insert id="insertSelective" parameterType="java.util.Map">
-    insert into `user`
+     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -36,17 +36,11 @@
       <if test="nameId != null" >
         nameId,
       </if>
-      <if test="groupId != null" >
-        groupId,
+      <if test="roleId != null" >
+        roleId,
       </if>
       <if test="status != null" >
         status,
-      </if>
-      <if test="createTime != null" >
-        createTime,
-      </if>
-      <if test="endTime != null" >
-        endTime,
       </if>
       <if test="mobile != null" >
         mobile,
@@ -71,17 +65,11 @@
       <if test="nameId != null" >
         #{nameId,jdbcType=VARCHAR},
       </if>
-      <if test="groupId != null" >
-        #{groupId,jdbcType=INTEGER},
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="mobile != null" >
         #{mobile,jdbcType=VARCHAR},
@@ -98,7 +86,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="java.util.Map" >
-    update `user`
+  update user
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -106,17 +94,11 @@
       <if test="nameId != null" >
         nameId = #{nameId,jdbcType=VARCHAR},
       </if>
-      <if test="groupId != null" >
-        groupId = #{groupId,jdbcType=INTEGER},
+      <if test="roleId != null" >
+        roleId = #{roleId,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        createTime = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        endTime = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="mobile != null" >
         mobile = #{mobile,jdbcType=VARCHAR},

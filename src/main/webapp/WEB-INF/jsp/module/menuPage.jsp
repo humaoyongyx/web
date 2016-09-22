@@ -216,6 +216,7 @@
 	
 	function reload() {
 		menuTable.ajax.reload();
+		parent._init();
 	}
 	
 	function menu_add(){

@@ -72,5 +72,8 @@
       </if>
     </trim>
   </insert>
-  
+   <delete id="deleteResourceByMenuId" parameterType="java.lang.Integer" >
+    delete from resource
+    where menuId = #{menuId,jdbcType=INTEGER}
+  </delete>
 </mapper>

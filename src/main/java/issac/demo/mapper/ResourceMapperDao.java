@@ -13,4 +13,6 @@ public interface ResourceMapperDao {
 
 	public void replaceIntoSelective(ResourceBean resourceBean);
 
+	public void deleteResourceByMenuId(Integer menuId);
+
 }

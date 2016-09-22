@@ -56,8 +56,8 @@
 					"targets" : [ 3 ],
 					
 				},{
-					"name": "groupId",  
-					 "data":"groupId",
+					"name": "roleId",  
+					 "data":"roleId",
 					"targets" : [4],
 					
 				},{
@@ -76,7 +76,7 @@
 		 $("#id").val(row.id);
 		 $("#name").val(row.name);
 		 $("#nameId").val(row.nameId);
-		 $("#groupId").val(row.groupId);
+		 $("#roleId").val(row.roleId);
 		 $("#status").val(row.status);
 		 $("#photo").val(row.photo);
 	}
@@ -294,7 +294,7 @@
 			<div class="form-group">
 				<label for="icon" class="col-sm-2 control-label">用户组</label>
 				<div class="col-sm-4">
-					   <input type="text" class="form-control" id="groupId" name="groupId" placeholder="用户组" required> 
+					   <input type="text" class="form-control" id="roleId" name="roleId" placeholder="用户组" required> 
 				</div>
 			</div>
 		    <div class="form-group">

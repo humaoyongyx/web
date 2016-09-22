@@ -159,7 +159,12 @@ public class SimpleTest extends AbstractBaseTest {
 		menuParams.setPid(1);
 		menuParams.setText("xxx");
 		menuParams.setUrl("tesurl");
-         menuService.addOrUpdate(menuParams);
+		menuService.addOrUpdate(menuParams);
+		System.out.println(menuParams.getId());
+		/*   MenuParams addOrUpdate = menuService.addOrUpdate(menuParams);
+			if (menuParams.getPid() != null && menuParams.getUrl() != null && !menuParams.getUrl().trim().equals("")) {
+				System.out.println(menuParams.getId());
+			}*/
 	}
 
 }

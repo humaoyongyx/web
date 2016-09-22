@@ -8,7 +8,7 @@ public class UserBean extends Module {
 
 	private String nameId;
 
-	private Integer groupId;
+	private Integer roleId;
 
 	private Integer status;
 
@@ -44,13 +44,6 @@ public class UserBean extends Module {
 		this.nameId = nameId;
 	}
 
-	public Integer getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(Integer groupId) {
-		this.groupId = groupId;
-	}
 
 	public Integer getStatus() {
 		return status;
@@ -90,6 +83,14 @@ public class UserBean extends Module {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 }

@@ -49,6 +49,9 @@ public class MenuController {
 	@RequestMapping("/addOrUpdate")
 	public @ResponseBody Object addOrUpdate(MenuParams menuParams) {
 		menuService.addOrUpdate(menuParams);
+		if (menuParams.getPid() != null && menuParams.getUrl() != null && !menuParams.getUrl().trim().equals("")) {
+			menuService.addMenuResources(menuParams);
+		}
 		return "success";
 	}
 

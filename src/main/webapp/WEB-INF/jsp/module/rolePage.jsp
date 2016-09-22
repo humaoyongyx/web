@@ -36,7 +36,7 @@
 					 "searchable" : false,
 					  "orderable": false,
 					 "render": function(data, type, row) { // 返回自定义内容
-						     if(data==1 || data==2){
+						     if(data==1 ){
 						    	 return "";
 						     }
                              return '<div class="checkbox"><label><input type="checkbox" value="'+data+'" ></label></div>';                       
@@ -47,13 +47,9 @@
 					 "data":"id",
 					"targets" : [ 1 ],
 				},{
-					"name": "roleId",  
-					 "data":"roleId",
-					"targets" : [ 2],
-				},{
 					"name": "name",  
 					 "data":"name",
-					"targets" : [ 3 ],
+					"targets" : [ 2 ],
 					
 				}
 		 ]
@@ -61,7 +57,6 @@
 	
 	function modifyCopy(row){
 		 $("#id").val(row.id);
-		 $("#roleId").val(row.roleId);
 		 $("#name").val(row.name);
 	}
 	
@@ -132,6 +127,7 @@
 		   });
 			$(pageDiv).hide();
 			$(addOrUpdateDiv).show();
+			$(roleResource).load("${path}/module/role/showRoleResourcePage",{roleId:id});
 		}else{
 			   swal("", "请选择一项，或只能修改一项！","info");
 		} 
@@ -211,6 +207,11 @@
 		dTable.ajax.reload();
 	}
 	
+	function selectAll(obj){
+	   var checkBoxClass="."+$(obj).val();
+	   var checkFlag= $(obj).prop("checked");
+	   $(checkBoxClass).prop("checked",checkFlag);
+	}
 	</script>
 
  
@@ -242,7 +243,6 @@
 			<thead>
 				<tr>
 				    <th>选择</th>
-					<th>id</th>
 					<th>角色id</th>
 					<th>名称</th>
 				</tr>
@@ -261,7 +261,6 @@
 		<br/>
 		<form class="form-horizontal" role="form"  id="form_addOrUpdate_role" >
 		     <input type="hidden" id="id" name="id"/>
-		     <input type="hidden" id="roleId" name="roleId"/>
 			<div class="form-group">
 				<label for="pid" class="col-sm-2 control-label">名称</label>
 				<div class="col-sm-4">

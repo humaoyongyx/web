@@ -91,9 +91,6 @@ public class MenuService {
 			menuMapper.updateByPrimaryKeySelective(menuParams);
 		} else {
 			menuMapperDao.insert(menuParams);
-			if (menuParams.getPid() != null && menuParams.getUrl() != null && !menuParams.getUrl().trim().equals("")) {
-				addMenuResources(menuParams);
-			}
 		}
 
 	}
@@ -126,6 +123,7 @@ public class MenuService {
 	}
 	public void delete(MenuParams menuParams) {
 		menuMapper.deleteByPrimaryKey(menuParams.getId());
+		resourceMapperDao.deleteResourceByMenuId(menuParams.getId());
 	}
 
 }
