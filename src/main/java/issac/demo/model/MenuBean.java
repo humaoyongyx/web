@@ -1,11 +1,10 @@
 package issac.demo.model;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class MenuBean {
 
-	private int id;
+	private Integer id;
 	private Integer pid;
 	private String text;
 	private String nameId;
@@ -15,15 +14,6 @@ public class MenuBean {
 	private String url;
 	private List<MenuBean> nodes;
 	private int orderNo;
-	private int resourceId;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 
 	public String getText() {
@@ -88,13 +78,6 @@ public class MenuBean {
 		this.orderNo = orderNo;
 	}
 
-	public int getResourceId() {
-		return resourceId;
-	}
-
-	public void setResourceId(int resourceId) {
-		this.resourceId = resourceId;
-	}
 
 	public String[] getTags() {
 
@@ -119,10 +102,18 @@ public class MenuBean {
 		this.pid = pid;
 	}
 
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
-		return "MenuBean [id=" + id + ", pid=" + pid + ", text=" + text + ", nameId=" + nameId + ", icon=" + icon + ", selectable=" + selectable + ", tags=" + Arrays.toString(tags) + ", url=" + url + ", nodes=" + nodes
-				+ ", orderNo=" + orderNo + ", resourceId=" + resourceId + "]";
+		return "MenuBean [id=" + id + ", pid=" + pid + ", text=" + text + ", nameId=" + nameId + ", icon=" + icon + ", url=" + url + ", orderNo=" + orderNo + "]";
 	}
 
 }

@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="issac.demo.mapper.UserMapperDao" >
-  <resultMap id="BaseResultMap" type="issac.demo.model.UserBean" >
-     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="nameId" property="nameId" jdbcType="VARCHAR" />
-    <result column="roleId" property="roleId" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
-    <result column="sex" property="sex" jdbcType="VARCHAR" />
-    <result column="photo" property="photo" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, name, nameId, roleId, status, mobile, sex, photo, address
-  </sql>
+
   
-   <select id="getModuleListByParams" resultMap="BaseResultMap"  parameterType="java.util.Map">
-    select 
-    <include refid="Base_Column_List" />
-    from `user`
-    where 1=1
+   <select id="getModuleListByParams"  resultType="issac.demo.model.UserBean" parameterType="java.util.Map">
+		  SELECT
+			u.*,
+			GROUP_CONCAT(ro.id) roleId,
+			GROUP_CONCAT(ro.`name`) roleName
+		FROM
+			`user` u,
+			user_role uro,
+			role ro
+		WHERE
+			u.id = uro.userId
+		AND uro.roleId = ro.id
+		GROUP BY
+			u.id
   </select>
   
   
@@ -35,9 +31,6 @@
       </if>
       <if test="nameId != null" >
         nameId,
-      </if>
-      <if test="roleId != null" >
-        roleId,
       </if>
       <if test="status != null" >
         status,
@@ -65,9 +58,6 @@
       <if test="nameId != null" >
         #{nameId,jdbcType=VARCHAR},
       </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=INTEGER},
-      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
@@ -93,9 +83,6 @@
       </if>
       <if test="nameId != null" >
         nameId = #{nameId,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null" >
-        roleId = #{roleId,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},

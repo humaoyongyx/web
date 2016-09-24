@@ -77,21 +77,22 @@
  	
  			var options = {
  				    type:  "post",
+ 				   dataType:"json",
  				    url:addOrUpdateActionUrl,
  					beforeSubmit : function() {
  					},
  					success : function(result) {
- 	                  if(result =="success"){
+ 	                  if(result.status==1){
  	               	   $(addOrUpdateFormDiv).resetForm();
  	                 	back();
  	                 	reload();
  	               	     swal("", "新增或修改成功！","success");
- 	                  }else if (result =="duplicate"){
- 	               	       swal("",  $("#name").val()+":角色名称已存在！","error");
+ 	                  }else if (result.status ==0){
+ 	               	       swal("新增或修改失败！", result.message,"error");
  	                  }
  						
  					},
- 					error : function(result) {
+ 					error : function(error) {
  						   swal("", "新增或修改异常！","error");
  					}
  				};
@@ -195,13 +196,13 @@
 				    });
 					$.post(deleteAllActionUrl, { ids:ids},
 					          function(result){
-								   if(result =="success"){
+								   if(result.status ==1){
 									    reload();
 					               	   swal("", "删除成功！","success");
 					                }else{
-					               	   swal("", "删除失败！","error");
+					               	   swal("删除失败！",result.message,"error");
 					              } 
-				    });
+				    },"json");
 					
 				}); 
 		}else{

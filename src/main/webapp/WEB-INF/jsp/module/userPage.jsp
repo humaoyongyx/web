@@ -56,18 +56,18 @@
 					"targets" : [ 3 ],
 					
 				},{
-					"name": "roleId",  
-					 "data":"roleId",
-					"targets" : [4],
-					
-				},{
 					"name": "photo", 
 					"data":"photo",
-					"targets" : [5],
+					"targets" : [4],
 				},{
 					"name": "status",  
 					"data":"status",
-					"targets" : [ 6 ]
+					"targets" : [ 5 ]
+				},{
+					"name": "roleName",  
+					"data":"roleName",
+					"targets" : [6],
+					
 				}
 		 ]
 	};
@@ -76,7 +76,7 @@
 		 $("#id").val(row.id);
 		 $("#name").val(row.name);
 		 $("#nameId").val(row.nameId);
-		 $("#roleId").val(row.roleId);
+		 $("#roleName").val(row.roleName);
 		 $("#status").val(row.status);
 		 $("#photo").val(row.photo);
 	}
@@ -260,9 +260,9 @@
 					<th>id</th>
 					<th>名称</th>
 					<th>用户Id</th>
-					<th>用户组</th>
 					<th>头像</th>
 					<th>状态</th>
+					<th>用户组</th>
 				</tr>
 			</thead>
 		</table>
@@ -291,12 +291,6 @@
 					<input type="text" class="form-control" id="nameId" name="nameId" placeholder="用户Id" required>
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="icon" class="col-sm-2 control-label">用户组</label>
-				<div class="col-sm-4">
-					   <input type="text" class="form-control" id="roleId" name="roleId" placeholder="用户组" required> 
-				</div>
-			</div>
 		    <div class="form-group">
 				<label for="url" class="col-sm-2 control-label">头像</label>
 				<div class="col-sm-4">
@@ -307,6 +301,12 @@
 				<label for="orderNo" class="col-sm-2 control-label">状态</label>
 				<div class="col-sm-4">
 					<input type="text" class="form-control" id="status" name="status" placeholder="状态" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="icon" class="col-sm-2 control-label">用户组</label>
+				<div class="col-sm-4">
+					   <input type="text" class="form-control" id="roleName" name="roleName" placeholder="用户组" required> 
 				</div>
 			</div>
 			<div class="form-group">

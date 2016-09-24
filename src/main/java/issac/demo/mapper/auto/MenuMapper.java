@@ -1,6 +1,6 @@
-package issac.demo.mapper;
+package issac.demo.mapper.auto;
 
-import issac.demo.model.Menu;
+import issac.demo.model.auto.Menu;
 
 public interface MenuMapper {
     int deleteByPrimaryKey(Integer id);

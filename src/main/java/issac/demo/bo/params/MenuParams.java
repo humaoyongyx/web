@@ -1,12 +1,7 @@
 package issac.demo.bo.params;
 
-import issac.demo.model.Menu;
+import issac.demo.model.MenuBean;
 
-public class MenuParams extends Menu {
+public class MenuParams extends MenuBean {
 
-	@Override
-	public String toString() {
-		return "MenuParams [getId()=" + getId() + ", getPid()=" + getPid() + ", getText()=" + getText() + ", getIcon()=" + getIcon() + ", getUrl()=" + getUrl() + ", getOrderNo()=" + getOrderNo() + ", getResourceId()="
-				+ getResourceId() + "]";
-	}
 }

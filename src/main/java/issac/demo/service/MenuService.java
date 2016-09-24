@@ -1,5 +1,7 @@
 package issac.demo.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,11 +16,12 @@ import org.springframework.stereotype.Service;
 
 import issac.demo.bo.params.MenuParams;
 import issac.demo.dto.TreeViewResult;
-import issac.demo.mapper.MenuMapper;
 import issac.demo.mapper.MenuMapperDao;
 import issac.demo.mapper.ResourceMapperDao;
+import issac.demo.mapper.auto.MenuMapper;
 import issac.demo.model.MenuBean;
 import issac.demo.model.ResourceBean;
+import issac.demo.model.comparator.MenuComparator;
 
 @Service
 public class MenuService {
@@ -33,13 +36,13 @@ public class MenuService {
 	ResourceMapperDao resourceMapperDao;
 
 
-	public void handleMenus(MenuBean root, List<MenuBean> menuList) {
+	public void handleMenusUseTreeMap(MenuBean root, List<MenuBean> menuList) {
 		TreeMap<Integer, MenuBean> map = new TreeMap<>();
 		for (MenuBean menuBean : menuList) {
 			if (menuBean.getPid() != null && menuBean.getPid() == root.getId()) {
 				map.put(menuBean.getOrderNo(), menuBean);
 				if (checkFolder(menuBean, menuList)) {
-					handleMenus(menuBean, menuList);
+					handleMenusUseTreeMap(menuBean, menuList);
 				}
 			}
 		}
@@ -47,6 +50,24 @@ public class MenuService {
 		Set<Entry<Integer, MenuBean>> entrySet = map.entrySet();
 		for (Entry<Integer, MenuBean> entry : entrySet) {
 			nodes.add(entry.getValue());
+		}
+		root.setNodes(nodes);
+	}
+
+	public void handleMenus(MenuBean root, List<MenuBean> menuList) {
+		List<MenuBean> list = new ArrayList<>();
+		for (MenuBean menuBean : menuList) {
+			if (menuBean.getPid() != null && menuBean.getPid() == root.getId()) {
+				list.add(menuBean);
+				if (checkFolder(menuBean, menuList)) {
+					handleMenus(menuBean, menuList);
+				}
+			}
+		}
+		List<MenuBean> nodes = new LinkedList<>();
+		Collections.sort(list, new MenuComparator());
+		for (MenuBean menuBean : list) {
+			nodes.add(menuBean);
 		}
 		root.setNodes(nodes);
 	}
@@ -60,7 +81,7 @@ public class MenuService {
 		return false;
 	}
 
-	public TreeViewResult getTreeViewMenus() {
+	public TreeViewResult getTreeViewMenusUseTreeMap() {
 		List<MenuBean> menuList = menuMapperDao.getAll();
 		TreeMap<Integer, MenuBean> rootMenus = new TreeMap<>();
 		Map<Integer, MenuBean> menuMap = new HashMap<>();
@@ -74,6 +95,25 @@ public class MenuService {
 		Set<Entry<Integer, MenuBean>> entrySet = rootMenus.entrySet();
 		for (Entry<Integer, MenuBean> entry : entrySet) {
 			MenuBean menuBean = entry.getValue();
+			handleMenusUseTreeMap(menuBean, menuList);
+			menuBeans.add(menuBean);
+		}
+		TreeViewResult treeViewResult = new TreeViewResult();
+		treeViewResult.setData(menuBeans);
+		return treeViewResult;
+	}
+
+	public TreeViewResult getTreeViewMenus() {
+		List<MenuBean> menuList = menuMapperDao.getAll();
+		List<MenuBean> rootMenus = new ArrayList<>();
+		List<MenuBean> menuBeans = new LinkedList<>();
+		for (MenuBean menuBean : menuList) {
+			if (menuBean.getPid() == null) {
+				rootMenus.add(menuBean);
+			}
+		}
+		Collections.sort(rootMenus, new MenuComparator());
+		for (MenuBean menuBean : rootMenus) {
 			handleMenus(menuBean, menuList);
 			menuBeans.add(menuBean);
 		}
@@ -88,7 +128,7 @@ public class MenuService {
 
 	public void addOrUpdate(MenuParams menuParams) {
 		if (menuParams.getId() != null && menuParams.getId() != 0) {
-			menuMapper.updateByPrimaryKeySelective(menuParams);
+			menuMapperDao.updateByPrimaryKeySelective(menuParams);
 		} else {
 			menuMapperDao.insert(menuParams);
 		}
@@ -122,7 +162,7 @@ public class MenuService {
 		resourceMapperDao.replaceIntoSelective(modfiy);
 	}
 	public void delete(MenuParams menuParams) {
-		menuMapper.deleteByPrimaryKey(menuParams.getId());
+		menuMapperDao.deleteByPrimaryKey(menuParams.getId());
 		resourceMapperDao.deleteResourceByMenuId(menuParams.getId());
 	}
 

@@ -1,6 +1,5 @@
 package issac.demo.controller.module;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -14,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import issac.demo.dto.Result;
 import issac.demo.mapper.MenuMapperDao;
 import issac.demo.model.MenuBean;
 import issac.demo.model.RoleBean;
 import issac.demo.model.RoleResourceBean;
+import issac.demo.model.UserRoleBean;
 import issac.demo.service.module.ResourceService;
 import issac.demo.service.module.RoleService;
 
@@ -45,13 +46,13 @@ public class RoleController {
 	}
 
 	@RequestMapping("/addOrUpdate")
-	public @ResponseBody String addOrUpdate(Integer id, String name, Integer[] resourceIds) {
+	public @ResponseBody Result addOrUpdate(Integer id, String name, Integer[] resourceIds) {
 
 		if (name != null) {
 			RoleBean roleBean = roleService.getRoleBeanByName(name);
 			if (roleBean != null) {
 				if (id == null || id != roleBean.getId()) {
-					return "duplicate";
+					return Result.FailBean.setMessage(name + ":该角色名已经存在，请重新填写！");
 				}
 
 			}
@@ -67,14 +68,17 @@ public class RoleController {
 			resourceService.insertResourceBatch(resourceBeans);
 
 		}
-		System.out.println(Arrays.toString(resourceIds));
-		return "success";
+		return Result.SuccessBean;
 	}
 
 	@RequestMapping("/deleteAll")
-	public @ResponseBody Object deleteAll(@RequestParam("ids[]") List<Integer> ids) {
+	public @ResponseBody Result deleteAll(@RequestParam("ids[]") List<Integer> ids) {
+		List<UserRoleBean> findUserRoleByRoleIds = roleService.findUserRoleByRoleIds(ids);
+		if (findUserRoleByRoleIds != null) {
+			return Result.FailBean.setMessage("删除的角色有关联的用户，请先解除这些角色与这些用户的关联！");
+		}
 		roleService.deleteAll(ids);
-		return "success";
+		return Result.SuccessBean;
 	}
 
 }

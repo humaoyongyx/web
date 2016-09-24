@@ -149,7 +149,7 @@ public class SimpleTest extends AbstractBaseTest {
 
 	@Test
 	public void testTreeView() {
-		TreeViewResult treeViewMenus = menuService.getTreeViewMenus();
+		TreeViewResult treeViewMenus = menuService.getTreeViewMenusUseTreeMap();
 		System.out.println(JSON.toJSON(treeViewMenus));
 	}
 

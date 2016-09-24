@@ -121,5 +121,12 @@
            #{item,jdbcType=INTEGER}
       </foreach>
   </delete>
+
+<select id="findUserRoleByRoleIds" resultType="issac.demo.model.UserRoleBean"  parameterType="java.util.List">
+          SELECT * FROM `user_role` where roleId  in
+            <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+           #{item,jdbcType=INTEGER}
+      </foreach>
+  </select>
   
 </mapper>

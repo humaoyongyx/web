@@ -9,8 +9,6 @@ public class User {
 
     private String nameId;
 
-    private Integer roleId;
-
     private Integer status;
 
     private Date createTime;
@@ -47,14 +45,6 @@ public class User {
 
     public void setNameId(String nameId) {
         this.nameId = nameId == null ? null : nameId.trim();
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 
     public Integer getStatus() {

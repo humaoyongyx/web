@@ -20,6 +20,7 @@ import issac.demo.mapper.RoleMapperDao;
 import issac.demo.model.MenuBean;
 import issac.demo.model.RoleBean;
 import issac.demo.model.RoleResourceBean;
+import issac.demo.model.UserRoleBean;
 
 @Service
 public class RoleService {
@@ -180,5 +181,9 @@ public class RoleService {
 	public void deleteAll(List<Integer> ids) {
 		roleMapperDao.deleteAll(ids);
 		resourceMapperDao.deleteByRoleIds(ids);
+	}
+
+	public List<UserRoleBean> findUserRoleByRoleIds(List<Integer> ids) {
+		return roleMapperDao.findUserRoleByRoleIds(ids);
 	}
 }

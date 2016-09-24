@@ -3,7 +3,6 @@ package issac.demo.mapper;
 import java.util.List;
 
 import issac.demo.bo.params.MenuParams;
-import issac.demo.model.Menu;
 import issac.demo.model.MenuBean;
 
 public interface MenuMapperDao {
@@ -12,7 +11,11 @@ public interface MenuMapperDao {
 
 	public List<MenuBean> getAllMenus(MenuParams menuParams);
 
-	int insert(Menu record);
+	int insert(MenuBean record);
+
+	int deleteByPrimaryKey(Integer id);
+
+	int updateByPrimaryKeySelective(MenuBean record);
 
 	int deleteAll(List<Integer> ids);
 }

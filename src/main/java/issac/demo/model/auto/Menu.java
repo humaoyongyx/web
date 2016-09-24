@@ -1,4 +1,4 @@
-package issac.demo.model;
+package issac.demo.model.auto;
 
 public class Menu {
     private Integer id;
@@ -12,8 +12,6 @@ public class Menu {
     private String url;
 
     private Integer orderNo;
-
-    private Integer resourceId;
 
     public Integer getId() {
         return id;
@@ -61,13 +59,5 @@ public class Menu {
 
     public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
-    }
-
-    public Integer getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(Integer resourceId) {
-        this.resourceId = resourceId;
     }
 }
