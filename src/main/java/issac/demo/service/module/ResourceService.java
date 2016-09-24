@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import issac.demo.bo.params.ResourceParams;
 import issac.demo.mapper.ResourceMapperDao;
 import issac.demo.model.ResourceBean;
+import issac.demo.model.RoleResourceBean;
 
 @Service
 public class ResourceService {
@@ -22,6 +23,18 @@ public class ResourceService {
 
 	public void updateResourceBatch(List<ResourceBean> resourceBeans) {
 		resourceMapperDao.updateResourceBatch(resourceBeans);
+	}
+
+	public void insertResourceBatch(List<RoleResourceBean> roleResourceBeans) {
+		resourceMapperDao.replaceIntoBeans(roleResourceBeans);
+	}
+
+	public void deleteByRoleIdAndResourceId(RoleResourceBean resourceBean) {
+		resourceMapperDao.deleteByRoleIdAndResourceId(resourceBean);
+	}
+
+	public void deleteByRoleId(Integer id) {
+		resourceMapperDao.deleteByRoleId(id);
 	}
 
 }

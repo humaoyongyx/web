@@ -1,5 +1,6 @@
 package issac.demo.service.module;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -14,8 +15,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import issac.demo.mapper.MenuMapperDao;
+import issac.demo.mapper.ResourceMapperDao;
 import issac.demo.mapper.RoleMapperDao;
 import issac.demo.model.MenuBean;
+import issac.demo.model.RoleBean;
 import issac.demo.model.RoleResourceBean;
 
 @Service
@@ -24,6 +27,8 @@ public class RoleService {
 	RoleMapperDao roleMapperDao;
 	@Resource
 	MenuMapperDao menuMapperDao;
+	@Resource
+	ResourceMapperDao resourceMapperDao;
 
 	public HashMap<Integer, LinkedHashMap<Integer, LinkedList<RoleResourceBean>>> getRoleResourceMapPage(Integer roleId) {
 
@@ -141,5 +146,39 @@ public class RoleService {
 			handleMenus(menuBean, menuList, resultList);
 		}
 		return resultList;
+	}
+
+	public void insert(RoleBean roleBean) {
+		roleMapperDao.insert(roleBean);
+	}
+
+	public RoleBean getRoleBeanByName(String name) {
+		return roleMapperDao.getRoleBeanByName(name);
+	}
+
+	public void updateRoleAndResource(Integer roleId, String name, Integer[] resourceIds) {
+		HashMap<String, Object> params=new HashMap<>();
+		params.put("id", roleId);
+		params.put("name", name);
+		roleMapperDao.updateByPrimaryKeySelective(params);
+		resourceMapperDao.deleteByRoleId(roleId);
+		resourceMapperDao.replaceIntoBeans(getResourceList(roleId, resourceIds));
+	}
+
+	public List<RoleResourceBean> getResourceList(Integer roleId, Integer[] resourceIds) {
+		List<RoleResourceBean> roleResourceBeans = new ArrayList<>();
+		RoleResourceBean roleResourceBean;
+		for (Integer resourceId : resourceIds) {
+			roleResourceBean = new RoleResourceBean();
+			roleResourceBean.setRoleId(roleId);
+			roleResourceBean.setResourceId(resourceId);
+			roleResourceBeans.add(roleResourceBean);
+		}
+		return roleResourceBeans;
+	}
+
+	public void deleteAll(List<Integer> ids) {
+		roleMapperDao.deleteAll(ids);
+		resourceMapperDao.deleteByRoleIds(ids);
 	}
 }

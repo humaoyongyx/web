@@ -126,4 +126,9 @@ public class MenuService {
 		resourceMapperDao.deleteResourceByMenuId(menuParams.getId());
 	}
 
+	public void deleteAll(List<Integer> ids) {
+		menuMapperDao.deleteAll(ids);
+		resourceMapperDao.deleteResourceByMenuIds(ids);
+	}
+
 }

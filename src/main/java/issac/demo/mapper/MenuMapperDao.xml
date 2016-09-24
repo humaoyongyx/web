@@ -111,5 +111,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-   
+     <delete id="deleteAll" parameterType="java.util.List" >
+       delete from menu  where id  in
+      <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+           #{item,jdbcType=INTEGER}
+      </foreach>
+  </delete>
 </mapper>

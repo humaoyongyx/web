@@ -38,6 +38,10 @@ public class ResourceController {
 	@RequestMapping("/addOrUpdate")
 	public @ResponseBody String addOrUpdate(ResourceBeanModel model) {
 		System.out.println(JSON.toJSON(model));
+		List<ResourceBean> resourceBeans = model.getResource();
+		if (resourceBeans != null && !resourceBeans.isEmpty()) {
+			resourceService.updateResourceBatch(resourceBeans);
+		}
 		return "success";
 	}
 

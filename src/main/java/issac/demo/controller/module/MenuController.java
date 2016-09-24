@@ -1,6 +1,7 @@
 package issac.demo.controller.module;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import issac.demo.bo.params.MenuParams;
@@ -58,6 +60,14 @@ public class MenuController {
 	@RequestMapping("/delete")
 	public @ResponseBody Object delete(MenuParams menuParams) {
 		menuService.delete(menuParams);
+		return "success";
+	}
+
+	@RequestMapping("/deleteAll")
+	public @ResponseBody Object deleteAll(@RequestParam(value = "ids[]", required = false) List<Integer> ids) {
+		if (ids != null && !ids.isEmpty()) {
+			menuService.deleteAll(ids);
+		}
 		return "success";
 	}
 }

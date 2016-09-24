@@ -33,4 +33,7 @@ public class ModuleService<T> {
 		this.module.deleteByPrimaryKey(id);
 	}
 
+	public void deleteAll(List<Integer> ids) {
+		this.module.deleteAll(ids);
+	}
 }

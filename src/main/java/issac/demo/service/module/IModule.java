@@ -13,4 +13,5 @@ public interface IModule<T> {
 
 	int updateByPrimaryKeySelective(Map<String, Object> params);
 
+	public void deleteAll(List<Integer> ids);
 }

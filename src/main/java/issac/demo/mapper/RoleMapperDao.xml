@@ -22,9 +22,6 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="roleId != null" >
-        roleId,
-      </if>
       <if test="name != null" >
         name,
       </if>
@@ -35,9 +32,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -50,9 +44,6 @@
   <update id="updateByPrimaryKeySelective"  parameterType="java.util.Map" >
     update role
     <set >
-      <if test="roleId != null" >
-        roleId = #{roleId,jdbcType=INTEGER},
-      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -112,4 +103,23 @@
            t1.resourceId
   </select>
     
+    <insert id="insert" parameterType="issac.demo.model.RoleBean" useGeneratedKeys="true"  keyProperty="id">
+		    insert into role (name)
+		    values ( #{name,jdbcType=VARCHAR} )
+      </insert>
+      
+  <select id="getRoleBeanByName" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+       from `role`
+       where name=#{name,jdbcType=VARCHAR}
+  </select>
+  
+       <delete id="deleteAll" parameterType="java.util.List" >
+       delete from role  where id  in
+      <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+           #{item,jdbcType=INTEGER}
+      </foreach>
+  </delete>
+  
 </mapper>

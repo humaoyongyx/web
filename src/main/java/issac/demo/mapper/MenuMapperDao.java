@@ -13,4 +13,6 @@ public interface MenuMapperDao {
 	public List<MenuBean> getAllMenus(MenuParams menuParams);
 
 	int insert(Menu record);
+
+	int deleteAll(List<Integer> ids);
 }

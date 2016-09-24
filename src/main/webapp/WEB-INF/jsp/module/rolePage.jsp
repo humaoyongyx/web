@@ -21,6 +21,7 @@
 	var addOrUpdateFormDiv="#form_addOrUpdate_"+idPage;
 	
 	var deleteActionUrl="${path}/module/role/delete";
+	var deleteAllActionUrl="${path}/module/role/deleteAll";
 	var addOrUpdateActionUrl="${path}/module/role/addOrUpdate";
 	var getPageActionUrl="${path}/module/role/show";
 	var dTable;
@@ -85,8 +86,8 @@
  	                 	back();
  	                 	reload();
  	               	     swal("", "新增或修改成功！","success");
- 	                  }else{
- 	               	   swal("", "新增或修改失败！","error");
+ 	                  }else if (result =="duplicate"){
+ 	               	       swal("",  $("#name").val()+":角色名称已存在！","error");
  	                  }
  						
  					},
@@ -111,10 +112,15 @@
 		$(addOrUpdateDiv).hide();
 	}
 	
+	
 	function add(){
 		$(pageDiv).hide();
 		$(addOrUpdateDiv).show();
-		$(roleResource).load("${path}/module/role/showRoleResourcePage",{roleId:1});
+		$(roleResource).load("${path}/module/role/showRoleResourcePage",{roleId:1},function(){
+			$(":text",addOrUpdateFormDiv).val("");
+			$("input:hidden",addOrUpdateFormDiv).val("");
+			$(":checkbox",addOrUpdateFormDiv).prop("checked",false);
+		});
 	}
 	
 	function modify(){
@@ -180,17 +186,21 @@
 				  html: false
 				}, function(){
 					
+					
+					var ids=new Array();
 					$("input:checked",pageId).each(function(){
 						var id=$(this).val();
-						$.post(deleteActionUrl, { id:id},
-						          function(result){
-									  if(result =="success"){
-										    reload();
-						               	   swal("", "删除成功！","success");
-						                }else{
-						               	   swal("", "删除失败！","error");
-						              }
-					    });
+						ids.push(id);
+						
+				    });
+					$.post(deleteAllActionUrl, { ids:ids},
+					          function(result){
+								   if(result =="success"){
+									    reload();
+					               	   swal("", "删除成功！","success");
+					                }else{
+					               	   swal("", "删除失败！","error");
+					              } 
 				    });
 					
 				}); 

@@ -25,7 +25,7 @@
 					 "searchable" : false,
 					  "orderable": false,
 					 "render": function(data, type, row) { // 返回自定义内容
-						     if(data==1 || data==2){
+						     if(data==1 || data==2|| data==3|| data==4|| data==5){
 						    	 return "";
 						     }
                              return '<div class="checkbox"><label><input type="checkbox" value="'+data+'" ></label></div>';                       
@@ -191,17 +191,20 @@
 				  html: false
 				}, function(){
 					
+					var ids=new Array();
 					$("input:checked","#menu").each(function(){
 						var id=$(this).val();
-						$.post("${path}/module/menu/delete", { id:id},
-						          function(result){
-									  if(result =="success"){
-										    reload();
-						               	   swal("", "删除成功！","success");
-						                }else{
-						               	   swal("", "删除失败！","error");
-						              }
-					    });
+						ids.push(id);
+						
+				    });
+					$.post("${path}/module/menu/deleteAll", { ids:ids},
+					          function(result){
+								   if(result =="success"){
+									    reload();
+					               	   swal("", "删除成功！","success");
+					                }else{
+					               	   swal("", "删除失败！","error");
+					              } 
 				    });
 					
 				}); 

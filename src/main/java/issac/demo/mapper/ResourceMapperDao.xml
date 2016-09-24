@@ -76,4 +76,37 @@
     delete from resource
     where menuId = #{menuId,jdbcType=INTEGER}
   </delete>
+  
+    <delete id="deleteResourceByMenuIds" parameterType="java.util.List">
+            delete from resource  where menuId  in
+      <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+              #{item,jdbcType=INTEGER}
+      </foreach>
+  </delete>
+  
+  <insert id="replaceIntoBeans" useGeneratedKeys="true" parameterType="java.util.List">  
+       replace into role_resource  (roleId, resourceId)    values  
+    <foreach collection="list" item="item" separator=","   >  
+          (#{item.roleId,jdbcType=INTEGER}, #{item.resourceId,jdbcType=INTEGER})
+    </foreach>  
+</insert>  
+
+    <delete id="deleteByRoleIdAndResourceId" parameterType="issac.demo.model.ResourceBean">
+            delete from role_resource  
+            where roleId=   #{roleId,jdbcType=INTEGER}  
+            and resourceId=#{resourceId,jdbcType=INTEGER}  
+  </delete>
+  
+  
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+            delete from role_resource  
+            where roleId=   #{id,jdbcType=INTEGER}  
+  </delete>
+    <delete id="deleteByRoleIds" parameterType="java.util.List">
+            delete from role_resource  
+            where roleId in
+             <foreach collection="list" item="item" separator="," open="("  close=")" >  
+                   #{item,jdbcType=INTEGER}
+             </foreach>  
+  </delete>
 </mapper>
