@@ -22,6 +22,6 @@
 <script type="text/javascript" src="${path}/resources/js/bootstrap-treeview.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/select2.min.js"></script>
-
+<script type="text/javascript" src="${path}/resources/js/multiselect.min.js"></script>
 
 <%@include file="../js/initJS.jsp"%>

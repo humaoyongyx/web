@@ -16,4 +16,14 @@ public interface RoleMapperDao extends IModule<RoleBean> {
 	public RoleBean getRoleBeanByName(String name);
 
 	public List<UserRoleBean> findUserRoleByRoleIds(List<Integer> ids);
+
+	public List<UserRoleBean> findUserRoleByUserId(Integer userId);
+
+	public List<RoleResourceBean> findRoleResourceByRoleIds(List<Integer> roleIds);
+
+	public List<RoleBean> getRootRoleList();
+
+	public List<RoleResourceBean> getRootRoleResourceList();
+
+	public List<RoleResourceBean> getRoleResourceByUserId(Integer userId);
 }

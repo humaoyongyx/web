@@ -23,6 +23,7 @@
 	var deleteActionUrl="${path}/module/user/delete";
 	var addOrUpdateActionUrl="${path}/module/user/addOrUpdate";
 	var getPageActionUrl="${path}/module/user/show";
+	var getUserRolesUrl="${path}/module/role/getUserRoles";
 	var dTable;
 	
 	var dTableOptions= {
@@ -35,7 +36,7 @@
 					 "searchable" : false,
 					  "orderable": false,
 					 "render": function(data, type, row) { // 返回自定义内容
-						     if(data==1 || data==2){
+						     if(data==1 ){
 						    	 return "";
 						     }
                              return '<div class="checkbox"><label><input type="checkbox" value="'+data+'" ></label></div>';                       
@@ -122,7 +123,9 @@
 				return false;
 		
  		});
- 		var validateForm=$(addOrUpdateFormDiv).validate();		 
+ 		var validateForm=$(addOrUpdateFormDiv).validate();		
+ 		
+ 		 $('#multiselect').multiselect(); 
  		 
 	});
 	
@@ -131,10 +134,21 @@
 	function init(){
 		$(addOrUpdateDiv).hide();
 	}
-	
 	function add(){
 		$(pageDiv).hide();
 		$(addOrUpdateDiv).show();
+		$(":text",addOrUpdateFormDiv).val("");
+		$("input:hidden",addOrUpdateFormDiv).val("");
+		$("#multiselect").empty();
+		$("#multiselect_to").empty();
+		$.getJSON(getUserRolesUrl,{userId:2},function(json){
+			console.log(json)
+			$.each(json,function(i,v){
+				console.log(v);
+				$("#multiselect").append('<option value="'+v.id+'"  selected="selected">'+v.name+'</option>');
+			});
+		});
+	
 	}
 	
 	function modify(){
@@ -306,7 +320,28 @@
 			<div class="form-group">
 				<label for="icon" class="col-sm-2 control-label">用户组</label>
 				<div class="col-sm-4">
-					   <input type="text" class="form-control" id="roleName" name="roleName" placeholder="用户组" required> 
+					   <!-- <input type="text" class="form-control" id="roleName" name="roleName" placeholder="用户组" required>  -->
+							<div class="row">
+									<div class="col-xs-5">
+									     <p class="text-center">未添加的角色列表</p>
+										<select name="roleIdFrom" id="multiselect" class="form-control" size="8" multiple="multiple">
+										</select>
+									</div>
+									
+									<div class="col-xs-2">
+									   <p class="text-center">&nbsp;&nbsp;</p>
+										<button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+										<button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+										<button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+										<button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+									</div>
+									
+									<div class="col-xs-5">
+									     <p class="text-center">此用户的角色列表</p>
+										<select name="roleIdTo" id="multiselect_to" class="form-control" size="8" multiple="multiple">
+										</select>
+									</div>
+						 </div>
 				</div>
 			</div>
 			<div class="form-group">

@@ -102,4 +102,10 @@ public class UserBean extends Module {
 		this.roleName = roleName;
 	}
 
+	@Override
+	public String toString() {
+		return "UserBean [id=" + id + ", name=" + name + ", nameId=" + nameId + ", status=" + status + ", mobile=" + mobile + ", sex=" + sex + ", photo=" + photo + ", address=" + address + ", roleId=" + roleId
+				+ ", roleName=" + roleName + "]";
+	}
+
 }

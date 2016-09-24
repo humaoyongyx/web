@@ -1,29 +1,29 @@
 package issac.demo.model;
 
 public class RoleResourceBean {
-	private int menuId;
-	private int menuPid;
+	private Integer menuId;
+	private Integer menuPid;
 	private String menuName;
 	private int orderNo;
-	private int resourceId;
+	private Integer resourceId;
 	private String resourceName;
-	private int roleId;
+	private Integer roleId;
 	private String roleName;
 	private Integer rsId;
 
-	public int getMenuId() {
+	public Integer getMenuId() {
 		return menuId;
 	}
 
-	public void setMenuId(int menuId) {
+	public void setMenuId(Integer menuId) {
 		this.menuId = menuId;
 	}
 
-	public int getMenuPid() {
+	public Integer getMenuPid() {
 		return menuPid;
 	}
 
-	public void setMenuPid(int menuPid) {
+	public void setMenuPid(Integer menuPid) {
 		this.menuPid = menuPid;
 	}
 
@@ -43,11 +43,11 @@ public class RoleResourceBean {
 		this.orderNo = orderNo;
 	}
 
-	public int getResourceId() {
+	public Integer getResourceId() {
 		return resourceId;
 	}
 
-	public void setResourceId(int resourceId) {
+	public void setResourceId(Integer resourceId) {
 		this.resourceId = resourceId;
 	}
 
@@ -59,11 +59,11 @@ public class RoleResourceBean {
 		this.resourceName = resourceName;
 	}
 
-	public int getRoleId() {
+	public Integer getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 
@@ -87,6 +87,37 @@ public class RoleResourceBean {
 	public String toString() {
 		return "RoleResourceBean [menuId=" + menuId + ", menuPid=" + menuPid + ", menuName=" + menuName + ", orderNo=" + orderNo + ", resourceId=" + resourceId + ", resourceName=" + resourceName + ", roleId=" + roleId
 				+ ", roleName=" + roleName + ", rsId=" + rsId + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((resourceId == null) ? 0 : resourceId.hashCode());
+		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RoleResourceBean other = (RoleResourceBean) obj;
+		if (resourceId == null) {
+			if (other.resourceId != null)
+				return false;
+		} else if (!resourceId.equals(other.resourceId))
+			return false;
+		if (roleId == null) {
+			if (other.roleId != null)
+				return false;
+		} else if (!roleId.equals(other.roleId))
+			return false;
+		return true;
 	}
 
 }

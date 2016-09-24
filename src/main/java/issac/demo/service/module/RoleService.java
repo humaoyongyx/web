@@ -20,6 +20,7 @@ import issac.demo.mapper.RoleMapperDao;
 import issac.demo.model.MenuBean;
 import issac.demo.model.RoleBean;
 import issac.demo.model.RoleResourceBean;
+import issac.demo.model.UserBean;
 import issac.demo.model.UserRoleBean;
 
 @Service
@@ -186,4 +187,57 @@ public class RoleService {
 	public List<UserRoleBean> findUserRoleByRoleIds(List<Integer> ids) {
 		return roleMapperDao.findUserRoleByRoleIds(ids);
 	}
+
+	public List<RoleBean> getUserRoleList(UserBean userBean) {
+		Integer userId = userBean.getId();
+
+		if (userId == 1) {
+			//root
+			return roleMapperDao.getRootRoleList();
+		} else {
+			List<RoleResourceBean> userRoleResouceBeans = roleMapperDao.getRoleResourceByUserId(userId);
+			boolean rootFlag = false;
+			for (RoleResourceBean roleResourceBean : userRoleResouceBeans) {
+				if (roleResourceBean.getRoleId() == 1) {
+					rootFlag = true;
+					break;
+				}
+			}
+
+			if (rootFlag) {
+				return roleMapperDao.getRootRoleList();
+			}
+			Map<Integer, List<RoleResourceBean>> roleResouceMap = new HashMap<>();
+			List<RoleResourceBean> rootRoleResourceList = roleMapperDao.getRootRoleResourceList();
+			Map<Integer, String> roleMap = new HashMap<>();
+			for (RoleResourceBean roleResourceBean : rootRoleResourceList) {
+				Integer roleId = roleResourceBean.getRoleId();
+				roleMap.put(roleId, roleResourceBean.getRoleName());
+				List<RoleResourceBean> list = roleResouceMap.get(roleId);
+				if (list == null) {
+					list = new ArrayList<>();
+					list.add(roleResourceBean);
+					roleResouceMap.put(roleId, list);
+				} else {
+					list.add(roleResourceBean);
+				}
+			}
+			Set<Entry<Integer, List<RoleResourceBean>>> entrySet = roleResouceMap.entrySet();
+			List<RoleBean> userRoleBeanList = new ArrayList<>();
+			RoleBean roleBean = null;
+			for (Entry<Integer, List<RoleResourceBean>> entry : entrySet) {
+				if (userRoleResouceBeans.contains(entry.getValue())) {
+					Integer roleId = entry.getKey();
+					roleBean = new RoleBean();
+					roleBean.setId(roleId);
+					roleBean.setName(roleMap.get(roleId));
+					userRoleBeanList.add(roleBean);
+				}
+			}
+
+			return userRoleBeanList;
+		}
+	}
+
+
 }

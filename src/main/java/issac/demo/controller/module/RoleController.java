@@ -18,6 +18,7 @@ import issac.demo.mapper.MenuMapperDao;
 import issac.demo.model.MenuBean;
 import issac.demo.model.RoleBean;
 import issac.demo.model.RoleResourceBean;
+import issac.demo.model.UserBean;
 import issac.demo.model.UserRoleBean;
 import issac.demo.service.module.ResourceService;
 import issac.demo.service.module.RoleService;
@@ -79,6 +80,13 @@ public class RoleController {
 		}
 		roleService.deleteAll(ids);
 		return Result.SuccessBean;
+	}
+
+	@RequestMapping("/getUserRoles")
+	public @ResponseBody Object getUserRoleList(Integer userId) {
+		UserBean userBean=new UserBean();
+		userBean.setId(userId);
+		return roleService.getUserRoleList(userBean);
 	}
 
 }

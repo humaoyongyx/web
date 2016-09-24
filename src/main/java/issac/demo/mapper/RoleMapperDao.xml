@@ -129,4 +129,41 @@
       </foreach>
   </select>
   
+  <select id="findUserRoleByUserId" resultType="issac.demo.model.UserRoleBean"  parameterType="java.lang.Integer">
+          SELECT * FROM `user_role` where userId =    #{userId,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getRootRoleList" resultType="issac.demo.model.RoleBean"  >
+          SELECT * FROM `role` 
+  </select>
+  
+      <select id="findRoleResourceByRoleId" resultType="issac.demo.model.RoleResourceBean"   parameterType="java.util.List">
+          SELECT ror.*,ro.`name` roleName FROM `role_resource` ror,role ro WHERE ror.roleId=ro.id  and  roleId in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+           #{item,jdbcType=INTEGER}
+      </foreach>
+  </select>
+  
+        <select id="getRootRoleResourceList" resultType="issac.demo.model.RoleResourceBean"   parameterType="java.lang.Integer">
+          SELECT ror.*,ro.`name` roleName FROM `role_resource` ror,role ro WHERE ror.roleId=ro.id  
+     </select>
+     
+    <select id="getRoleResourceByUserId" resultType="issac.demo.model.RoleResourceBean"   parameterType="java.lang.Integer">
+		          SELECT
+						ror.*,
+					  ro.`name` roleName
+					FROM
+						role_resource ror,
+						role ro,
+						user_role uro,
+						`user` u
+					WHERE
+						ror.roleId = ro.id
+					AND ro.id = uro.roleId
+					AND uro.userId = u.id
+					AND u.id=  #{userId,jdbcType=INTEGER}
+					ORDER BY u.id 
+     </select>
+  
+  
 </mapper>
