@@ -9,6 +9,8 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 
+import issac.demo.model.UserBean;
+
 public class CommonUtils {
 
 	public static String unicode2Chinese(String asciicode) {
@@ -171,14 +173,22 @@ public class CommonUtils {
 		return decodeBase64String;
 	}
 
+	public static Map<String, Object> beanToMap(Object bean) {
+		Field[] declaredFields = bean.getClass().getDeclaredFields();
+		Map<String, Object> map = new HashMap<>();
+		for (Field field : declaredFields) {
+			String name = field.getName();
+			Object value = getMethod(name, bean);
+			map.put(name, value);
+		}
+		return map;
+	}
+
 	public static void main(String[] args) {
-		/*	UserInfo params = new UserInfo();
-			System.out.println(setMethod("createTime", params, new Date()).getCreateTime());
-			List<String> list = new ArrayList<>();
-			list.add("name");
-			list.add("id");
-			params.setName("test");
-			System.out.println(checkNullObject(list, params))*/;
-		System.out.println(base64Decode("d2ViUmVtZW1iZXJNZUtleQ=="));
+
+		UserBean bean = new UserBean();
+		bean.setId(1);
+		bean.setName("name");
+		System.out.println(beanToMap(bean));
 	}
 }

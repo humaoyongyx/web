@@ -20,7 +20,67 @@
   </select>
   
   
-  <insert id="insertSelective" parameterType="java.util.Map">
+    <select id="getUserBeanByNameId"  resultType="issac.demo.model.UserBean" parameterType="java.lang.String">
+		  SELECT * FROM `user` where nameId=   #{nameId,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insertSelective" parameterType="java.util.Map" >
+     insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="nameId != null" >
+        nameId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameId != null" >
+        #{nameId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+   <insert id="insertUserSelective" parameterType="issac.demo.model.UserBean" useGeneratedKeys="true" keyProperty="id">
      insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -103,9 +163,16 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+ <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from `user`
     where id = #{id,jdbcType=INTEGER}
-  </delete>
+</delete>
+  
+<delete id="deleteAll" parameterType="java.util.List" >
+       delete from `user`  where id  in
+      <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+           #{item,jdbcType=INTEGER}
+      </foreach>
+ </delete>
   
 </mapper>

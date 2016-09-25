@@ -13,6 +13,12 @@ public interface RoleMapperDao extends IModule<RoleBean> {
 
 	public void insert(RoleBean roleBean);
 
+	public void insertBatchUserRole(List<UserRoleBean> userRoleBeans);
+
+	public void deleteUserRoleByUserId(Integer userId);
+
+	public void deleteUserRoleByUserIds(List<Integer> ids);
+
 	public RoleBean getRoleBeanByName(String name);
 
 	public List<UserRoleBean> findUserRoleByRoleIds(List<Integer> ids);

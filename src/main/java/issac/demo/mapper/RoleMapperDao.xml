@@ -115,12 +115,12 @@
        where name=#{name,jdbcType=VARCHAR}
   </select>
   
-       <delete id="deleteAll" parameterType="java.util.List" >
+<delete id="deleteAll" parameterType="java.util.List" >
        delete from role  where id  in
       <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
            #{item,jdbcType=INTEGER}
       </foreach>
-  </delete>
+ </delete>
 
 <select id="findUserRoleByRoleIds" resultType="issac.demo.model.UserRoleBean"  parameterType="java.util.List">
           SELECT * FROM `user_role` where roleId  in
@@ -164,6 +164,23 @@
 					AND u.id=  #{userId,jdbcType=INTEGER}
 					ORDER BY u.id 
      </select>
+     
+    <insert id="insertBatchUserRole" parameterType="java.util.List">  
+       insert into `user_role`  (userId, roleId)    values  
+    <foreach collection="list" item="item" separator=","   >  
+          (#{item.userId,jdbcType=INTEGER}, #{item.roleId,jdbcType=INTEGER})
+    </foreach>  
+</insert>  
   
+<delete id="deleteUserRoleByUserId" parameterType="java.lang.Integer" >
+       delete from `user_role`  where userId  = #{userId,jdbcType=INTEGER}
+ </delete>
+
+<delete id="deleteUserRoleByUserIds" parameterType="java.util.List">
+       delete from `user_role`  where userId  in 
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+           #{item,jdbcType=INTEGER}
+      </foreach>
+ </delete>
   
 </mapper>

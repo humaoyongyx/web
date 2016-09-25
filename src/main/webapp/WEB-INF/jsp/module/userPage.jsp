@@ -21,10 +21,13 @@
 	var addOrUpdateFormDiv="#form_addOrUpdate_"+idPage;
 	
 	var deleteActionUrl="${path}/module/user/delete";
+	var deleteAllActionUrl="${path}/module/user/deleteAll";
 	var addOrUpdateActionUrl="${path}/module/user/addOrUpdate";
 	var getPageActionUrl="${path}/module/user/show";
 	var getUserRolesUrl="${path}/module/role/getUserRoles";
 	var dTable;
+	
+	var currentUserRoleJson;
 	
 	var dTableOptions= {
  			 "dom" : "tip",
@@ -98,17 +101,18 @@
  	
  			var options = {
  				    type:  "post",
+ 				    dataType:"json",
  				    url:addOrUpdateActionUrl,
  					beforeSubmit : function() {
  					},
  					success : function(result) {
- 	                  if(result =="success"){
+ 	                  if(result.status ==1){
  	               	   $(addOrUpdateFormDiv).resetForm();
  	                 	back();
  	                 	reload();
  	               	     swal("", "新增或修改成功！","success");
  	                  }else{
- 	               	   swal("", "新增或修改失败！","error");
+ 	               	      swal("新增或修改失败", result.message,"error");
  	                  }
  						
  					},
@@ -117,6 +121,7 @@
  					}
  				};
  			if(valid){
+ 				$("#user_multiselect_to option").prop("selected",true);
  				$(this).ajaxSubmit(options);
  			 }
 				
@@ -125,8 +130,12 @@
  		});
  		var validateForm=$(addOrUpdateFormDiv).validate();		
  		
- 		 $('#multiselect').multiselect(); 
+ 		 $('#user_multiselect').multiselect(); 
  		 
+ 		$.getJSON(getUserRolesUrl,{userId:2},function(json){
+ 			currentUserRoleJson=json;
+		});
+ 		
 	});
 	
 
@@ -134,33 +143,55 @@
 	function init(){
 		$(addOrUpdateDiv).hide();
 	}
+	
+	function cleanForm(){
+		$(":text",addOrUpdateFormDiv).val("");
+		$("input:hidden",addOrUpdateFormDiv).val("");
+		$("#status option:first").prop("selected",true);
+		$("#user_multiselect").empty();
+		$("#user_multiselect_to").empty();
+	}
+	
 	function add(){
 		$(pageDiv).hide();
 		$(addOrUpdateDiv).show();
-		$(":text",addOrUpdateFormDiv).val("");
-		$("input:hidden",addOrUpdateFormDiv).val("");
-		$("#multiselect").empty();
-		$("#multiselect_to").empty();
-		$.getJSON(getUserRolesUrl,{userId:2},function(json){
-			console.log(json)
-			$.each(json,function(i,v){
-				console.log(v);
-				$("#multiselect").append('<option value="'+v.id+'"  selected="selected">'+v.name+'</option>');
-			});
+		cleanForm();
+		$.each(currentUserRoleJson,function(i,v){
+			$("#user_multiselect").append('<option value="'+v.id+'" >'+v.name+'</option>');
 		});
+	/* 	$.getJSON(getUserRolesUrl,{userId:2},function(json){
+			$.each(json,function(i,v){
+				$("#user_multiselect").append('<option value="'+v.id+'" >'+v.name+'</option>');
+			});
+		}); */
 	
 	}
 	
 	function modify(){
 		var id=checkSelected1();
 	 	if(id){
+	 		$("#user_multiselect").empty();
+			$("#user_multiselect_to").empty();
+			
 		    dTable.rows().data().each(function(row,i){
 			  if(row.id==id){
 				  modifyCopy(row);
+				   var roleIds=row.roleId.split(",");
+				   console.log(roleIds)
+				  $.each(currentUserRoleJson,function(i,v){
+					  if(!$.inArray(v.id+"",roleIds)){
+						     $("#user_multiselect").append('<option value="'+v.id+'" >'+v.name+'</option>');
+					  }else{
+						    $("#user_multiselect_to").append('<option value="'+v.id+'" >'+v.name+'</option>'); 
+					  }
+			       });
+				  console.log(row)
 			  }
 		   });
 			$(pageDiv).hide();
 			$(addOrUpdateDiv).show();
+			
+			
 		}else{
 			   swal("", "请选择一项，或只能修改一项！","info");
 		} 
@@ -213,18 +244,21 @@
 				  html: false
 				}, function(){
 					
+					var ids=new Array();
 					$("input:checked",pageId).each(function(){
 						var id=$(this).val();
-						$.post(deleteActionUrl, { id:id},
-						          function(result){
-									  if(result =="success"){
-										    reload();
-						               	   swal("", "删除成功！","success");
-						                }else{
-						               	   swal("", "删除失败！","error");
-						              }
-					    });
+						ids.push(id);
+						
 				    });
+					$.post(deleteAllActionUrl, { ids:ids},
+					          function(result){
+								   if(result.status ==1){
+									    reload();
+					               	     swal("", "删除成功！","success");
+					                }else{
+					               	   swal("删除失败！",result.message,"error");
+					              } 
+				    },"json");
 					
 				}); 
 		}else{
@@ -314,7 +348,12 @@
 		     <div class="form-group">
 				<label for="orderNo" class="col-sm-2 control-label">状态</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="status" name="status" placeholder="状态" required>
+					<select name="status" id="status" class="form-control"  placeholder="状态"  required>
+					    <option value="1">有效</option>
+					    <option value="2">锁定</option>
+					    <option value="3">失效</option>
+					</select>
+					<!-- <input type="text" class="form-control" id="status" name="status" placeholder="状态" required> -->
 				</div>
 			</div>
 			<div class="form-group">
@@ -324,21 +363,21 @@
 							<div class="row">
 									<div class="col-xs-5">
 									     <p class="text-center">未添加的角色列表</p>
-										<select name="roleIdFrom" id="multiselect" class="form-control" size="8" multiple="multiple">
+										<select name="roleIdFrom" id="user_multiselect" class="form-control" size="8" multiple="multiple">
 										</select>
 									</div>
 									
 									<div class="col-xs-2">
 									   <p class="text-center">&nbsp;&nbsp;</p>
-										<button type="button" id="multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
-										<button type="button" id="multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
-										<button type="button" id="multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
-										<button type="button" id="multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+										<button type="button" id="user_multiselect_rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+										<button type="button" id="user_multiselect_rightSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+										<button type="button" id="user_multiselect_leftSelected" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+										<button type="button" id="user_multiselect_leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
 									</div>
 									
 									<div class="col-xs-5">
 									     <p class="text-center">此用户的角色列表</p>
-										<select name="roleIdTo" id="multiselect_to" class="form-control" size="8" multiple="multiple">
+										<select name="roleIdTo" id="user_multiselect_to" class="form-control" size="8" multiple="multiple">
 										</select>
 									</div>
 						 </div>
