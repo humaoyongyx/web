@@ -7,6 +7,7 @@
 <link href="${path}/resources/css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/bootstrap-treeview.min.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resources/js/minimal/_all.css" rel="stylesheet" type="text/css" />
 
 <link href="${path}/resources/css/project/project.css" rel="stylesheet" type="text/css" />
 
@@ -23,5 +24,6 @@
 <script type="text/javascript" src="${path}/resources/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/select2.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/multiselect.min.js"></script>
+<script type="text/javascript" src="${path}/resources/js/icheck.min.js"></script>
 
 <%@include file="../js/initJS.jsp"%>

@@ -15,7 +15,8 @@
 			<value>
 				/login = anon
 				/logout = logout
-              <!-- 	/** = user -->
+				/resources/**= anon
+             	/** = user 
 			</value>
 		</property>
 		<property name="filters">

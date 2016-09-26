@@ -1,5 +1,7 @@
 package issac.demo.model;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 public class UserBean extends Module {
 
 	private Integer id;
@@ -7,6 +9,10 @@ public class UserBean extends Module {
 	private String name;
 
 	private String nameId;
+
+	private String password;
+
+	private String salt;
 
 	private Integer status;
 
@@ -21,6 +27,8 @@ public class UserBean extends Module {
 	private String roleId;
 
 	private String roleName;
+
+	private Boolean locked;
 
 	public Integer getId() {
 		return id;
@@ -102,10 +110,25 @@ public class UserBean extends Module {
 		this.roleName = roleName;
 	}
 
-	@Override
-	public String toString() {
-		return "UserBean [id=" + id + ", name=" + name + ", nameId=" + nameId + ", status=" + status + ", mobile=" + mobile + ", sex=" + sex + ", photo=" + photo + ", address=" + address + ", roleId=" + roleId
-				+ ", roleName=" + roleName + "]";
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getCredentialsSalt() {
+		salt = DigestUtils.md5Hex("09" + nameId + "@Salt");
+		return salt;
+	}
+
+	public Boolean getLocked() {
+		if (status == 2) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

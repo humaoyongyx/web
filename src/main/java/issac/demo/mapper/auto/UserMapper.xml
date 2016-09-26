@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="nameId" property="nameId" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
@@ -14,7 +15,7 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, nameId, status, createTime, endTime, mobile, sex, photo, address
+    id, name, nameId, password, status, createTime, endTime, mobile, sex, photo, address
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -28,13 +29,13 @@
   </delete>
   <insert id="insert" parameterType="issac.demo.model.auto.User" >
     insert into user (id, name, nameId, 
-      status, createTime, endTime, 
-      mobile, sex, photo, 
-      address)
+      password, status, createTime, 
+      endTime, mobile, sex, 
+      photo, address)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nameId,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{mobile,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR})
+      #{password,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="issac.demo.model.auto.User" >
     insert into user
@@ -47,6 +48,9 @@
       </if>
       <if test="nameId != null" >
         nameId,
+      </if>
+      <if test="password != null" >
+        password,
       </if>
       <if test="status != null" >
         status,
@@ -80,6 +84,9 @@
       <if test="nameId != null" >
         #{nameId,jdbcType=VARCHAR},
       </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
@@ -112,6 +119,9 @@
       <if test="nameId != null" >
         nameId = #{nameId,jdbcType=VARCHAR},
       </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -140,6 +150,7 @@
     update user
     set name = #{name,jdbcType=VARCHAR},
       nameId = #{nameId,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       createTime = #{createTime,jdbcType=TIMESTAMP},
       endTime = #{endTime,jdbcType=TIMESTAMP},

@@ -9,6 +9,8 @@ public class User {
 
     private String nameId;
 
+    private String password;
+
     private Integer status;
 
     private Date createTime;
@@ -45,6 +47,14 @@ public class User {
 
     public void setNameId(String nameId) {
         this.nameId = nameId == null ? null : nameId.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
     public Integer getStatus() {
