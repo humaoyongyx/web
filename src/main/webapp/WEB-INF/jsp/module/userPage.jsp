@@ -177,15 +177,13 @@
 			  if(row.id==id){
 				  modifyCopy(row);
 				   var roleIds=row.roleId.split(",");
-				   console.log(roleIds)
 				  $.each(currentUserRoleJson,function(i,v){
-					  if(!$.inArray(v.id+"",roleIds)){
-						     $("#user_multiselect").append('<option value="'+v.id+'" >'+v.name+'</option>');
+					  if($.inArray(v.id+"",roleIds)>-1){
+						  $("#user_multiselect_to").append('<option value="'+v.id+'" >'+v.name+'</option>'); 
 					  }else{
-						    $("#user_multiselect_to").append('<option value="'+v.id+'" >'+v.name+'</option>'); 
+						  $("#user_multiselect").append('<option value="'+v.id+'" >'+v.name+'</option>');
 					  }
 			       });
-				  console.log(row)
 			  }
 		   });
 			$(pageDiv).hide();
