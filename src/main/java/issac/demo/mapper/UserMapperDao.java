@@ -11,5 +11,7 @@ public interface UserMapperDao extends IModule<UserBean> {
 
 	public UserBean getUserBeanByNameId(String nameId);
 
+	public UserBean getUserBeanById(Integer id);
+
 	public void deleteAll(List<Integer> ids);
 }

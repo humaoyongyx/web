@@ -23,14 +23,12 @@ public class WebRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String username = (String) token.getPrincipal(); //得到用户名  
-		String password = new String((char[]) token.getCredentials()); //得到密码  
 		UserBean user = userMapperDao.getUserBeanByNameId(username);
 		if (user == null) {
 			throw new UnknownAccountException();//没找到帐号  

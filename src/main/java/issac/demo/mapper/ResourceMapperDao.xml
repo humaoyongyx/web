@@ -109,4 +109,37 @@
                    #{item,jdbcType=INTEGER}
              </foreach>  
   </delete>
+  
+  <select id="getResourceByUserId"  parameterType="java.lang.Integer" resultType="issac.demo.model.PermissionBean">
+		  SELECT
+			t.id,
+			t.moduleUrl,
+		   GROUP_CONCAT(t.actionUrl SEPARATOR '|') actionUrl
+		FROM
+			(
+				SELECT DISTINCT
+					u.id,
+					m.url moduleUrl,
+					rs.url actionUrl
+				FROM
+					`user` u,
+					user_role uro,
+					role_resource ror,
+					resource rs,
+					menu m
+				WHERE
+					u.id = uro.userId
+				AND uro.roleId = ror.roleId
+				AND ror.resourceId = rs.id
+				AND rs.menuId = m.id
+			) t
+		WHERE t.id=#{id,jdbcType=INTEGER}
+		GROUP BY
+			t.id,
+			t.moduleUrl
+  
+   
+  </select>
+  
+  
 </mapper>

@@ -19,4 +19,5 @@ public class BasicController {
 	public @ResponseBody TreeViewResult getMenus() {
 		return menuService.getTreeViewMenus();
 	}
+	
 }

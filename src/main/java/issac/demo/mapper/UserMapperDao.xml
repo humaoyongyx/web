@@ -20,8 +20,38 @@
   </select>
   
   
-    <select id="getUserBeanByNameId"  resultType="issac.demo.model.UserBean" parameterType="java.lang.String">
-		  SELECT * FROM `user` where nameId=   #{nameId,jdbcType=VARCHAR}
+<select id="getUserBeanById"  resultType="issac.demo.model.UserBean" parameterType="java.lang.Integer">
+		  SELECT
+			u.*,
+			GROUP_CONCAT(ro.id) roleId,
+			GROUP_CONCAT(ro.`name`) roleName
+		FROM
+			`user` u,
+			user_role uro,
+			role ro
+		WHERE
+			u.id = uro.userId
+		AND uro.roleId = ro.id
+    AND u.id= #{id,jdbcType=INTEGER}
+		GROUP BY
+			u.id
+  </select>
+  
+   <select id="getUserBeanByNameId"  resultType="issac.demo.model.UserBean" parameterType="java.lang.String">
+		   SELECT
+			u.*,
+			GROUP_CONCAT(ro.id) roleId,
+			GROUP_CONCAT(ro.`name`) roleName
+		FROM
+			`user` u,
+			user_role uro,
+			role ro
+		WHERE
+			u.id = uro.userId
+		AND uro.roleId = ro.id
+    AND u.nameId= #{nameId,jdbcType=VARCHAR}
+		GROUP BY
+			u.id
   </select>
   
   <insert id="insertSelective" parameterType="java.util.Map" >

@@ -199,6 +199,26 @@ public class CommonUtils {
 		return true;
 	}
 
+	public static String getUrlAction(String url) {
+		if (url == null) {
+			return "";
+		} else {
+			int lastIndexOf = url.lastIndexOf("/");
+			String urlAction = url.substring(lastIndexOf + 1);
+			return urlAction;
+		}
+	}
+
+	public static String getUrlPath(String url) {
+		if (url == null) {
+			return "";
+		} else {
+			int lastIndexOf = url.lastIndexOf("/");
+			String urlPath = url.substring(0, lastIndexOf + 1);
+			return urlPath;
+		}
+	}
+
 	private static String algorithmName = "md5";
 	private static final int hashIterations = 2;
 
@@ -210,11 +230,15 @@ public class CommonUtils {
 
 	public static void main(String[] args) {
 		UserBean userBean = new UserBean();
-		userBean.setNameId("root");
-		userBean.setPassword("123456");
-		encryptPassword(userBean);
-		System.out.println(userBean.getCredentialsSalt());
-		System.out.println(userBean.getPassword());
+		userBean.setNameId("test");
+			userBean.setPassword("123456");
+			encryptPassword(userBean);
+			System.out.println(userBean.getCredentialsSalt());
+			System.out.println(userBean.getPassword());
 		System.out.println();
+		/*	System.out.println(getUrlAction("/ur/sdfds/sddf"));
+			System.out.println(getUrlPath("/ur/sdfds/"));
+			boolean matches = "get".matches("show.*|get.*");
+			System.out.println(matches);*/
 	}
 }

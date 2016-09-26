@@ -17,10 +17,12 @@
 	});
 	
 	</script>
- <div class="container-fluid">	
+	
+<div class="container-fluid">	
      <center>
-                    <h1>模板</h1>
+                    <h1>您没有权限访问此页面，请联系管理员！</h1>
      </center>
 </div>
+
 </body>
 </html>

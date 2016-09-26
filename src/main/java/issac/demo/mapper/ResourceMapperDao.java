@@ -3,6 +3,7 @@ package issac.demo.mapper;
 import java.util.List;
 
 import issac.demo.bo.params.ResourceParams;
+import issac.demo.model.PermissionBean;
 import issac.demo.model.ResourceBean;
 import issac.demo.model.RoleResourceBean;
 
@@ -25,4 +26,6 @@ public interface ResourceMapperDao {
 	public void deleteByRoleId(Integer id);
 
 	public void deleteByRoleIds(List<Integer> ids);
+
+	public List<PermissionBean> getResourceByUserId(Integer id);
 }
