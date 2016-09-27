@@ -38,7 +38,12 @@ public class MenuController {
 		Map<String, Object> data = new HashMap<>();
 		Subject subject = SecurityUtils.getSubject();
 		UserBean userBean = (UserBean) subject.getSession().getAttribute("user");
-		data.put("data", menuService.getUserMenus(userBean.getId()));
+		if (userBean.getRoleId().contains("1")) {
+			data.put("data", menuService.find(menuParams));
+		} else {
+			data.put("data", menuService.getUserMenus(userBean.getId()));
+		}
+
 		return data;
 	}
 
@@ -57,7 +62,7 @@ public class MenuController {
 	@RequestMapping("/addOrUpdate")
 	public @ResponseBody Object addOrUpdate(MenuParams menuParams) {
 		menuService.addOrUpdate(menuParams);
-		if (menuParams.getPid() != null && menuParams.getUrl() != null && !menuParams.getUrl().trim().equals("")) {
+		if (menuParams.getId() != null || menuParams.getPid() != null && menuParams.getUrl() != null && !menuParams.getUrl().trim().equals("")) {
 			menuService.addMenuResources(menuParams);
 		}
 		return Result.SuccessBean;

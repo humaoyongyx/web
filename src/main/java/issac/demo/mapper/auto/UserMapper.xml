@@ -13,9 +13,11 @@
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="photo" property="photo" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, nameId, password, status, createTime, endTime, mobile, sex, photo, address
+    id, name, nameId, password, status, createTime, endTime, mobile, sex, photo, address, 
+    email
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -31,11 +33,13 @@
     insert into user (id, name, nameId, 
       password, status, createTime, 
       endTime, mobile, sex, 
-      photo, address)
+      photo, address, email
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nameId,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{photo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
+      #{photo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="issac.demo.model.auto.User" >
     insert into user
@@ -73,6 +77,9 @@
       <if test="address != null" >
         address,
       </if>
+      <if test="email != null" >
+        email,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -107,6 +114,9 @@
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -143,6 +153,9 @@
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -157,7 +170,8 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       photo = #{photo,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR}
+      address = #{address,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

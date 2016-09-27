@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 
 import issac.demo.mapper.RoleMapperDao;
@@ -43,5 +45,13 @@ public class UserService {
 	public void deleteAll(List<Integer> ids) {
 		userMapperDao.deleteAll(ids);
 		roleMapperDao.deleteUserRoleByUserIds(ids);
+	}
+
+	private String algorithmName = "md5";
+	private final int hashIterations = 2;
+
+	public String encryptPassword(String password, String salt) {
+		String encryptPassword = new SimpleHash(algorithmName, password, ByteSource.Util.bytes(salt), hashIterations).toHex();
+		return encryptPassword;
 	}
 }

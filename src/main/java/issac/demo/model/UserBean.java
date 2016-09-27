@@ -24,6 +24,8 @@ public class UserBean extends Module {
 
 	private String address;
 
+	private String email;
+
 	private String roleId;
 
 	private String roleName;
@@ -118,7 +120,7 @@ public class UserBean extends Module {
 		this.password = password;
 	}
 
-	public String getCredentialsSalt() {
+	public String getSalt() {
 		salt = DigestUtils.md5Hex("09" + nameId + "@Salt");
 		return salt;
 	}
@@ -129,6 +131,22 @@ public class UserBean extends Module {
 		} else {
 			return false;
 		}
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
 	}
 
 }

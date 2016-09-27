@@ -204,7 +204,7 @@ public class MenuService {
 	}
 
 	public void addOrUpdate(MenuParams menuParams) {
-		if (menuParams.getId() != null && menuParams.getId() != 0) {
+		if (menuParams.getId() != null) {
 			menuMapperDao.updateByPrimaryKeySelective(menuParams);
 		} else {
 			menuMapperDao.insert(menuParams);
@@ -217,25 +217,25 @@ public class MenuService {
 		show.setAction("show");
 		show.setMenuId(menuParams.getId());
 		show.setName("查看");
-		show.setUrl("show*,get*,find*,load*,search*");
+		show.setUrl("show.*|get.*|find.*|load.*|search.*");
 		resourceMapperDao.replaceIntoSelective(show);
 		ResourceBean add = new ResourceBean();
 		add.setAction("add");
 		add.setMenuId(menuParams.getId());
 		add.setName("增加");
-		add.setUrl("add*,insert*,save*");
+		add.setUrl("add.*|insert.*|save.*");
 		resourceMapperDao.replaceIntoSelective(add);
 		ResourceBean delete = new ResourceBean();
 		delete.setAction("delete");
 		delete.setMenuId(menuParams.getId());
 		delete.setName("删除");
-		delete.setUrl("delete*,remove*");
+		delete.setUrl("delete.*|remove.*");
 		resourceMapperDao.replaceIntoSelective(delete);
 		ResourceBean modfiy = new ResourceBean();
 		modfiy.setAction("modfiy");
 		modfiy.setMenuId(menuParams.getId());
 		modfiy.setName("修改");
-		modfiy.setUrl("modfiy*,update*,edit*");
+		modfiy.setUrl("modfiy.*|update.*|edit.*");
 		resourceMapperDao.replaceIntoSelective(modfiy);
 	}
 	public void delete(MenuParams menuParams) {

@@ -37,7 +37,7 @@ public class WebRealm extends AuthorizingRealm {
 			throw new LockedAccountException(); //帐号锁定  
 		}
 
-		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getNameId(), user.getPassword(), ByteSource.Util.bytes(user.getCredentialsSalt()), getName());
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getNameId(), user.getPassword(), ByteSource.Util.bytes(user.getSalt()), getName());
 		return authenticationInfo;
 	}
 

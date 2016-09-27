@@ -8,10 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.util.ByteSource;
-
-import issac.demo.model.UserBean;
 
 public class CommonUtils {
 
@@ -219,26 +215,8 @@ public class CommonUtils {
 		}
 	}
 
-	private static String algorithmName = "md5";
-	private static final int hashIterations = 2;
-
-	public static void encryptPassword(UserBean userBean) {
-		String newPassword = new SimpleHash(algorithmName, userBean.getPassword(), ByteSource.Util.bytes(userBean.getCredentialsSalt()), hashIterations).toHex();
-		userBean.setPassword(newPassword);
-	}
 
 
 	public static void main(String[] args) {
-		UserBean userBean = new UserBean();
-		userBean.setNameId("test");
-			userBean.setPassword("123456");
-			encryptPassword(userBean);
-			System.out.println(userBean.getCredentialsSalt());
-			System.out.println(userBean.getPassword());
-		System.out.println();
-		/*	System.out.println(getUrlAction("/ur/sdfds/sddf"));
-			System.out.println(getUrlPath("/ur/sdfds/"));
-			boolean matches = "get".matches("show.*|get.*");
-			System.out.println(matches);*/
 	}
 }

@@ -174,7 +174,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="java.util.Map" >
-  update user
+    update user
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -182,8 +182,17 @@
       <if test="nameId != null" >
         nameId = #{nameId,jdbcType=VARCHAR},
       </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="mobile != null" >
         mobile = #{mobile,jdbcType=VARCHAR},
@@ -196,6 +205,9 @@
       </if>
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
