@@ -80,21 +80,22 @@
  	
  			var options = {
  				     type:  "post",
+ 				    dataType:"json",
  					beforeSubmit : function() {
  					},
  					success : function(result) {
- 	                  if(result =="success"){
+ 	                  if(result.status ==1){
  	               	   $(addFormDiv).resetForm();
  	                 	back();
  	                 	reload();
  	               	     swal("", "新增或修改成功！","success");
  	                  }else{
- 	               	   swal("", "新增或修改失败！","error");
+ 	               	   swal("新增或修改失败",result.message,"error");
  	                  }
  						
  					},
- 					error : function(result) {
- 						   swal("", "新增或修改异常！","error");
+ 					error : function(error) {
+ 						   swal("系统异常", error,"error");
  					}
  				};
  			if(valid){

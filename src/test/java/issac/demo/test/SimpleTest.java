@@ -19,7 +19,6 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 
 import issac.demo.bo.params.MenuParams;
-import issac.demo.dto.TreeViewResult;
 import issac.demo.mapper.MenuMapperDao;
 import issac.demo.mapper.RoleMapperDao;
 import issac.demo.mapper.UserInfoMapper;
@@ -149,8 +148,9 @@ public class SimpleTest extends AbstractBaseTest {
 
 	@Test
 	public void testTreeView() {
-		TreeViewResult treeViewMenus = menuService.getTreeViewMenusUseTreeMap();
-		System.out.println(JSON.toJSON(treeViewMenus));
+		//TreeViewResult treeViewMenus = menuService.getTreeViewMenusUseTreeMap();
+		/*TreeViewResult treeViewMenus = menuService.getTreeViewMenus(1);*/
+		System.out.println(JSON.toJSON(menuService.getUserMenus(3)));
 	}
 
 	@Test
@@ -166,5 +166,6 @@ public class SimpleTest extends AbstractBaseTest {
 				System.out.println(menuParams.getId());
 			}*/
 	}
+
 
 }

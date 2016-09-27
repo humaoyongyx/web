@@ -1,7 +1,6 @@
 package issac.demo.controller.module;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -23,8 +22,6 @@ public class UserController {
 	UserService userService;
 	@RequestMapping("/addOrUpdate")
 	public @ResponseBody Object addOrUpdate(UserBean userBean, Integer[] roleIdTo) {
-		System.out.println(userBean);
-		System.out.println(Arrays.toString(roleIdTo));
 		UserBean userBeanByNameId = userService.getUserBeanByNameId(userBean.getNameId());
 		if (userBeanByNameId != null) {
 			Integer idExist = userBeanByNameId.getId();

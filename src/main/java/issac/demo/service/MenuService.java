@@ -122,6 +122,83 @@ public class MenuService {
 		return treeViewResult;
 	}
 
+	public TreeViewResult getTreeViewMenus(Integer userId) {
+		List<MenuBean> menuList = menuMapperDao.getAll();
+		List<MenuBean> userMenuList = menuMapperDao.getMenuByUserId(userId);
+		List<MenuBean> rootMenus = new ArrayList<>();
+		List<MenuBean> menuBeans = new LinkedList<>();
+		for (MenuBean menuBean : menuList) {
+			if (menuBean.getPid() == null) {
+				rootMenus.add(menuBean);
+			}
+		}
+		Collections.sort(rootMenus, new MenuComparator());
+		for (MenuBean menuBean : rootMenus) {
+			handleUserMenus(menuBean, menuList, userMenuList);
+			menuBeans.add(menuBean);
+		}
+		TreeViewResult treeViewResult = new TreeViewResult();
+		treeViewResult.setData(menuBeans);
+		return treeViewResult;
+
+	}
+
+	public List<MenuBean> getUserMenus(Integer userId) {
+		List<MenuBean> menuList = menuMapperDao.getAll();
+		List<MenuBean> userMenuList = menuMapperDao.getMenuByUserId(userId);
+		List<MenuBean> rootMenus = new ArrayList<>();
+		List<MenuBean> menuBeans = new LinkedList<>();
+		for (MenuBean menuBean : menuList) {
+			if (menuBean.getPid() == null) {
+				rootMenus.add(menuBean);
+			}
+		}
+		Collections.sort(rootMenus, new MenuComparator());
+		for (MenuBean menuBean : rootMenus) {
+			handleUserMenus(menuBean, menuList, userMenuList);
+			menuBeans.add(menuBean);
+		}
+
+		List<MenuBean> resultMenus = new LinkedList<>();
+		handleMenus(menuBeans, resultMenus);
+		return resultMenus;
+
+	}
+
+	public void handleMenus(List<MenuBean> menuBeans,List<MenuBean> resultMenus) {
+		for (MenuBean menuBean : menuBeans) {
+			resultMenus.add(menuBean);
+			List<MenuBean> nodes = menuBean.getNodes();
+			if (nodes != null) {
+				handleMenus(nodes, resultMenus);
+			}
+		}
+	}
+
+	public void handleUserMenus(MenuBean root, List<MenuBean> menuList, List<MenuBean> userMenuList) {
+		List<MenuBean> list = new ArrayList<>();
+		for (MenuBean menuBean : menuList) {
+			if (menuBean.getPid() != null && menuBean.getPid() == root.getId()) {
+				if (checkFolder(menuBean, menuList)) {
+					handleUserMenus(menuBean, menuList, userMenuList);
+					if (menuBean.getNodes() != null) {
+						list.add(menuBean);
+					}
+				} else {
+					if (userMenuList.contains(menuBean)) {
+						list.add(menuBean);
+					}
+				}
+			}
+		}
+		List<MenuBean> nodes = new LinkedList<>();
+		Collections.sort(list, new MenuComparator());
+		for (MenuBean menuBean : list) {
+			nodes.add(menuBean);
+		}
+		root.setNodes(nodes);
+	}
+
 	public List<MenuBean> find(MenuParams menuParams) {
 		return menuMapperDao.getAllMenus(menuParams);
 	}

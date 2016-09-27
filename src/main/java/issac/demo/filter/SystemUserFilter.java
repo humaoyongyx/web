@@ -21,11 +21,10 @@ public class SystemUserFilter extends AccessControlFilter {
 
 		String requestURI = getPathWithinApplication(request);
 		Subject subject = getSubject(request, response);
-		String username = (String) subject.getPrincipal();
 		Session session = subject.getSession();
 		UserBean user = (UserBean) session.getAttribute("user");
 		
-		if (user.getRoleName().contains("root")) {
+		if (user.getRoleId().contains("1")) {
 			return true;
 		}
 		Object object = session.getAttribute("permission");

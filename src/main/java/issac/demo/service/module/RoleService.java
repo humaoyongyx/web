@@ -226,7 +226,7 @@ public class RoleService {
 			List<RoleBean> userRoleBeanList = new ArrayList<>();
 			RoleBean roleBean = null;
 			for (Entry<Integer, List<RoleResourceBean>> entry : entrySet) {
-				if (userRoleResouceBeans.contains(entry.getValue())) {
+				if (userRoleResouceBeans.containsAll(entry.getValue())) {
 					Integer roleId = entry.getKey();
 					roleBean = new RoleBean();
 					roleBean.setId(roleId);

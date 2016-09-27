@@ -83,17 +83,17 @@
  					},
  					success : function(result) {
  	                  if(result.status==1){
- 	               	   $(addOrUpdateFormDiv).resetForm();
- 	                 	back();
- 	                 	reload();
- 	               	     swal("", "新增或修改成功！","success");
- 	                  }else if (result.status ==0){
- 	               	       swal("新增或修改失败！", result.message,"error");
+	 	               	   $(addOrUpdateFormDiv).resetForm();
+	 	                 	back();
+	 	                 	reload();
+	 	               	     swal("", "新增或修改成功！","success");
+ 	                  }else {
+ 	               	       swal("新增或修改失败", result.message,"error");
  	                  }
  						
  					},
  					error : function(error) {
- 						   swal("", "新增或修改异常！","error");
+ 						   swal("系统异常",error,"error");
  					}
  				};
  			if(valid){

@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import issac.demo.bo.params.MenuParams;
+import issac.demo.dto.Result;
+import issac.demo.model.UserBean;
 import issac.demo.service.MenuService;
 import issac.demo.utils.ExcelUtils;
 
@@ -32,7 +36,9 @@ public class MenuController {
 	@RequestMapping("/show")
 	public @ResponseBody Object show(MenuParams menuParams) {
 		Map<String, Object> data = new HashMap<>();
-		data.put("data", menuService.find(menuParams));
+		Subject subject = SecurityUtils.getSubject();
+		UserBean userBean = (UserBean) subject.getSession().getAttribute("user");
+		data.put("data", menuService.getUserMenus(userBean.getId()));
 		return data;
 	}
 
@@ -54,13 +60,13 @@ public class MenuController {
 		if (menuParams.getPid() != null && menuParams.getUrl() != null && !menuParams.getUrl().trim().equals("")) {
 			menuService.addMenuResources(menuParams);
 		}
-		return "success";
+		return Result.SuccessBean;
 	}
 
 	@RequestMapping("/delete")
 	public @ResponseBody Object delete(MenuParams menuParams) {
 		menuService.delete(menuParams);
-		return "success";
+		return Result.SuccessBean;
 	}
 
 	@RequestMapping("/deleteAll")

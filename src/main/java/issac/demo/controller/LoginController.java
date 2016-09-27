@@ -39,23 +39,20 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/unauthorized", method = RequestMethod.GET)
-	public String unauthorizedPage(HttpServletRequest request) {
-		return "unauthorized";
+	public @ResponseBody Object unauthorizedPage(HttpServletRequest request) {
+		return Result.FailBean.setMessage("您没有权限，请联系管理员！");
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody Object loginValidate(String username, String password, String rememberMe) {
 
-		System.out.println(username);
-		System.out.println(password);
-		System.out.println(rememberMe);
 		boolean rememberMeFlag = false;
 		if (rememberMe != null) {
 			rememberMeFlag = true;
 		}
 		if (CommonUtils.isNotEmpty(username, password)) {
 			Subject subject = SecurityUtils.getSubject();
-			UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMeFlag);
+			UsernamePasswordToken token = new UsernamePasswordToken(username, password, false);
 			try {
 				subject.login(token);
 				Session session = subject.getSession();

@@ -115,11 +115,11 @@
 								<input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="login.password" />" required>
 							</div>
 						</div>
-						<div class="form-group">
+				<%-- 		<div class="form-group">
 							<div class="col-sm-12">
 								  <input type="checkbox" name="rememberMe"> &nbsp;  <strong><font color="white"><spring:message code="login.rememberMe" /></font></strong>
 							</div>
-						</div>
+						</div> --%>
 						<div class="form-group">
 							<div class="col-sm-12">
 								<button type="submit" class="btn btn-success btn-block"> <strong><font color="white"><spring:message code="login.login" /></font></strong></button>

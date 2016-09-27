@@ -12,11 +12,43 @@
   <sql id="Base_Column_List" >
     id, pid, text, icon, url, orderNo
   </sql>
-  <select id="getAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  
+
+  <select id="getModuleListByParams" resultMap="BaseResultMap"  parameterType="java.util.Map">
+      select 
+    <include refid="Base_Column_List" />
+    from menu
+    where 1=1
+    
+  </select>
+    
+  
+  <select id="getAll" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from menu
   </select>
+   
+  <select id="getMenuByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+		   SELECT
+			*
+		FROM
+			menu m
+		WHERE
+			m.id IN (
+				SELECT DISTINCT
+					rs.menuId
+				FROM
+					user_role uro,
+					role_resource ror,
+					resource rs
+				WHERE
+					uro.roleId = ror.roleId
+				AND ror.resourceId = rs.id
+				AND uro.userId = #{userId,jdbcType=INTEGER}
+			)
+  </select>
+  
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from menu
     where id = #{id,jdbcType=INTEGER}

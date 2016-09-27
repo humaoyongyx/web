@@ -51,20 +51,21 @@
          function submit_resource(){
         			var options = {
         				     type:  "post",
+        				     dataType:"json",
         					 url:"${path}/module/resource/addOrUpdate",
         					beforeSubmit : function() {
         					},
         					success : function(result) {
-                               if(result =="success"){
+                               if(result.status ==1){
                             	   cancel_resource();
                             	   swal("", "更新成功！","success");
                                }else{
-                            	   swal("", "更新失败！","error");
+                            	   swal("更新失败", result.message,"error");
                                }
         						
         					},
-        					error : function(result) {
-        						  swal("", "更新失败！","error");
+        					error : function(error) {
+        						  swal("系统异常", error,"error");
         					}
         				};
         				$("#form_addOrUpdate_resource").ajaxSubmit(options);

@@ -116,8 +116,8 @@
  	                  }
  						
  					},
- 					error : function(result) {
- 						   swal("", "新增或修改异常！","error");
+ 					error : function(error) {
+ 						   swal("系统异常", error,"error");
  					}
  				};
  			if(valid){
@@ -132,7 +132,7 @@
  		
  		 $('#user_multiselect').multiselect(); 
  		 
- 		$.getJSON(getUserRolesUrl,{userId:2},function(json){
+ 		$.getJSON(getUserRolesUrl,{userId:"${user.id}"},function(json){
  			currentUserRoleJson=json;
 		});
  		

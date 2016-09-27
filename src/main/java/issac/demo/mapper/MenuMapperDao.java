@@ -9,6 +9,8 @@ public interface MenuMapperDao {
 
 	public List<MenuBean> getAll();
 
+	public List<MenuBean> getMenuByUserId(Integer userId);
+
 	public List<MenuBean> getAllMenus(MenuParams menuParams);
 
 	int insert(MenuBean record);
@@ -18,4 +20,5 @@ public interface MenuMapperDao {
 	int updateByPrimaryKeySelective(MenuBean record);
 
 	int deleteAll(List<Integer> ids);
+
 }
