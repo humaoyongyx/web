@@ -280,11 +280,9 @@
 			</div>
 		
 	       <div class="form-group">&nbsp;&nbsp;</div>
-			<div class="form-group">
 		         <div  id="roleResource" >
 		         
 		         </div>
-	       </div>
 	       
 	        <div class="form-group">&nbsp;&nbsp;</div>
 	        
