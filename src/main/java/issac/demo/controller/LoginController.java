@@ -56,6 +56,7 @@ public class LoginController {
 			try {
 				subject.login(token);
 				Session session = subject.getSession();
+				//session.setTimeout(300000);
 				UserBean user = userMapperDao.getUserBeanByNameId(username);
 				session.setAttribute("permission", resourceMapperDao.getResourceByUserId(user.getId()));
 				session.setAttribute("user", user);
