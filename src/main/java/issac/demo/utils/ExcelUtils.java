@@ -352,6 +352,7 @@ public class ExcelUtils {
 				String methodType = methodParamTypes[0].getName();
 				Cell cell = row.getCell(j);
 				String cellValue = getCellValue(cell);
+				cellValue = CommonUtils.trim(cellValue);
 				switch (methodType) {
 				case "java.util.Date": {
 					if (cellValue != null && !cellValue.trim().equals("")) {

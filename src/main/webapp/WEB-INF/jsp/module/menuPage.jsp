@@ -200,13 +200,13 @@
 				    });
 					$.post("${path}/module/menu/deleteAll", { ids:ids},
 					          function(result){
-								   if(result =="success"){
+								   if(result.status==1){
 									    reload();
 					               	   swal("", "删除成功！","success");
 					                }else{
-					               	   swal("", "删除失败！","error");
+					               	   swal("删除失败", result.message,"error");
 					              } 
-				    });
+				    },"json");
 					
 				}); 
 		}else{

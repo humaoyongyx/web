@@ -24,9 +24,11 @@ import issac.demo.mapper.RoleMapperDao;
 import issac.demo.mapper.UserInfoMapper;
 import issac.demo.mapper.UserInfoMapperDao;
 import issac.demo.mapper.auto.ResourceMapper;
+import issac.demo.model.CityBean;
 import issac.demo.model.MenuBean;
 import issac.demo.model.RoleResourceBean;
 import issac.demo.model.UserInfoBean;
+import issac.demo.service.CityService;
 import issac.demo.service.MenuService;
 import issac.demo.utils.ExcelUtils;
 
@@ -47,6 +49,9 @@ public class SimpleTest extends AbstractBaseTest {
 
 	@Resource
 	RoleMapperDao roleMapperDao;
+
+	@Resource
+	CityService cityService;
 
 	@Test
 	public void testOne() {
@@ -165,6 +170,34 @@ public class SimpleTest extends AbstractBaseTest {
 			if (menuParams.getPid() != null && menuParams.getUrl() != null && !menuParams.getUrl().trim().equals("")) {
 				System.out.println(menuParams.getId());
 			}*/
+	}
+
+	@Test
+	public void testCitys() throws FileNotFoundException {
+		List<CityBean> list = ExcelUtils.importExcel(new FileInputStream("e:/test/citys.xlsx"), null, CityBean.class);
+		for (CityBean cityBean : list) {
+			Integer id = cityBean.getId();
+			String name = cityBean.getName();
+			if (id % 10000 == 0) {
+				System.out.println(id + name + "level:1");
+				cityBean.setLevel(1);
+				cityService.add(cityBean);
+			} else if (id % 100 == 0) {
+				Integer pid = id / 10000 * 10000;
+				System.out.println(id + name + "level:2,parentId:" + pid);
+				cityBean.setPid(pid);
+				cityBean.setLevel(2);
+				cityService.add(cityBean);
+			} else {
+				Integer pid = id / 100 * 100;
+				System.out.println(id + name + "level:3,parentId:" + id / 100 * 100);
+				cityBean.setPid(pid);
+				cityBean.setLevel(3);
+				cityService.add(cityBean);
+			}
+
+		}
+		System.out.println(list);
 	}
 
 

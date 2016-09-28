@@ -50,7 +50,9 @@
 			}
 		}
 	});
-
+//set fileinput default language zh
+ $.fn.fileinputLocales.en= $.fn.fileinputLocales['zh'];
+ 
 	//extend plugins
 	$.fn.DataTableServer = function(config) {
 		var defautConfig = {
@@ -70,4 +72,5 @@
 		}
 		return $(this).DataTable(defautConfig);
 	}
+	
 </script>

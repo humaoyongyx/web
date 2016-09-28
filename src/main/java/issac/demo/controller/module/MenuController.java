@@ -79,6 +79,6 @@ public class MenuController {
 		if (ids != null && !ids.isEmpty()) {
 			menuService.deleteAll(ids);
 		}
-		return "success";
+		return Result.SuccessBean;
 	}
 }

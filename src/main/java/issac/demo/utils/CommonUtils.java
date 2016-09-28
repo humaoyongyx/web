@@ -11,7 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CommonUtils {
 
-	public static String unicode2Chinese(String asciicode) {
+	//去掉两端的空白，包括全角空格以及Excel特殊的空白
+	public static String trim(String value) {
+		String regex = "[\\u00a0\\u3000]";
+		return value.replaceAll(regex, " ").trim();
+	}
+	public static String unicode2String(String asciicode) {
 		String[] asciis = asciicode.split("\\\\u");
 		String nativeValue = asciis[0];
 		try {
@@ -26,6 +31,36 @@ public class CommonUtils {
 			return asciicode;
 		}
 		return nativeValue;
+	}
+
+	/** 
+	* 将字符串转成unicode 
+	* @param str 待转字符串 
+	* @return unicode字符串 
+	*/
+	public static String string2Unicode(String str) {
+		str = (str == null ? "" : str);
+		String tmp;
+		StringBuffer sb = new StringBuffer(1000);
+		char c;
+		int i, j;
+		sb.setLength(0);
+		for (i = 0; i < str.length(); i++) {
+			c = str.charAt(i);
+			sb.append("\\u");
+			j = (c >>> 8); //取出高8位 
+			tmp = Integer.toHexString(j);
+			if (tmp.length() == 1)
+				sb.append("0");
+			sb.append(tmp);
+			j = (c & 0xFF); //取出低8位 
+			tmp = Integer.toHexString(j);
+			if (tmp.length() == 1)
+				sb.append("0");
+			sb.append(tmp);
+
+		}
+		return (new String(sb));
 	}
 
 	public static String normalizePath(String path, String... paths) {

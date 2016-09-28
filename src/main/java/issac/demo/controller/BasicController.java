@@ -1,5 +1,7 @@
 package issac.demo.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.shiro.SecurityUtils;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import issac.demo.dto.Result;
 import issac.demo.dto.TreeViewResult;
+import issac.demo.model.CityBean;
 import issac.demo.model.UserBean;
+import issac.demo.service.CityService;
 import issac.demo.service.MenuService;
 import issac.demo.service.module.UserService;
 import issac.demo.utils.CommonUtils;
@@ -25,6 +29,9 @@ public class BasicController {
 
 	@Resource
 	UserService userService;
+
+	@Resource
+	CityService cityService;
 
 	@RequestMapping("/menus")
 	public @ResponseBody TreeViewResult getMenus() {
@@ -66,7 +73,16 @@ public class BasicController {
 			return Result.FailBean.setMessage("输入不能为空！");
 		}
 		return Result.SuccessBean;
+	}
 
+	@RequestMapping("getCites")
+	public @ResponseBody List<CityBean> getCites(Integer pid) {
+		return cityService.getByPid(pid);
+	}
+
+	@RequestMapping("showMap")
+	public String getMap() {
+		return "module/map";
 	}
 
 }

@@ -8,6 +8,8 @@
 <link href="${path}/resources/css/bootstrap-treeview.min.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/select2.min.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/js/minimal/_all.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resources/css/fileinput.min.css" rel="stylesheet" type="text/css" />
+
 
 <link href="${path}/resources/css/project/project.css" rel="stylesheet" type="text/css" />
 
@@ -22,8 +24,12 @@
 <script type="text/javascript" src="${path}/resources/js/jquery-ui-timepicker-addon.js"></script> 
 <script type="text/javascript" src="${path}/resources/js/bootstrap-treeview.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="${path}/resources/js/messages_zh.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/select2.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/multiselect.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/icheck.min.js"></script>
+<script type="text/javascript" src="${path}/resources/js/plugins/canvas-to-blob.min.js"></script>
+<script type="text/javascript" src="${path}/resources/js/fileinput.min.js"></script>
+<script type="text/javascript" src="${path}/resources/js/locales/zh.js"></script>
 
 <%@include file="../js/initJS.jsp"%>
