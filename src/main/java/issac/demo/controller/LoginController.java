@@ -1,5 +1,8 @@
 package issac.demo.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import issac.demo.dto.Result;
 import issac.demo.mapper.ResourceMapperDao;
 import issac.demo.mapper.UserMapperDao;
+import issac.demo.model.PermissionBean;
 import issac.demo.model.UserBean;
 import issac.demo.utils.CommonUtils;
 
@@ -61,7 +65,9 @@ public class LoginController {
 				if (!CommonUtils.isNotEmpty(user.getPhoto())) {
 					user.setPhoto("/pics/default_avatar_male.jpg");
 				}
-				session.setAttribute("permission", resourceMapperDao.getResourceByUserId(user.getId()));
+				List<PermissionBean> permissionBeans = resourceMapperDao.getResourceByUserId(user.getId());
+				session.setAttribute("permission", permissionBeans);
+				session.setAttribute("permissionMap", handlePermissionList(permissionBeans));
 				session.setAttribute("user", user);
 			} catch (LockedAccountException e) {
 				return Result.FailBean.setMessage("用户已被锁定，请联系管理员！");
@@ -73,6 +79,16 @@ public class LoginController {
 		}
 
 		return Result.SuccessBean;
+	}
+
+	public HashMap<String, String> handlePermissionList(List<PermissionBean> permissionBeans) {
+		HashMap<String, String> permissionBeanMap = new HashMap<>();
+		if (permissionBeans != null) {
+			for (PermissionBean permissionBean : permissionBeans) {
+				permissionBeanMap.put(permissionBean.getModuleUrl().replace("/module/", "").replace("/", ""), permissionBean.getAction());
+			}
+		}
+		return permissionBeanMap;
 	}
 
 }

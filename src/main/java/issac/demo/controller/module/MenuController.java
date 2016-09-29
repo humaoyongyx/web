@@ -27,11 +27,6 @@ public class MenuController {
 	@Resource
 	MenuService menuService;
 	
-	@RequestMapping("/")
-	public String page() {
-
-		return "/module/menuPage";
-	}
 
 	@RequestMapping("/show")
 	public @ResponseBody Object show(MenuParams menuParams) {

@@ -114,13 +114,15 @@
 		  SELECT
 			t.id,
 			t.moduleUrl,
-		   GROUP_CONCAT(t.actionUrl SEPARATOR '|') actionUrl
+		  GROUP_CONCAT(t.actionUrl SEPARATOR '|') actionUrl,
+      GROUP_CONCAT(t.action SEPARATOR '|') action
 		FROM
 			(
 				SELECT DISTINCT
 					u.id,
 					m.url moduleUrl,
-					rs.url actionUrl
+					rs.url actionUrl,
+                    rs.action action
 				FROM
 					`user` u,
 					user_role uro,

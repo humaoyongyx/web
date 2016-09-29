@@ -21,11 +21,6 @@ public class ResourceController {
 	@Resource
 	ResourceService resourceService;
 	
-	@RequestMapping("/")
-	public String page() {
-
-		return "/module/resourcePage";
-	}
 
 	@RequestMapping("/show")
 	public String show(HttpServletRequest request, ResourceParams params) {

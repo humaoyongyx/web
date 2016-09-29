@@ -263,10 +263,11 @@
   	   <form id="menuForm" action="${path}/module/menu/exportExcel">
 			<div class="pull-right">
 				   模糊查询： <input type="text" id="menu_search" name="text"> &nbsp;
-				   <input type="submit" class="btn btn-success" value="导出Excel" />&nbsp;
-				   <input type="button" class="btn btn-success" value="新增" onclick="add()" />&nbsp;
-				   <input type="button" class="btn btn-success" value="删除" onclick="del()" />&nbsp;
-				   <input type="button" class="btn btn-success" value="修改" onclick="modify()" />&nbsp;
+				<!--    <input type="submit" class="btn btn-success" value="导出Excel" />&nbsp; -->
+				<c:if test="${add}"> <input type="button" class="btn btn-success" value="新增" onclick="add()" />&nbsp;</c:if>
+				<c:if test="${delete}"> <input type="button" class="btn btn-success" value="删除" onclick="del()" />&nbsp;</c:if>
+				 <c:if test="${modify }"><input type="button" class="btn btn-success" value="修改" onclick="modify()" />&nbsp;</c:if>
+				  
 			</div>
 		</form>
 

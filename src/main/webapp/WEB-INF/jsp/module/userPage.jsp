@@ -307,7 +307,7 @@
   	   <form id="userForm" action="${path}/module/user/exportExcel">
 			<div class="pull-right">
 				   模糊查询： <input type="text" id="user_search" name="text"> &nbsp;
-				   <input type="submit" class="btn btn-success" value="导出Excel" />&nbsp;
+				<!--    <input type="submit" class="btn btn-success" value="导出Excel" />&nbsp; -->
 				   <input type="button" class="btn btn-success" value="新增" onclick="add()" />&nbsp;
 				   <input type="button" class="btn btn-success" value="删除" onclick="del()" />&nbsp;
 				   <input type="button" class="btn btn-success" value="修改" onclick="modify()" />&nbsp;

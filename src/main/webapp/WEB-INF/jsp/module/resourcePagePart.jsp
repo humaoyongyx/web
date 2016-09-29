@@ -15,6 +15,5 @@
 				     <input type="button" class="btn btn-success" value="修改" onclick="modify_resource()" />&nbsp;
 				     <input type="button" class="btn btn-success" value="提交" onclick="submit_resource()" id="resourcePart_submit" />&nbsp;
 					 <input type="button" class="btn btn-success" value="取消" onclick="cancel_resource()" id="resourcePart_cancel" />&nbsp;
-					
 				</div>
 		  </div>		

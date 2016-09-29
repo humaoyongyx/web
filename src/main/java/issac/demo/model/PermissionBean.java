@@ -4,6 +4,7 @@ public class PermissionBean {
 	private Integer id;
 	private String moduleUrl;
 	private String actionUrl;
+	private String action;
 
 	public Integer getId() {
 		return id;
@@ -29,9 +30,17 @@ public class PermissionBean {
 		this.actionUrl = actionUrl;
 	}
 
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
 	@Override
 	public String toString() {
-		return "PermissionBean [id=" + id + ", moduleUrl=" + moduleUrl + ", actionUrl=" + actionUrl + "]";
+		return "PermissionBean [id=" + id + ", moduleUrl=" + moduleUrl + ", actionUrl=" + actionUrl + ", action=" + action + "]";
 	}
 
 }
