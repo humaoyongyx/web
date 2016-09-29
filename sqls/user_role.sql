@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2016-09-19 22:37:17
+Date: 2016-09-30 00:57:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,8 +25,13 @@ CREATE TABLE `user_role` (
   `roleId` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_role_uk_userId_roleId` (`userId`,`roleId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
+INSERT INTO `user_role` VALUES ('1', '1', '1');
+INSERT INTO `user_role` VALUES ('26', '2', '1');
+INSERT INTO `user_role` VALUES ('27', '2', '2');
+INSERT INTO `user_role` VALUES ('17', '3', '3');
+INSERT INTO `user_role` VALUES ('16', '6', '5');
