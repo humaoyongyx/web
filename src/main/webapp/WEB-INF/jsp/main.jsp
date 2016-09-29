@@ -143,7 +143,7 @@ _main_page_hideMenu=true;
   <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 clear_padding_margin right_layout" id="right_layout">
 
     
-<nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px">
+<nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;">
 
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -156,9 +156,10 @@ _main_page_hideMenu=true;
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
+        <li ><a href="#" >Messages <span class="badge">3</span></a></li>
+        <li><a href="#"><img src="${user.photo } " class="img-circle" alt="Responsive image" style="width:20px;height:20px"></a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 选项 <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">${user.name } <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="${path}/logout">退出</a></li>
           </ul>

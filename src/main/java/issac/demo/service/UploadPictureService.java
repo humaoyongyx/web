@@ -44,4 +44,28 @@ public class UploadPictureService {
 		return CommonUtils.normalizePath(picBaseURL) + newFileName;
 	}
 
+	public boolean checkFileSize(MultipartFile file) {
+		long size = file.getSize();
+		long sizeK = (long) Math.ceil(size / 1024.0);
+		System.out.println(sizeK);
+		if (sizeK > 1536) {
+			return false;
+		}
+		return true;
+	}
+
+	public void removeFile(String fileName) {
+		if (CommonUtils.isNotEmpty(fileName)) {
+			fileName = fileName.replace(CommonUtils.normalizePath(picBaseURL), "");
+			String removeFileName = CommonUtils.normalizePath(uploadDir) + fileName;
+			System.out.println(removeFileName);
+			File file = new File(removeFileName);
+			if (file.exists()) {
+				file.delete();
+			}
+		}
+
+
+	}
+
 }

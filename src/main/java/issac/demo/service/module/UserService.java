@@ -54,4 +54,9 @@ public class UserService {
 		String encryptPassword = new SimpleHash(algorithmName, password, ByteSource.Util.bytes(salt), hashIterations).toHex();
 		return encryptPassword;
 	}
+
+	public void encryptPassword(UserBean userBean) {
+		String encryptPassword = new SimpleHash(algorithmName, userBean.getPassword(), ByteSource.Util.bytes(userBean.getSalt()), hashIterations).toHex();
+		userBean.setPassword(encryptPassword);
+	}
 }

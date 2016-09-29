@@ -126,6 +126,8 @@ public class UserBean extends Module {
 	}
 
 	public Boolean getLocked() {
+		if (status == null)
+			return false;
 		if (status == 2) {
 			return true;
 		} else {
@@ -147,6 +149,12 @@ public class UserBean extends Module {
 
 	public void setLocked(Boolean locked) {
 		this.locked = locked;
+	}
+
+	@Override
+	public String toString() {
+		return "UserBean [id=" + id + ", name=" + name + ", nameId=" + nameId + ", password=" + password + ", salt=" + salt + ", status=" + status + ", mobile=" + mobile + ", sex=" + sex + ", photo=" + photo
+				+ ", address=" + address + ", email=" + email + ", roleId=" + roleId + ", roleName=" + roleName + ", locked=" + locked + "]";
 	}
 
 }

@@ -58,6 +58,9 @@ public class LoginController {
 				Session session = subject.getSession();
 				session.setTimeout(1800000);//设置半小时session过期时间
 				UserBean user = userMapperDao.getUserBeanByNameId(username);
+				if (!CommonUtils.isNotEmpty(user.getPhoto())) {
+					user.setPhoto("/pics/default_avatar_male.jpg");
+				}
 				session.setAttribute("permission", resourceMapperDao.getResourceByUserId(user.getId()));
 				session.setAttribute("user", user);
 			} catch (LockedAccountException e) {

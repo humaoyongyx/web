@@ -31,6 +31,8 @@ public class UserController {
 			}
 
 		}
+
+		userService.encryptPassword(userBean);
 		if (userBean.getId() != null) {
 			userService.updateUser(userBean);
 			Integer userId = userBean.getId();
@@ -49,7 +51,6 @@ public class UserController {
 		} else {
 			userService.addUser(userBean);
 			Integer userId = userBean.getId();
-			System.out.println(userId);
 			if (roleIdTo != null) {
 				List<UserRoleBean> userRoleBeans = new ArrayList<>();
 				UserRoleBean bean = null;

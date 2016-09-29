@@ -60,17 +60,13 @@
 					"targets" : [ 3 ],
 					
 				},{
-					"name": "photo", 
-					"data":"photo",
-					"targets" : [4],
-				},{
 					"name": "status",  
 					"data":"status",
-					"targets" : [ 5 ]
+					"targets" : [ 4 ]
 				},{
 					"name": "roleName",  
 					"data":"roleName",
-					"targets" : [6],
+					"targets" : [5]
 					
 				}
 		 ]
@@ -82,7 +78,6 @@
 		 $("#nameId").val(row.nameId);
 		 $("#roleName").val(row.roleName);
 		 $("#status").val(row.status);
-		 $("#photo").val(row.photo);
 	}
 	
 	
@@ -144,35 +139,35 @@
 		$(addOrUpdateDiv).hide();
 	}
 	
-	function cleanForm(){
+	function cleanAddForm(){
 		$(":text",addOrUpdateFormDiv).val("");
 		$("input:hidden",addOrUpdateFormDiv).val("");
 		$("#status option:first").prop("selected",true);
 		$("#user_multiselect").empty();
 		$("#user_multiselect_to").empty();
+		enablePasword();
+	}
+	
+	
+	function cleanModifyForm(){
+		$("#user_multiselect").empty();
+		$("#user_multiselect_to").empty();
+		disablePasword();
 	}
 	
 	function add(){
 		$(pageDiv).hide();
 		$(addOrUpdateDiv).show();
-		cleanForm();
+		cleanAddForm();
 		$.each(currentUserRoleJson,function(i,v){
 			$("#user_multiselect").append('<option value="'+v.id+'" >'+v.name+'</option>');
 		});
-	/* 	$.getJSON(getUserRolesUrl,{userId:2},function(json){
-			$.each(json,function(i,v){
-				$("#user_multiselect").append('<option value="'+v.id+'" >'+v.name+'</option>');
-			});
-		}); */
-	
 	}
 	
 	function modify(){
 		var id=checkSelected1();
 	 	if(id){
-	 		$("#user_multiselect").empty();
-			$("#user_multiselect_to").empty();
-			
+	 		cleanModifyForm();
 		    dTable.rows().data().each(function(row,i){
 			  if(row.id==id){
 				  modifyCopy(row);
@@ -193,8 +188,30 @@
 		}else{
 			   swal("", "请选择一项，或只能修改一项！","info");
 		} 
+	}
 	
-		
+	function disablePasword(){
+		$("#password").attr("disabled",true);
+		$("#password").val("");
+		$("#resetPassword").show();
+	}
+	
+	function enablePasword(){
+		$("#password").attr("disabled",false);
+		$("#password").val("");
+		$("#resetPassword").hide();
+	}
+	
+	function resetPasswordFunc(obj){
+	   var flag=$("#password").attr("disabled");
+	   if(flag=="disabled"){
+		   $(obj).text("取消");
+		   $("#password").attr("disabled",false);
+	   }else{
+		   $(obj).text("重置");
+		   $("#password").val("");
+		   $("#password").attr("disabled",true);
+	   }
 	}
 	
 	function back(){
@@ -306,7 +323,6 @@
 					<th>id</th>
 					<th>名称</th>
 					<th>用户Id</th>
-					<th>头像</th>
 					<th>状态</th>
 					<th>用户组</th>
 				</tr>
@@ -338,9 +354,12 @@
 				</div>
 			</div>
 		    <div class="form-group">
-				<label for="url" class="col-sm-2 control-label">头像</label>
+				<label for="password" class="col-sm-2 control-label">密码</label>
 				<div class="col-sm-4">
-					<input type="text" class="form-control" id="photo" name="photo" placeholder="头像" >
+					<input type="text" class="form-control" id="password" name="password" placeholder="密码" >
+				</div>
+			     <div class="col-sm-2">
+						<button type="button"  class="btn btn-success"  id="resetPassword" onclick="resetPasswordFunc(this)">重置</button>
 				</div>
 			</div>
 		     <div class="form-group">

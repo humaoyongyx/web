@@ -119,7 +119,7 @@
   </insert>
   
    <insert id="insertUserSelective" parameterType="issac.demo.model.UserBean" useGeneratedKeys="true" keyProperty="id">
-     insert into user
+      insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -129,6 +129,9 @@
       </if>
       <if test="nameId != null" >
         nameId,
+      </if>
+      <if test="password != null" >
+        password,
       </if>
       <if test="status != null" >
         status,
@@ -145,6 +148,9 @@
       <if test="address != null" >
         address,
       </if>
+      <if test="email != null" >
+        email,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -155,6 +161,9 @@
       </if>
       <if test="nameId != null" >
         #{nameId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -170,6 +179,9 @@
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

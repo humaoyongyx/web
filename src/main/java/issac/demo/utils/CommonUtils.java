@@ -250,8 +250,16 @@ public class CommonUtils {
 		}
 	}
 
+	public static String getFileExtension(String fileName) {
+		if (isNotEmpty(fileName)) {
+			String[] split = fileName.split("\\.");
+			return "." + split[split.length - 1];
+		}
+		return null;
+	}
 
 
 	public static void main(String[] args) {
+		System.out.println(getFileExtension("xxx.xxes"));
 	}
 }

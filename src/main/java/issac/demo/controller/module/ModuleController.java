@@ -30,7 +30,7 @@ public class ModuleController {
 	private Logger logger = Logger.getLogger(ModuleController.class);
 
 	@RequestMapping("/")
-	public String page(@PathVariable("moduleId") String moduleId) {
+	public String page(@PathVariable("moduleId") String moduleId, HttpServletRequest request) {
 		logger.info("module<" + moduleId + "> [/] invoked!");
 		return "/module/" + moduleId + "Page";
 	}
