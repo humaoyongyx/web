@@ -48,12 +48,22 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody Object loginValidate(String username, String password, String rememberMe) {
+	public @ResponseBody Object loginValidate(String username, String password, String rememberMe, String captcha, HttpServletRequest request) {
 
 		boolean rememberMeFlag = false;
 		if (rememberMe != null) {
 			rememberMeFlag = true;
 		}
+		if (CommonUtils.isNotEmpty(captcha)) {
+			String kaptchaExpected = (String) request.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+			String kaptchaReceived = captcha;
+			if (!kaptchaReceived.equalsIgnoreCase(kaptchaExpected)) {
+				return Result.FailBean.setMessage("验证码不正确！");
+			}
+		}else {
+			return Result.FailBean.setMessage("验证码不能为空！");
+		}
+
 		if (CommonUtils.isNotEmpty(username, password)) {
 			Subject subject = SecurityUtils.getSubject();
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password, false);

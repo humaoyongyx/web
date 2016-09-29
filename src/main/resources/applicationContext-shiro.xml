@@ -18,6 +18,7 @@
 				/logout = logout
 				/resources/**= anon
 				/unauthorized=anon
+				/captcha*=anon
 				/main= user
 				/basic/**=	user
              	/** = user,sysFilter

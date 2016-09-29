@@ -124,6 +124,15 @@
 								<input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="login.password" />" required>
 							</div>
 						</div>
+						
+					<div class="form-group">
+							<div class="col-sm-8">
+								<input type="text" id="captcha" name="captcha" maxlength="4" class="form-control" placeholder="<spring:message code="login.captcha" />"   required /> 
+							</div>
+								<div class="col-sm-4">
+									<img src="${path }/captcha-image" onclick="this.src='captcha-image?d='+new Date().getTime()"  class="img-responsive center-block" />  
+							</div>
+						</div>
 				<%-- 		<div class="form-group">
 							<div class="col-sm-12">
 								  <input type="checkbox" name="rememberMe"> &nbsp;  <strong><font color="white"><spring:message code="login.rememberMe" /></font></strong>

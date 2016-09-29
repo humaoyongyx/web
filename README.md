@@ -12,6 +12,7 @@ Web测试demo项目:<br/>
 10、结合shiro密码加密存储，用户修改密码功能<br/>
 11、boostrap模态框结合iframe显示和交互功能实现<br/>
 12、国际化支持<br/>
+13、登陆验证码支持<br/>
 
 <br/>
 使用到的Plugins:<br/>
