@@ -68,7 +68,7 @@
 	
 	
 	function init(){
-	 	 $("input","#form_userProfile").attr("disabled",true);
+	 	 $(":text","#form_userProfile").attr("disabled",true);
 		 $("select","#form_userProfile").attr("disabled",true); 
 		 $("#roleName").attr("disabled",true);
 		 $("#submit").hide();
@@ -78,7 +78,7 @@
 	
 	function enable(){
 		 $("#roleName").attr("disabled",true);
-	 	 $("input","#form_userProfile").attr("disabled",false);
+	 	 $(":text","#form_userProfile").attr("disabled",false);
 		 $("select","#form_userProfile").attr("disabled",false); 
 		 $("#submit").show();
 		 $("#cancel").show();
