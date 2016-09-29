@@ -56,7 +56,7 @@ public class LoginController {
 			try {
 				subject.login(token);
 				Session session = subject.getSession();
-				//session.setTimeout(300000);
+				session.setTimeout(1800000);//设置半小时session过期时间
 				UserBean user = userMapperDao.getUserBeanByNameId(username);
 				session.setAttribute("permission", resourceMapperDao.getResourceByUserId(user.getId()));
 				session.setAttribute("user", user);

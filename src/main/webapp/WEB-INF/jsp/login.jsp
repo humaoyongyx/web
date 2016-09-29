@@ -22,9 +22,10 @@
 	
 	var _loginFormId="#_loginForm";
 	var _loginFormAction="${path}/login";
-	
+	_validateSession();
 	$(document).ready(function() {
-		
+	
+		//_validateSession();
 		_init();
 		
 		$('input').iCheck({
@@ -88,6 +89,14 @@
 	
 	function hideErrorResult(){
 	      $("#error_result").hide();
+	}
+	
+	function _validateSession(){
+		if(parent){
+		    if(parent._main_tabs_li_home){
+		    	parent.location.reload(true);
+		    }
+		}
 	}
 	
 	</script>
