@@ -14,6 +14,7 @@ import issac.demo.dto.Result;
 import issac.demo.model.UserBean;
 import issac.demo.model.UserRoleBean;
 import issac.demo.service.module.UserService;
+import issac.demo.utils.CommonUtils;
 
 @Controller
 @RequestMapping("/module/user")
@@ -31,8 +32,10 @@ public class UserController {
 			}
 
 		}
-
-		userService.encryptPassword(userBean);
+		System.out.println(userBean);
+		if (CommonUtils.isNotEmpty(userBean.getPassword())) {
+			userService.encryptPassword(userBean);
+		}
 		if (userBean.getId() != null) {
 			userService.updateUser(userBean);
 			Integer userId = userBean.getId();
