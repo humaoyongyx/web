@@ -12,6 +12,33 @@
 #_main_layout_center  .nav-tabs>li>a {
      padding: 10px 5px 10px 15px;
  }
+ 
+ .main_page {
+	font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color: #f3f3f4;
+	color: #676a6c;
+	height:100%;
+}
+.header_logo {
+
+	height:50px;
+	width:100%;
+}
+.clear_padding_margin {
+	padding:0px ;
+	margin:0px ;
+}
+
+.clear-border_radius {
+	border-radius:0px;
+}
+
+
+.left_layout {
+    background-color: #2f4050;
+	border:1px solid green;
+	height: 100%;
+}
 </style>
 </head>
 <body>

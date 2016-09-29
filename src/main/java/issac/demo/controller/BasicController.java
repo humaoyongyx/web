@@ -99,6 +99,7 @@ public class BasicController {
 			if (uploadPictureService.checkFileSize(photoFile)) {
 				String newFileName = System.currentTimeMillis() + CommonUtils.getFileExtension(photoFile.getOriginalFilename());
 				photoName = uploadPictureService.upload(photoFile, newFileName);
+				uploadPictureService.removeFile(user.getPhoto());
 			}else {
 				return Result.FailBean.setMessage("图片大小不能超过1.5M！");
 			}
@@ -106,7 +107,6 @@ public class BasicController {
 
 		if (user != null) {
 			user.setPassword(null);
-			uploadPictureService.removeFile(user.getPhoto());
 			user.setPhoto(photoName);
 			userService.updateUser(user);
 		}
