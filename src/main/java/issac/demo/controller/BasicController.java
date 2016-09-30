@@ -52,6 +52,10 @@ public class BasicController {
 
 	}
 	
+	@RequestMapping("/home")
+	public String showHome() {
+		return "home";
+	}
 	@RequestMapping("/showUserProfilePart")
 	public String getUser(HttpServletRequest request) {
 		UserBean userBean = (UserBean) SecurityUtils.getSubject().getSession().getAttribute("user");

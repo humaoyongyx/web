@@ -1,6 +1,39 @@
-# web
-Web测试demo项目:<br/>
-   <p>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@include file="taglib.jsp"%>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<%@include file="header.jsp"%>
+
+<title>主页</title>
+<style type="text/css">
+  body{
+     background-image:url("${path}/resources/images/home.jpg"); 
+     background-repeat:no-repeat;
+     background-size:cover;
+     color: gray; 
+  }
+  
+  
+
+</style>
+</head>
+<body>
+	<script>
+	$(document).ready(function() {
+		
+	});
+	
+	</script>
+ <div class="container-fluid">	
+     <center>
+                    <h1>控台系统</h1>
+     </center>
+     
+     <div>
+     <p>
          <p><b>用户功能</b></p>
           1、登陆验证，密码加密、验证码支持<br/>
           2、权限控制，菜单权限控制，页面增删改查和后台增删改查权限控制<br/>
@@ -32,4 +65,11 @@ Web测试demo项目:<br/>
          <p><b>后台技术和数据库以及开发工具</b></p>
           1、SpringMVC、Mybatis、shiro、mysql<br/>
           2、maven、git<br/>
-   </p>
+  </p>
+  
+  </div>
+     
+     
+</div>
+</body>
+</html>

@@ -36,7 +36,7 @@
 
 .left_layout {
     background-color: #2f4050;
-	border:1px solid green;
+	border:0;
 	height: 100%;
 }
 </style>
@@ -209,7 +209,7 @@ _main_page_hideMenu=true;
 			
 			  <div role="tabpanel" class="tab-pane active " id="_main_tabs_content_home" >
 			  
-			        <iframe src="${path}/userInfo/page2"  id="_main_tabs_iframe_home"  style="border:0px;width:100%" onload="_resizeIframeHeight(this)"></iframe>
+			        <iframe src="${path}/basic/home"  id="_main_tabs_iframe_home"  style="border:0px;width:100%" onload="_resizeIframeHeight(this)"></iframe>
 			  </div> 
 			  
 			</div>
