@@ -71,7 +71,14 @@
 				},{
 					"name": "status",  
 					"data":"status",
-					"targets" : [ 7 ]
+					"targets" : [ 7 ],
+					 "render": function(data, type, row) { 
+					     if(data==1 ){
+					    	 return "有效";
+					     }else{
+					    	 return "失效";
+					     }
+                    }
 				},{
 					"name": "runStatus",  
 					"data":"runStatus",
