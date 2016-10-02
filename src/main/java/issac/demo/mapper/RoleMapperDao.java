@@ -5,9 +5,9 @@ import java.util.List;
 import issac.demo.model.RoleBean;
 import issac.demo.model.RoleResourceBean;
 import issac.demo.model.UserRoleBean;
-import issac.demo.service.module.IModule;
+import issac.demo.service.module.IModuleDao;
 
-public interface RoleMapperDao extends IModule<RoleBean> {
+public interface RoleMapperDao extends IModuleDao<RoleBean> {
 
 	public List<RoleResourceBean> getRoleResourcePageList(int roleId);
 

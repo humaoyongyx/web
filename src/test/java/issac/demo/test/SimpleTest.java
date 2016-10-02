@@ -27,7 +27,11 @@ import issac.demo.mapper.auto.ResourceMapper;
 import issac.demo.model.CityBean;
 import issac.demo.model.MenuBean;
 import issac.demo.model.RoleResourceBean;
+import issac.demo.model.SchedulerBean;
 import issac.demo.model.UserInfoBean;
+import issac.demo.scheduler.SchedulerUtils;
+import issac.demo.scheduler.SimpleJob;
+import issac.demo.scheduler.SimpleJob2;
 import issac.demo.service.CityService;
 import issac.demo.service.MenuService;
 import issac.demo.utils.ExcelUtils;
@@ -52,6 +56,9 @@ public class SimpleTest extends AbstractBaseTest {
 
 	@Resource
 	CityService cityService;
+
+	@Resource
+	SchedulerUtils commonScheduler;
 
 	@Test
 	public void testOne() {
@@ -200,5 +207,33 @@ public class SimpleTest extends AbstractBaseTest {
 		System.out.println(list);
 	}
 
+	@Test
+	public void testScheduler() throws InterruptedException {
+		SchedulerBean schedulerBean=new SchedulerBean();
+		schedulerBean.setId(1);
+		schedulerBean.setCron("* * * * * ?");
+		schedulerBean.setParams("test,test");
+		commonScheduler.addJob(schedulerBean, SimpleJob.class);
+		commonScheduler.start();
+		Thread.sleep(3000);
+		schedulerBean.setId(2);
+		schedulerBean.setParams("test2,test2");
+		commonScheduler.addJob(schedulerBean, SimpleJob2.class);
+		Thread.sleep(3000);
+		schedulerBean.setId(1);
+		schedulerBean.setParams("test3,test3");
+		commonScheduler.modifyJob(schedulerBean);
+		/*	commonScheduler.addJob("test", "test", TestJob.class, "* * * * * ?");
+			commonScheduler.start();
+			Thread.sleep(3000);
+			commonScheduler.pauseJob("test", "test");
+			Thread.sleep(3000);
+			commonScheduler.resumeJob("test", "test");
+			Thread.sleep(3000);
+			//	quartzUtils.removeJob("test", "test");
+			Thread.sleep(6000);
+			commonScheduler.addJob("test", "test", TestJob2.class, "* * * * * ?");*/
+
+	}
 
 }

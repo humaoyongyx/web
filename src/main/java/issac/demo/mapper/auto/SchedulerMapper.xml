@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="issac.demo.mapper.auto.SchedulerMapper" >
+  <resultMap id="BaseResultMap" type="issac.demo.model.auto.Scheduler" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="group" property="group" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="cron" property="cron" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="params" property="params" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="runStatus" property="runStatus" jdbcType="INTEGER" />
+    <result column="beanName" property="beanName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, group, description, cron, createTime, params, status, runStatus, beanName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from scheduler
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from scheduler
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="issac.demo.model.auto.Scheduler" >
+    insert into scheduler (id, name, group, 
+      description, cron, createTime, 
+      params, status, runStatus, 
+      beanName)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{group,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{cron,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{params,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{runStatus,jdbcType=INTEGER}, 
+      #{beanName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="issac.demo.model.auto.Scheduler" >
+    insert into scheduler
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="group != null" >
+        group,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="cron != null" >
+        cron,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="params != null" >
+        params,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="runStatus != null" >
+        runStatus,
+      </if>
+      <if test="beanName != null" >
+        beanName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null" >
+        #{group,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null" >
+        #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="params != null" >
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="runStatus != null" >
+        #{runStatus,jdbcType=INTEGER},
+      </if>
+      <if test="beanName != null" >
+        #{beanName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="issac.demo.model.auto.Scheduler" >
+    update scheduler
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null" >
+        group = #{group,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="cron != null" >
+        cron = #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="params != null" >
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="runStatus != null" >
+        runStatus = #{runStatus,jdbcType=INTEGER},
+      </if>
+      <if test="beanName != null" >
+        beanName = #{beanName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="issac.demo.model.auto.Scheduler" >
+    update scheduler
+    set name = #{name,jdbcType=VARCHAR},
+      group = #{group,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      cron = #{cron,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      params = #{params,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      runStatus = #{runStatus,jdbcType=INTEGER},
+      beanName = #{beanName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

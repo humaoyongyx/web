@@ -48,9 +48,13 @@
         </table>
      <table tableName="user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/>
-        </table>-->
+        </table>
         
          <table tableName="city" domainObjectName="City" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        -->
+         <table tableName="scheduler" domainObjectName="Scheduler" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true"/>
         </table>
     </context>

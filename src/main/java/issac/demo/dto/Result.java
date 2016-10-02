@@ -45,6 +45,14 @@ public class Result {
 		return new Result(status, message);
 	}
 
+	public static Result success() {
+		return SuccessBean;
+	}
+
+	public static Result fail(String message) {
+		return getResult(FAIL, message);
+	}
+
 	@Override
 	public String toString() {
 		return "Result [status=" + status + ", message=" + message + "]";

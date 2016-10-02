@@ -2,7 +2,7 @@ package issac.demo.model;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class UserBean extends Module {
+public class UserBean extends ModuleBean {
 
 	private Integer id;
 

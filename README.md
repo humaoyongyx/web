@@ -10,7 +10,7 @@ Web测试demo项目:<br/>
           6、百度地图支持<br/>
           7、多Tab打开和关闭，关闭可以记住最后一次打开的窗口<br/>
           8、图片上传功能，可以修改头像<br/>
-          7、全国省市县三级菜单支持，左右layout可以伸缩功能<br/>
+          9、全国省市县三级菜单支持，左右layout可以伸缩功能<br/>
          <br/>
          <p><b>开发功能</b></p>
           1、菜单动态从数据库配置，可以利用Module类直接写页面，无需关心菜单细节<br/>
@@ -20,6 +20,7 @@ Web测试demo项目:<br/>
           5、使用boostrap默认可以自适应iframe<br/>
           6、国际化支持、文件属性配置支持<br/>
           7、服务器分页支持<br/>
+          8、自动增加和移除Job功能<br/>
           </p>
           <br/>
          <p><b>页面使用的技术及插件</b></p>
@@ -31,5 +32,6 @@ Web测试demo项目:<br/>
           <br/>
          <p><b>后台技术和数据库以及开发工具</b></p>
           1、SpringMVC、Mybatis、shiro、mysql<br/>
-          2、maven、git<br/>
+          2、quartz
+          3、maven、git<br/>
    </p>

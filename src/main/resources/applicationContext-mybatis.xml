@@ -42,6 +42,9 @@
   
   <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
         <tx:attributes>
+            <tx:method name="start*" propagation="REQUIRED" />
+            <tx:method name="stop*" propagation="REQUIRED" />
+            <tx:method name="refresh*" propagation="REQUIRED" />
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="insert*" propagation="REQUIRED" />
             <tx:method name="save*" propagation="REQUIRED" />

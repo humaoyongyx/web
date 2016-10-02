@@ -6,7 +6,7 @@ import java.util.Map;
 import issac.demo.utils.SpringUtils;
 
 public class ModuleService<T> {
-	private IModule<T> module;
+	private IModuleDao<T> module;
 	
 	public ModuleService(String moduleId) {
 		this.module = SpringUtils.getBean(moduleId + "MapperDao");

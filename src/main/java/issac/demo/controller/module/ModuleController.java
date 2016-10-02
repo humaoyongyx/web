@@ -32,9 +32,9 @@ public class ModuleController {
 	@RequestMapping("/")
 	public String page(@PathVariable("moduleId") String moduleId, HttpServletRequest request) {
 
-		UserUtils.handlePermissions(request, moduleId);
+		ControllerUtils.handlePermissions(request, moduleId);
 		logger.info("module<" + moduleId + "> [/] invoked!");
-		return "/module/" + moduleId + "Page";
+		return "module/" + moduleId + "Page";
 	}
 
 

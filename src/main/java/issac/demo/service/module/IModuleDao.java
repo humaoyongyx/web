@@ -3,7 +3,7 @@ package issac.demo.service.module;
 import java.util.List;
 import java.util.Map;
 
-public interface IModule<T> {
+public interface IModuleDao<T> {
 
 	public <T> List<T> getModuleListByParams(Map<String, Object> params);
 
@@ -14,4 +14,5 @@ public interface IModule<T> {
 	int updateByPrimaryKeySelective(Map<String, Object> params);
 
 	public void deleteAll(List<Integer> ids);
+
 }
