@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="issac.demo.mapper.SysConfigMapperDao" >
+  
+  
+  <sql id="Base_Column_List" >
+    id, category, `key`, value, value2, value3
+  </sql>
+  
+ <select id="getModuleBeansByParams"   resultType= "issac.demo.model.sys.SysConfigBean"  parameterType="java.util.Map">
+     select 
+    <include refid="Base_Column_List" />
+    from sys_config
+    where 1=1
+    <if test="category != null" >
+      AND   category =  #{category,jdbcType=VARCHAR}
+     </if>
+      <if test="key != null" >
+      AND   key =  #{key,jdbcType=VARCHAR}
+     </if>
+  </select>
+  
+  <update id="updateModuleItemByParams" parameterType="java.util.Map">
+    update sys_config
+    <set >
+        updateTime= now(),
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="value2 != null" >
+        value2 = #{value2,jdbcType=VARCHAR},
+      </if>
+      <if test="value3 != null" >
+        value3 = #{value3,jdbcType=VARCHAR},
+      </if>
+    </set>
+	    where category = #{category,jdbcType=VARCHAR}
+	    AND `key`=#{key,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

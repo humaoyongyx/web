@@ -28,6 +28,35 @@
 
 <bean class="issac.demo.utils.SpringUtils"></bean>
 
-<bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" ></bean>
+<bean id="schedulerUtils" class="issac.demo.scheduler.SchedulerUtils" >
+    <property name="scheduler" >
+         <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"/>
+    </property>
+</bean>
 
+    
+    <bean id="emailService"  class="issac.demo.service.EmailService">
+          <property name="mailSenderImpl">
+            <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+				      <property name="protocol" value="smtp" />  
+				      <property name="host" value="localhost" />  
+				      <property name="port" value="25" />  
+				      <property name="username" value="help@yx.com" />  
+				      <property name="password" value="1" />  
+				      <property name="javaMailProperties">  
+				          <props>  
+				              <prop key="mail.smtp.auth">true</prop>  
+				          </props>  
+				      </property>  
+             </bean>
+          </property>
+          <property name="threadPool">
+              <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">  
+			        <property name ="corePoolSize" value ="5" /> 
+				    <property name ="keepAliveSeconds" value ="300" /> 
+				    <property name ="maxPoolSize" value ="10" /> 
+				    <property name ="queueCapacity" value ="25" />   
+			    </bean>  
+          </property>
+    </bean>
 </beans>

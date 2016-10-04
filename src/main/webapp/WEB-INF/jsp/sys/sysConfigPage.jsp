@@ -16,8 +16,10 @@
 				loadPage();
 			});
 	          var sys_schedulerPage="#sys_scheduler";
+	          var sys_emailPage="#sys_mail";
 			function loadPage(){
 				$(sys_schedulerPage).load("${path}/sys/showScheduler/",{status:1});
+				$(sys_emailPage).load("${path}/sys/showEmail/");
 			}
 	</script>
 	

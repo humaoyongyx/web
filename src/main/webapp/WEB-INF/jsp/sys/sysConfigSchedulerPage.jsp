@@ -41,9 +41,9 @@
  
  
 		 function update(id){
-		 	$.post("${path}/sys/updateSchedulerRefresh/",{id:id},function(result){
+		 	$.post("${path}/sys/updateSchedulerRefresh",{id:id},function(result){
 		 		  if(result.status ==1){
-		 			     refresh();
+		 			 refresh_scheduler();
 		            	     swal("", "刷新成功！","success");
 		             }else{
 		            	   swal("刷新失败！",result.message,"error");
@@ -54,9 +54,9 @@
  
  
         function start(id){
-        	$.post("${path}/sys/addSchedulerStart/",{id:id},function(result){
+        	$.post("${path}/sys/addSchedulerStart",{id:id},function(result){
         		  if(result.status ==1){
-        			     refresh();
+        			     refresh_scheduler();
 	               	     swal("", "启动成功！","success");
 	                }else{
 	               	   swal("启动失败！",result.message,"error");
@@ -66,9 +66,9 @@
         }
         
         function stop(id){
-        	$.post("${path}/sys/addSchedulerStop/",{id:id},function(result){
+        	$.post("${path}/sys/addSchedulerStop",{id:id},function(result){
       		  if(result.status ==1){
-      			     refresh();
+      			        refresh_scheduler();
 	               	     swal("", "停止成功！","success");
 	                }else{
 	               	   swal("停止失败！",result.message,"error");
@@ -77,7 +77,7 @@
       	},"json");
         }
         
-        function refresh(){
-        	$(sys_schedulerPage).load("${path}/sys/showScheduler/",{status:1});
+        function refresh_scheduler(){
+        	$(sys_schedulerPage).load("${path}/sys/showScheduler",{status:1});
         }
  </script>

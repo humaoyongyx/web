@@ -104,5 +104,10 @@ public class TestController {
 		System.out.println(params);
 	}
 
+	@RequestMapping("/testftl")
+	public String testFtl(HttpServletRequest request) {
+		request.setAttribute("message", "Say hi for Freemarker.");
+		return "testFtl";
+	}
 
 }

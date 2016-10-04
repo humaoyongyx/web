@@ -18,9 +18,11 @@ Web测试demo项目:<br/>
           3、页面模板继承，可以直接复制，简单的页面直接生成<br/>
           4、开发只需关心业务逻辑，控台基本功能可以默认实现<br/>
           5、使用boostrap默认可以自适应iframe<br/>
-          6、国际化支持、文件属性配置支持<br/>
+          6、国际化支持、文件属性配置支持、freemarker模板支持<br/>
           7、服务器分页支持<br/>
           8、自动增加和移除Job功能<br/>
+          9、增加系统配置模块，子类可以直接继承使用其通用方法<br/>
+          10、增加Email通用类，支持图片和附件<br/>
           </p>
           <br/>
          <p><b>页面使用的技术及插件</b></p>
@@ -32,6 +34,6 @@ Web测试demo项目:<br/>
           <br/>
          <p><b>后台技术和数据库以及开发工具</b></p>
           1、SpringMVC、Mybatis、shiro、mysql<br/>
-          2、quartz
+          2、quartz、javaMail<br/>
           3、maven、git<br/>
    </p>

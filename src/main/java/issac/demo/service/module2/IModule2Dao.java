@@ -5,15 +5,18 @@ import java.util.Map;
 
 public interface IModule2Dao<T> {
 
-	int addModuleItemByParams(Map<String, Object> params);
+	public int addModuleItemByParams(Map<String, Object> params);
 
-	int deleteModuleItemById(Integer id);
+	public int deleteModuleItemById(Integer id);
 
-	int deleteModuleItemsByIds(List<Integer> ids);
+	public int deleteModuleItemsByIds(List<Integer> ids);
 
-	int updateModuleItemByParams(Map<String, Object> params);
+	public int updateModuleItemByParams(Map<String, Object> params);
 
+	@Deprecated
 	public List<T> getModulePageByParams(Map<String, Object> params);
+
+	public List<T> getModuleBeansByParams(Map<String, Object> params);
 
 	public T getModuleBeanByParams(Map<String, Object> params);
 
