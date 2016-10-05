@@ -2,6 +2,7 @@ package issac.demo.service;
 
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,7 @@ import issac.demo.model.sys.EmailBean;
 import issac.demo.model.sys.EmailConfigBean;
 import issac.demo.model.sys.SysConfigModuleBean;
 import issac.demo.utils.EmailUtils;
+import issac.demo.utils.FreemarkerUtils;
 
 public class EmailService extends SysConfigService<EmailConfigBean> {
 
@@ -42,6 +44,21 @@ public class EmailService extends SysConfigService<EmailConfigBean> {
 		return emailConfig;
 	}
 
+	public void sendMailWithTemplate(String subject, String receiver, String content) {
+		String imagePath = EmailService.class.getResource("/").getPath() + "image/";
+		Map<String, String> pictures = new HashMap<String, String>();
+		pictures.put("image", imagePath + "emailBG.jpg");
+		EmailBean emailBean = new EmailBean();
+		emailBean.setSubject(subject);
+		emailBean.setReceivers(new String[] { receiver });
+		emailBean.setPictures(pictures);
+		Map<String, Object> root=new HashMap<>();
+		root.put("content", content);
+		String newContent = FreemarkerUtils.printString("mail.ftl", root);
+		System.out.println(newContent);
+		emailBean.setContent(newContent);
+		sendMail(emailBean);
+	}
 	public void sendMail(EmailBean emailBean) {
 		sendMail(emailBean, null);
 	}

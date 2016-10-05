@@ -59,4 +59,18 @@
 			    </bean>  
           </property>
     </bean>
+    
+    
+        <bean id="mailSender"  class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+				      <property name="protocol" value="smtp" />  
+				      <property name="host" value="localhost" />  
+				      <property name="port" value="25" />  
+				      <property name="username" value="help@yx.com" />  
+				      <property name="password" value="1" />  
+				      <property name="javaMailProperties">  
+				          <props>  
+				              <prop key="mail.smtp.auth">true</prop>  
+				          </props>  
+				      </property>  
+      </bean>
 </beans>
