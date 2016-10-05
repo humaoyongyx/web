@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2016-10-02 19:12:30
+Date: 2016-10-05 18:51:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,5 +36,5 @@ CREATE TABLE `scheduler` (
 -- ----------------------------
 -- Records of scheduler
 -- ----------------------------
-INSERT INTO `scheduler` VALUES ('5', '测试调度器', null, '测试调度器', '0 * * * * ?', '2016-10-02 16:47:15', 'test', '1', '0', 'simpleJob');
-INSERT INTO `scheduler` VALUES ('6', '调度器测试2', null, '调度器测试2', '0 * * * * ?', '2016-10-02 17:45:11', 'test2', '1', '1', 'simpleJob2');
+INSERT INTO `scheduler` VALUES ('5', '测试调度器', null, '测试调度器', '0 0 * * * ?', '2016-10-02 16:47:15', 'test', '1', '0', 'simpleJob');
+INSERT INTO `scheduler` VALUES ('6', '调度器测试2', null, '调度器测试2', '0 0 * * * ?', '2016-10-02 17:45:11', 'test2', '1', '0', 'simpleJob2');

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2016-09-30 00:56:55
+Date: 2016-10-05 18:51:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,7 +25,7 @@ CREATE TABLE `role` (
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `role_uk_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role
@@ -35,3 +35,4 @@ INSERT INTO `role` VALUES ('2', 'user', '2016-09-24 16:03:48');
 INSERT INTO `role` VALUES ('3', '测试组', '2016-09-27 14:45:28');
 INSERT INTO `role` VALUES ('4', '管理员', '2016-09-28 12:14:35');
 INSERT INTO `role` VALUES ('5', '来宾访问组', '2016-09-29 14:16:50');
+INSERT INTO `role` VALUES ('6', '基本角色', '2016-10-01 23:07:30');

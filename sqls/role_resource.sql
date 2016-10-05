@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2016-09-30 00:57:06
+Date: 2016-10-05 18:51:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,7 @@ CREATE TABLE `role_resource` (
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `role_uk_roleId_resourceId` (`roleId`,`resourceId`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role_resource
@@ -83,15 +83,25 @@ INSERT INTO `role_resource` VALUES ('164', '4', '13', '2016-09-28 12:14:35');
 INSERT INTO `role_resource` VALUES ('165', '4', '14', '2016-09-28 12:14:35');
 INSERT INTO `role_resource` VALUES ('166', '4', '15', '2016-09-28 12:14:35');
 INSERT INTO `role_resource` VALUES ('167', '4', '16', '2016-09-28 12:14:35');
-INSERT INTO `role_resource` VALUES ('168', '5', '49', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('169', '5', '50', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('170', '5', '51', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('171', '5', '52', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('172', '5', '53', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('173', '5', '54', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('174', '5', '55', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('175', '5', '56', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('176', '5', '1', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('177', '5', '5', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('178', '5', '9', '2016-09-29 14:16:50');
-INSERT INTO `role_resource` VALUES ('179', '5', '13', '2016-09-29 14:16:50');
+INSERT INTO `role_resource` VALUES ('180', '6', '49', '2016-10-01 23:07:30');
+INSERT INTO `role_resource` VALUES ('181', '6', '50', '2016-10-01 23:07:30');
+INSERT INTO `role_resource` VALUES ('182', '6', '51', '2016-10-01 23:07:30');
+INSERT INTO `role_resource` VALUES ('183', '6', '52', '2016-10-01 23:07:30');
+INSERT INTO `role_resource` VALUES ('184', '6', '53', '2016-10-01 23:07:30');
+INSERT INTO `role_resource` VALUES ('185', '6', '54', '2016-10-01 23:07:30');
+INSERT INTO `role_resource` VALUES ('186', '6', '55', '2016-10-01 23:07:30');
+INSERT INTO `role_resource` VALUES ('187', '6', '56', '2016-10-01 23:07:30');
+INSERT INTO `role_resource` VALUES ('188', '5', '49', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('189', '5', '50', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('190', '5', '51', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('191', '5', '52', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('192', '5', '53', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('193', '5', '54', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('194', '5', '55', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('195', '5', '56', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('196', '5', '1', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('197', '5', '5', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('198', '5', '9', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('199', '5', '13', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('200', '5', '77', '2016-10-05 12:30:52');
+INSERT INTO `role_resource` VALUES ('201', '5', '81', '2016-10-05 12:30:52');

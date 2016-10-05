@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2016-09-30 00:56:47
+Date: 2016-10-05 18:51:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `resource` (
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `resource_uk_menuId_action` (`menuId`,`action`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of resource
@@ -57,3 +57,11 @@ INSERT INTO `resource` VALUES ('53', '查看', '15', 'show', 'show.*|get.*|find.
 INSERT INTO `resource` VALUES ('54', '增加', '15', 'add', 'add.*|insert.*|save.*', '2016-09-27 20:54:01');
 INSERT INTO `resource` VALUES ('55', '删除', '15', 'delete', 'delete.*|remove.*', '2016-09-27 20:54:01');
 INSERT INTO `resource` VALUES ('56', '修改', '15', 'modfiy', 'modfiy.*|update.*|edit.*', '2016-09-27 20:54:01');
+INSERT INTO `resource` VALUES ('77', '查看', '18', 'show', 'show.*|get.*|find.*|load.*|search.*', '2016-10-02 13:01:17');
+INSERT INTO `resource` VALUES ('78', '增加', '18', 'add', 'add.*|insert.*|save.*', '2016-10-02 13:01:17');
+INSERT INTO `resource` VALUES ('79', '删除', '18', 'delete', 'delete.*|remove.*', '2016-10-02 13:01:17');
+INSERT INTO `resource` VALUES ('80', '修改', '18', 'modfiy', 'modfiy.*|update.*|edit.*', '2016-10-02 13:01:17');
+INSERT INTO `resource` VALUES ('81', '查看', '19', 'show', 'show.*|get.*|find.*|load.*|search.*', '2016-10-02 14:27:21');
+INSERT INTO `resource` VALUES ('82', '增加', '19', 'add', 'add.*|insert.*|save.*', '2016-10-02 14:27:21');
+INSERT INTO `resource` VALUES ('83', '删除', '19', 'delete', 'delete.*|remove.*', '2016-10-02 14:27:21');
+INSERT INTO `resource` VALUES ('84', '修改', '19', 'modfiy', 'modfiy.*|update.*|edit.*', '2016-10-02 14:27:21');
