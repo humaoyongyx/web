@@ -56,7 +56,8 @@
           8、自动增加和移除Job功能<br/>
           9、增加系统配置模块，子类可以直接继承使用其通用方法<br/>
           10、增加Email通用类，支持图片和附件,增加emailfreemarker模板<br/>
-          11、增加Freemarker工具模板
+          11、增加Freemarker工具模板<br/>
+          12、增加FTP简单的工具类<br/>
           </p>
           <br/>
          <p><b>页面使用的技术及插件</b></p>
