@@ -126,10 +126,10 @@
 						</div>
 						
 					<div class="form-group">
-							<div class="col-sm-8">
+							<div class="col-sm-8 col-xs-6"">
 								<input type="text" id="captcha" name="captcha" maxlength="4" class="form-control" placeholder="<spring:message code="login.captcha" />"   required /> 
 							</div>
-								<div class="col-sm-4">
+								<div class="col-sm-4 col-xs-6">
 									<img src="${path }/captcha-image" onclick="this.src='captcha-image?d='+new Date().getTime()"  class="img-responsive center-block" />  
 							</div>
 						</div>
