@@ -34,6 +34,14 @@
     </property>
 </bean>
 
+
+<bean id="ossService" class="issac.demo.service.OssService">
+           <property name="accessKeyId" value="LTAIMF48THln2DhJ"/>
+           <property name="accessKeySecret" value="8imiLFFbM70ErsBCHaWhiUrTxy7eAV"/>
+           <property name="bucketName" value="issactest02"></property>
+           <property name="endpoint" value="http://oss-cn-shanghai.aliyuncs.com"/>
+</bean>
+
     
     <bean id="emailService"  class="issac.demo.service.EmailService">
           <property name="mailSenderImpl">

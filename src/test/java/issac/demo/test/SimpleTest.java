@@ -3,6 +3,7 @@ package issac.demo.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -34,6 +35,7 @@ import issac.demo.scheduler.SimpleJob;
 import issac.demo.scheduler.SimpleJob2;
 import issac.demo.service.CityService;
 import issac.demo.service.MenuService;
+import issac.demo.service.OssService;
 import issac.demo.utils.ExcelUtils;
 
 
@@ -60,6 +62,16 @@ public class SimpleTest extends AbstractBaseTest {
 	@Resource
 	SchedulerUtils commonScheduler;
 
+	@Resource
+	OssService ossService;
+
+	@Test
+	public void testOss() throws IOException {
+		File file = new File("E:\\df.docx");
+		String uploadFile = ossService.uploadFile("df2.docx", new FileInputStream(file), "");
+		System.out.println(uploadFile);
+		
+	}
 	@Test
 	public void testOne() {
 		List<RoleResourceBean> roleResourceList = roleMapperDao.getRoleResourcePageList(-1);
