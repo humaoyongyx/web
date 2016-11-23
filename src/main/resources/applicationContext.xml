@@ -40,6 +40,7 @@
            <property name="accessKeySecret" value="8imiLFFbM70ErsBCHaWhiUrTxy7eAV"/>
            <property name="bucketName" value="issactest02"></property>
            <property name="endpoint" value="http://oss-cn-shanghai.aliyuncs.com"/>
+           <property name="accessUrl" value="http://issactest02.oss-cn-shanghai.aliyuncs.com/"/>
 </bean>
 
     

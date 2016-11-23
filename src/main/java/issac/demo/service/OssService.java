@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.log4j.Logger;
+import org.springframework.util.StreamUtils;
 
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
@@ -24,8 +25,9 @@ public class OssService {
 	public String uploadFile(String key, File file) throws IOException {
 		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 		try {
-			logger.info("upload file "+key+" to OSS!");
+			logger.info("upload file "+key+" to OSS.");
 			ossClient.putObject(bucketName, key, file);
+			logger.info("upload file "+key+" to OSS successfully");
 		} catch (OSSException oe) {
 			oe.printStackTrace();
 		} catch (ClientException ce) {
@@ -36,11 +38,33 @@ public class OssService {
 		return accessUrl + key;
 	}
 
-	public String uploadFile(String key, InputStream file, String contentType) {
+	public String uploadFile(String key, InputStream inputStream) {
 		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		try {
-			objectMetadata.setContentLength(file.available());
+			objectMetadata.setContentLength(inputStream.available());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			logger.info("begin to upload file "+key+" to OSS.");
+			ossClient.putObject(bucketName, key, inputStream, objectMetadata);
+			logger.info("upload file "+key+" to OSS successfully");
+		} catch (OSSException oe) {
+			oe.printStackTrace();
+		} catch (ClientException ce) {
+			ce.printStackTrace();
+		} finally {
+			ossClient.shutdown();
+		}
+		return accessUrl + key;
+	}
+	
+	public String uploadFile(String key, InputStream inputStream, String contentType) {
+		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+		ObjectMetadata objectMetadata = new ObjectMetadata();
+		try {
+			objectMetadata.setContentLength(inputStream.available());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,9 +80,9 @@ public class OssService {
 		}
 		objectMetadata.setContentType(contentType);
 		try {
-			logger.info("upload file "+key+" to OSS!");
-			ossClient.putObject(bucketName, key, file, objectMetadata);
-
+			logger.info("begin to upload file "+key+" to OSS.");
+			ossClient.putObject(bucketName, key, inputStream, objectMetadata);
+			logger.info("upload file "+key+" to OSS successfully");
 		} catch (OSSException oe) {
 			oe.printStackTrace();
 		} catch (ClientException ce) {
@@ -69,42 +93,78 @@ public class OssService {
 		return accessUrl + key;
 	}
 
-	public InputStream downloadOssFile(String key) {
+	
+	public byte[] downloadFileWithKey(String key) {
 		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+		byte[] result=null;
 		try {
 			boolean exists = ossClient.doesObjectExist(bucketName, key);
 			if (exists) {
-				logger.info("download file "+key+" from OSS!");
+				logger.info("begin to download file "+key+" from OSS.");
 				OSSObject object = ossClient.getObject(bucketName, key);
-				logger.info("Content-Type: " + object.getObjectMetadata().getContentType());
-				return object.getObjectContent();
+				result= StreamUtils.copyToByteArray(object.getObjectContent());
+				logger.info("download file "+key+" from OSS successfully!");
 			}
 		} catch (OSSException oe) {
 			oe.printStackTrace();
 		} catch (ClientException ce) {
 			ce.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
 			ossClient.shutdown();
 		}
 
-		return null;
+		return result;
 
+	}
+	
+	public OssObj downloadOssObjWithKey(String key) {
+		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+		OssObj ossObj=null;
+		try {
+			boolean exists = ossClient.doesObjectExist(bucketName, key);
+			if (exists) {
+				ossObj=new OssObj();
+				logger.info("begin to download file "+key+" from OSS.");
+				OSSObject object = ossClient.getObject(bucketName, key);
+				ossObj.setData(StreamUtils.copyToByteArray(object.getObjectContent()));
+				ossObj.setContentType(object.getObjectMetadata().getContentType());
+				logger.info("download file "+key+" from OSS successfully");
+			}
+		} catch (OSSException oe) {
+			oe.printStackTrace();
+		} catch (ClientException ce) {
+			ce.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			ossClient.shutdown();
+		}
+
+		return ossObj;
+
+	}
+	
+	public OssObj downloadObj(String url){
+		return downloadOssObjWithKey(url.replace(accessUrl, ""));
 	}
 	/**
 	 * 
 	 * @param key accessURL+key
 	 * @return
 	 */
-	public InputStream downloadFile(String url) {
-		return downloadOssFile(url.replace(accessUrl, ""));
+	public byte[] downloadFile(String url) {
+		return downloadFileWithKey(url.replace(accessUrl, ""));
 	}
-	public boolean deleteOssFile(String key) {
+	public boolean deleteFileWithKey(String key) {
 		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 		try {
 			boolean exists = ossClient.doesObjectExist(bucketName, key);
 			if (exists) {
-				logger.info("delete file "+key+" from OSS!");
+				logger.info("begin to delete file "+key+" from OSS.");
 				ossClient.deleteObject(bucketName, key);
+				logger.info("delete file "+key+" from OSS successfully");
 				return true;
 			}
 		} catch (OSSException oe) {
@@ -124,8 +184,11 @@ public class OssService {
 	 * @return
 	 */
 	public boolean deleteFile(String url) {
-		return deleteOssFile(url.replace(accessUrl, ""));
+		return deleteFileWithKey(url.replace(accessUrl, ""));
 	}
+	
+	
+	
 
 	private static String getContentType(String fileExtensionName) {
 		if (fileExtensionName.toLowerCase().equals("bmp")) {
@@ -156,6 +219,24 @@ public class OssService {
 			return "text/xml";
 		}
 		return "application/octet-stream";
+	}
+	
+	
+	public static class OssObj{
+		private byte[] data;
+		public byte[] getData() {
+			return data;
+		}
+		public void setData(byte[] data) {
+			this.data = data;
+		}
+		public String getContentType() {
+			return contentType;
+		}
+		public void setContentType(String contentType) {
+			this.contentType = contentType;
+		}
+		private String contentType;
 	}
 
 	public String getEndpoint() {

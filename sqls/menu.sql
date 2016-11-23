@@ -42,3 +42,5 @@ INSERT INTO `menu` VALUES ('14', '7', '用户资料', 'glyphicon glyphicon-user'
 INSERT INTO `menu` VALUES ('15', '7', '密码设置', 'glyphicon glyphicon-credit-card', '/module/password/', '2');
 INSERT INTO `menu` VALUES ('18', '1', '调度器设置', 'glyphicon glyphicon-time', '/module2/scheduler/', '5');
 INSERT INTO `menu` VALUES ('19', '1', '系统配置', 'glyphicon glyphicon-cog', '/sys/sysConfig/', '6');
+INSERT INTO `menu` VALUES ('20', null, '测试模块', 'glyphicon glyphicon-user', '', '3');
+INSERT INTO `menu` VALUES ('21', '20', '上传下载测试', 'glyphicon glyphicon-user', '/module2/testUpload/', '1');

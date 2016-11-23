@@ -1,5 +1,9 @@
 package issac.demo.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,10 +11,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +30,11 @@ import issac.demo.bo.params.DataTableBasicParams;
 import issac.demo.bo.params.UserInfoParams;
 import issac.demo.dto.DataTableResult;
 import issac.demo.dto.TestData;
+import issac.demo.service.OssService;
+import issac.demo.service.OssService.OssObj;
 import issac.demo.service.TestService;
 import issac.demo.service.UploadPictureService;
+import issac.demo.utils.CommonUtils;
 
 @Controller
 @RequestMapping("/test")
@@ -34,6 +45,9 @@ public class TestController {
 
 	@Resource
 	TestService testService;
+	
+	@Resource
+	OssService ossService;
 
 	@RequestMapping("/test1")
 	public @ResponseBody Object testOne() {
@@ -76,6 +90,50 @@ public class TestController {
 			result = uploadPictureService.upload(file);
 		}
 		return result;
+	}
+	
+	@RequestMapping(value = "/upload2", method = RequestMethod.POST)
+	public @ResponseBody void upload2(MultipartFile file,  HttpServletRequest request, ModelMap model) {
+
+		if (file != null && !file.isEmpty()) {
+               try {
+				ossService.uploadFile("test.docx", file.getInputStream(), file.getContentType());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@RequestMapping(value = "/upload3", method = RequestMethod.POST)
+	public @ResponseBody void upload3(MultipartFile file,  HttpServletRequest request, ModelMap model) {
+
+		if (file != null && !file.isEmpty()) {
+               try {
+				ossService.uploadFile("upload3.docx", file.getInputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@RequestMapping(value = "/download")
+	public @ResponseBody void download(String key, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println(key);
+        CommonUtils.outputToPage("测试test.docx", response, ossService.downloadFileWithKey(key));
+	}
+	
+	
+	@RequestMapping(value = "/download2")
+	public @ResponseBody void download2(String key, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println(key);
+		OssObj ossObj = ossService.downloadOssObjWithKey(key);
+        CommonUtils.outputToPage("测试test.docx", response, ossObj.getData(),ossObj.getContentType());
+	}
+	
+	@RequestMapping(value = "/deleteFile")
+	public @ResponseBody void deleteFile(String key, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println(key);
+	     ossService.deleteFileWithKey(key);
 	}
 
 	@RequestMapping("/getDataTablePage")

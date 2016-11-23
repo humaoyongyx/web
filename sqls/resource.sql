@@ -65,3 +65,11 @@ INSERT INTO `resource` VALUES ('81', '查看', '19', 'show', 'show.*|get.*|find.
 INSERT INTO `resource` VALUES ('82', '增加', '19', 'add', 'add.*|insert.*|save.*', '2016-10-02 14:27:21');
 INSERT INTO `resource` VALUES ('83', '删除', '19', 'delete', 'delete.*|remove.*', '2016-10-02 14:27:21');
 INSERT INTO `resource` VALUES ('84', '修改', '19', 'modfiy', 'modfiy.*|update.*|edit.*', '2016-10-02 14:27:21');
+INSERT INTO `resource` VALUES ('93', '查看', '20', 'show', 'show.*|get.*|find.*|load.*|search.*', '2016-11-23 10:45:21');
+INSERT INTO `resource` VALUES ('94', '增加', '20', 'add', 'add.*|insert.*|save.*', '2016-11-23 10:45:21');
+INSERT INTO `resource` VALUES ('95', '删除', '20', 'delete', 'delete.*|remove.*', '2016-11-23 10:45:21');
+INSERT INTO `resource` VALUES ('96', '修改', '20', 'modfiy', 'modfiy.*|update.*|edit.*', '2016-11-23 10:45:21');
+INSERT INTO `resource` VALUES ('105', '查看', '21', 'show', 'show.*|get.*|find.*|load.*|search.*', '2016-11-23 12:42:40');
+INSERT INTO `resource` VALUES ('106', '增加', '21', 'add', 'add.*|insert.*|save.*', '2016-11-23 12:42:40');
+INSERT INTO `resource` VALUES ('107', '删除', '21', 'delete', 'delete.*|remove.*', '2016-11-23 12:42:40');
+INSERT INTO `resource` VALUES ('108', '修改', '21', 'modfiy', 'modfiy.*|update.*|edit.*', '2016-11-23 12:42:40');

@@ -1,13 +1,21 @@
 package issac.demo.utils;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class CommonUtils {
 
@@ -257,7 +265,51 @@ public class CommonUtils {
 		}
 		return null;
 	}
-
+    
+	
+	public static void outputToPage(String fileName, HttpServletResponse response,  byte[] data,String contentType) {
+		OutputStream os = null;
+		try {
+			response.reset();
+			response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf8") );
+			response.setContentType(contentType);
+			os = response.getOutputStream();
+			os.write(data);
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static void outputToPage(String fileName, HttpServletResponse response,  byte[] data) {
+		OutputStream os = null;
+		try {
+			response.reset();
+			response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf8") );
+			response.setContentType("application/octet-stream");
+			os = response.getOutputStream();
+			os.write(data);
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		System.out.println(getFileExtension("xxx.xxes"));
