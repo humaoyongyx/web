@@ -39,7 +39,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'root', 'root', '2376f53af275455bd0d9f04130a15817', '1', '2016-09-19 14:47:15', null, '11111', '1', '/pics/1475142342452.jpg', '上海市市辖区静安区', 'root@root.com');
+INSERT INTO `user` VALUES ('1', 'root', 'root', '72d9fc7ae4a6eba2486dbe7724897561', '1', '2016-09-19 14:47:15', null, '11111', '1', '/pics/1475142342452.jpg', '上海市市辖区静安区', 'root@root.com');
 INSERT INTO `user` VALUES ('2', '管理员', 'user', '0c4032ad7440e5e431a43cee25e0ed83', '1', '2016-09-19 14:48:10', null, '111', '', '/pics/1475168751173.jpg', '南京市秦淮区南京夫子庙', '');
 INSERT INTO `user` VALUES ('3', '测试', 'test', '109831dc00cc744f84457c0af6064691', '1', '2016-09-26 09:29:08', null, null, null, '', null, null);
 INSERT INTO `user` VALUES ('6', 'guest', 'guest', '641c79418d6e9d4ab0d6deb58452be71', '1', '2016-09-29 14:28:03', null, '', '1', '/pics/1475142590307.jpg', '黑龙江省鹤岗市工农区', '');
