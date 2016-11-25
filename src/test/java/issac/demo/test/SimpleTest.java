@@ -36,7 +36,6 @@ import issac.demo.scheduler.SimpleJob2;
 import issac.demo.service.CityService;
 import issac.demo.service.MenuService;
 import issac.demo.service.OssService;
-import issac.demo.service.OssService.OssObj;
 import issac.demo.utils.ExcelUtils;
 
 
@@ -68,11 +67,11 @@ public class SimpleTest extends AbstractBaseTest {
 
 	@Test
 	public void testOss() throws IOException {
-		//File file = new File("E:\\df.docx");
-	//	String uploadFile = ossService.uploadFile("df2.docx", new FileInputStream(file), "");
-	//	System.out.println(uploadFile);
-		OssObj downloadOssObj = ossService.downloadOssObjWithKey("df2.docx");
-		System.out.println(downloadOssObj.getContentType());
+		File file = new File("D:\\test.docx");
+		String uploadFile = ossService.uploadFile("test/df2.docx", new FileInputStream(file), "");
+		System.out.println(uploadFile);
+		//OssObj downloadOssObj = ossService.downloadOssObjWithKey("df2.docx");
+		//System.out.println(downloadOssObj.getContentType());
 		
 		
 	}

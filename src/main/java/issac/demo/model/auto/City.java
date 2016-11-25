@@ -40,4 +40,10 @@ public class City {
     public void setLevel(Integer level) {
         this.level = level;
     }
+
+	@Override
+	public String toString() {
+		return "City [id=" + id + ", name=" + name + ", pid=" + pid + ", level=" + level + "]";
+	}
+
 }

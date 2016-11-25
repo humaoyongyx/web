@@ -1,11 +1,10 @@
 package issac.demo.utils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import issac.demo.model.auto.City;
 
 public class CommonUtils {
 
@@ -311,7 +311,54 @@ public class CommonUtils {
 		}
 	}
 
-	public static void main(String[] args) {
-		System.out.println(getFileExtension("xxx.xxes"));
+	public static <T> T mapToObject(Map<String, Object> map, Class<T> beanClass) throws Exception {
+		if (map == null)
+			return null;
+
+		T obj = beanClass.newInstance();
+
+		Field[] fields = obj.getClass().getDeclaredFields();
+		for (Field field : fields) {
+			int mod = field.getModifiers();
+			if (Modifier.isStatic(mod) || Modifier.isFinal(mod)) {
+				continue;
+			}
+
+			field.setAccessible(true);
+			field.set(obj, map.get(field.getName()));
+		}
+
+		return obj;
 	}
+
+	public static Map<String, Object> objectToMap(Object obj) throws Exception {
+		if (obj == null) {
+			return null;
+		}
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Field[] declaredFields = obj.getClass().getDeclaredFields();
+		for (Field field : declaredFields) {
+			field.setAccessible(true);
+			map.put(field.getName(), field.get(obj));
+		}
+
+		return map;
+	}
+
+	public static void main(String[] args) {
+		City city = new City();
+		city.setId(1);
+		city.setName("sdsd");
+		try {
+			Map<String, Object> objectToMap = objectToMap(city);
+			System.out.println(objectToMap);
+			City mapToObject = mapToObject(objectToMap, City.class);
+			System.out.println(mapToObject);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
