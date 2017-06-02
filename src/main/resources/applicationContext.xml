@@ -68,4 +68,27 @@
 			    </bean>  
           </property>
     </bean>
+ 
+ 
+ <!-- redis -->   
+  <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
+        <property name="maxIdle" value="${maxIdle}" />  
+        <property name="maxTotal" value="${maxTotal}" />  
+    </bean>  
+      
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" >  
+          <property name="poolConfig"  ref="poolConfig" />  
+         <property name="hostName" value="${host}"/>
+         <property name="port" value="${port}" />  
+         <property name="password" value="${password}" />  
+         <property name="timeout"  value="${timeout}"/> 
+          <property name="clientName"  value="${clientName}"/> 
+    </bean>
+      
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">  
+        <property name="connectionFactory"   ref="connectionFactory" />  
+    </bean>         
+ 
+ 
+    
 </beans>

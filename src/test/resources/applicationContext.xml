@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/context/spring-context-4.2.xsd
     ">
 
-	<context:property-placeholder location="classpath:dbconfig.properties" />
+	<context:property-placeholder location="classpath:dbconfig.properties,redis.properties" />
 	<context:component-scan base-package="issac.demo">
 		<context:exclude-filter type="regex" expression="issac.demo.controller" />
 	</context:component-scan>
@@ -83,4 +83,22 @@
 				          </props>  
 				      </property>  
       </bean>
+      
+       <!-- redis -->   
+  <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
+        <property name="maxIdle" value="${maxIdle}" />  
+        <property name="maxTotal" value="${maxTotal}" />  
+    </bean>  
+      
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" >  
+          <property name="poolConfig"  ref="poolConfig" />  
+         <property name="hostName" value="${host}"/>
+         <property name="port" value="${port}" />  
+         <property name="password" value="${password}" />  
+         <property name="timeout"  value="${timeout}"/> 
+          <property name="clientName"  value="${clientName}"/> 
+    </bean>
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">  
+        <property name="connectionFactory"   ref="connectionFactory" />  
+    </bean>         
 </beans>
