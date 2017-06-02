@@ -18,6 +18,9 @@ public class RedisTest extends AbstractBaseTest {
 
 	public static void main(String[] args) {
 		RedisUtil instance = RedisUtil.getInstance();
+		instance.set("3d", "3dvalue");
+		String string = instance.get("3d");
+		System.out.println(string);
 
 
 	}

@@ -47,7 +47,13 @@ public class RedisUtil {
 				int timeout = redisProperties.getProperty("timeout") == null ? Protocol.DEFAULT_TIMEOUT : Integer.parseInt(redisProperties.getProperty("timeout"));
 				int database = redisProperties.getProperty("database") == null ? Protocol.DEFAULT_DATABASE : Integer.parseInt(redisProperties.getProperty("database"));
 				String password = redisProperties.getProperty("password");
+				if (password != null && password.trim().equals("")) {
+					password = null;
+				}
 				String clientName = redisProperties.getProperty("clientName");
+				if (clientName != null && clientName.trim().equals("")) {
+					clientName = null;
+				}
 
 				JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
 				int maxTotal = redisProperties.getProperty("maxTotal") == null ? JedisPoolConfig.DEFAULT_MAX_TOTAL : Integer.parseInt(redisProperties.getProperty("maxTotal"));
