@@ -29,4 +29,8 @@ public class CityService {
 	public List<CityBean> getByPid(Integer pid) {
 		return cityMapperDao.getByPid(pid);
 	}
+
+	public List<CityBean> getAll() {
+		return cityMapperDao.getAll();
+	}
 }

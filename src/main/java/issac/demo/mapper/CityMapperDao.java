@@ -15,6 +15,8 @@ public interface CityMapperDao {
 
 	List<CityBean> getByPid(Integer pid);
 
+	List<CityBean> getAll();
+
 	int updateByPrimaryKeySelective(CityBean record);
 
 	int updateByPrimaryKey(CityBean record);

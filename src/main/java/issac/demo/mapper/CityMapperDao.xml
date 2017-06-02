@@ -18,6 +18,12 @@
     from city
     where pid = #{pid,jdbcType=INTEGER}
   </select>
+      <select id="getAll" resultType="issac.demo.model.CityBean" >
+    select 
+    <include refid="Base_Column_List" />
+    from city
+   
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from city
     where id = #{id,jdbcType=INTEGER}
