@@ -17,10 +17,13 @@ public class RedisTest extends AbstractBaseTest {
 	private RedisTemplate<Object, Object> redisTemplate;
 
 	public static void main(String[] args) {
-		RedisUtil instance = RedisUtil.getInstance();
-		instance.set("3d", "3dvalue");
-		String string = instance.get("3d");
-		System.out.println(string);
+		for (int i = 0; i < 1000; i++) {
+			RedisUtil instance = RedisUtil.getInstance();
+			//instance.set("3d", "3dvalue");
+			String string = instance.get("test");
+			System.out.println(string);
+		}
+
 
 
 	}
@@ -32,7 +35,7 @@ public class RedisTest extends AbstractBaseTest {
 
 			@Override
 			public Object doInRedis(RedisConnection connection) throws DataAccessException {
-				byte[] bs = connection.get(redisTemplate.getStringSerializer().serialize("test"));
+				byte[] bs = connection.get(redisTemplate.getStringSerializer().serialize("3d"));
 				return bs;
 			}
 		});
