@@ -306,6 +306,13 @@
 </dependency>
 <!-- jedis -->
 
+<!-- spring-kafka -->
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+    <version>1.2.2.RELEASE</version>
+</dependency>
+
 </dependencies>
 
 
