@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="false"
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+        http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.1.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+            http://www.springframework.org/schema/context     
+          http://www.springframework.org/schema/context/spring-context-3.2.xsd "
+        >
+   
+   
+   <context:annotation-config />  
+    <context:component-scan base-package="issac.demo.test.utils.rabbitmq"></context:component-scan>  
+   
+    <!--配置connection-factory，指定连接rabbit server参数 -->
+    <rabbit:connection-factory id="connectionFactory" username="guest" password="guest" host="127.0.0.1" port="5672" />
+        
+     <!--通过指定下面的admin信息，当前proceducer中的exchange和queue会在rabbitmq服务器上自动生成 -->
+    <rabbit:admin connection-factory="connectionFactory" />
+    
+    <!--定义rabbit template用于数据的接收和发送 -->
+    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="exchangeTest" />
+
+    <!--定义queue -->
+   <rabbit:queue name="queueTest"  durable="true" auto-delete="false" exclusive="false" />
+    <!-- 消息接收者 -->
+    <bean id="messageReceiver" class="issac.demo.test.utils.rabbitmq.Consumer"></bean>
+    
+     <!-- 定义direct exchange，绑定queueTest -->
+    <rabbit:direct-exchange name="exchangeTest"  durable="true" auto-delete="false" >
+        <rabbit:bindings>
+            <rabbit:binding queue="queueTest" key="queueTestKey"></rabbit:binding>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+    
+    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->
+    <rabbit:listener-container connection-factory="connectionFactory">
+             <rabbit:listener queues="queueTest" ref="messageReceiver"/>
+    </rabbit:listener-container>
+    
+</beans>
