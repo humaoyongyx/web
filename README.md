@@ -36,7 +36,7 @@ Web测试demo项目:<br/>
          <p><b>后台技术和数据库以及开发工具</b></p>
           1、SpringMVC、Mybatis、shiro、mysql<br/>
           2、quartz、javaMail<br/>
-          3、maven、git<br/>
+          3、maven、git<br/>
 
       
    </p>
