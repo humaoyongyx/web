@@ -11,6 +11,9 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.amqp.support.converter.SimpleMessageConverter;
 
+import issac.demo.model.sys.EmailBean;
+import issac.demo.utils.EmailUtils;
+
 /**
  * 功能概要：消费接收
  * 
@@ -27,9 +30,10 @@ public class Consumer implements MessageListener {
         //logger.info("receive message:{}",message);
         try {
             //将字节流对象转换成Java对象
-            Person person=(Person) new ObjectInputStream(new ByteArrayInputStream(message.getBody())).readObject();
+          /*  Person person=(Person) new ObjectInputStream(new ByteArrayInputStream(message.getBody())).readObject();
             System.out.println("年龄："+person.getAge());
-            System.out.println("name:"+person.getName());
+            System.out.println("name:"+person.getName());*/
+        	EmailBean emailBean=(EmailBean) new ObjectInputStream(new ByteArrayInputStream(message.getBody())).readObject();
         } catch (Exception e) {
             e.printStackTrace();
         }
