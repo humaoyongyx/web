@@ -7,7 +7,6 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;  
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.IntField;  
 import org.apache.lucene.document.StringField;  
 import org.apache.lucene.document.TextField;  
 import org.apache.lucene.index.DirectoryReader;  
@@ -23,6 +22,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;  
 import org.apache.lucene.store.Directory;  
 import org.apache.lucene.store.FSDirectory;
+import org.apache.poi.util.IntegerField;
 import org.junit.Before;
 import org.junit.Test;  
   
@@ -77,7 +77,7 @@ public class IndexCrud {
             doc.add(new StringField("id", ids[1], Field.Store.YES));  
             doc.add(new StringField("name", "lsup", Field.Store.YES));  
             doc.add(new StringField("email", emails[1], Field.Store.YES));  
-            doc.add(new IntField("fileSize", fileSizes[1], Field.Store.YES));  
+           
 //          doc.add(new TextField("content", contents[1], Field.Store.NO));  
               
             //加权  
@@ -201,7 +201,7 @@ public class IndexCrud {
             iw = new IndexWriter(directory, iwc);  
             for (int i = 0; i < ids.length; i++) {  
                 Document doc = new Document();  
-                new Field("xx", "v",Field.Store.YES,Field.Index.NOT_ANALYZED);
+           
                 doc.add(new StringField("id", ids[i], Field.Store.YES));  
                 doc.add(new StringField("name", names[i], Field.Store.YES));  
                 Field field = new TextField("email", emails[i], Field.Store.YES);  
@@ -219,7 +219,7 @@ public class IndexCrud {
                     field.setBoost(3.5f);  
                 }  
   
-                doc.add(new IntField("fileSize", fileSizes[i], Field.Store.YES));  
+         
                 // 对于内容只索引不存储  
                 doc.add(new TextField("content", contents[i], Field.Store.YES));  
                 iw.addDocument(doc);  
