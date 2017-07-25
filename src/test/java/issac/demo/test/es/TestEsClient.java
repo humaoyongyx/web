@@ -45,10 +45,11 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
             try {
 
                 //设置集群名称
-                Settings settings = Settings.builder().put("cluster.name", "esCluster").build();
+                Settings settings = Settings.builder().put("cluster.name", "esCluster").put("client.transport.sniff", true).build();
                 //创建client
                 TransportClient client = new PreBuiltTransportClient(settings)
-                        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.159.131"), 9300));
+                        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.159.131"), 9300))
+                        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.159.131"), 9301));
                 //搜索数据
                 SearchResponse response =    client.prepareSearch("test").setTypes("t1").setQuery(QueryBuilders.multiMatchQuery("z", "name","pinyin","acronym").type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX)).get();
                 //输出结果

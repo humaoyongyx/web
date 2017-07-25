@@ -19,7 +19,7 @@ public class SystemUserFilter extends AccessControlFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 
-		String requestURI = getPathWithinApplication(request);
+	/*	String requestURI = getPathWithinApplication(request);
 		Subject subject = getSubject(request, response);
 		Session session = subject.getSession();
 		UserBean user = (UserBean) session.getAttribute("user");
@@ -47,7 +47,8 @@ public class SystemUserFilter extends AccessControlFilter {
 			}
 		}
 		
-		return false;
+		return false;*/
+		return true;
 	}
 
 	@Override
