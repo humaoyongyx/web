@@ -14,7 +14,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 /**
  * Request for UrlEncodedForm
- * mailto:xiaobenma020@gmail.com
  */
 public class UrlEncodedFormRequest extends BaseEntityRequest {
 

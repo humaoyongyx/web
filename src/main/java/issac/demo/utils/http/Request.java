@@ -3,6 +3,7 @@ package issac.demo.utils.http;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.client.methods.*;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicHeader;
 
 import java.io.UnsupportedEncodingException;
@@ -10,10 +11,6 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Request with body, support request method "GET", "HEAD", "OPTIONS"
- * mailto:xiaobenma020@gmail.com
- */
 public class Request {
     private String url;
     private RequestMethod method;
@@ -26,7 +23,9 @@ public class Request {
 
     public Request(String url, RequestMethod method) throws MethodNotSupportException {
         this.url = url;
-        checkMethod(method);
+        if (method==null) {
+        	method=RequestMethod.GET;
+		}
         this.method = method;
         urlParams =  new LinkedHashMap<>();
         headerMap = new LinkedHashMap<>();
@@ -36,15 +35,6 @@ public class Request {
         this(url, RequestMethod.GET);
     }
 
-    //Check request method, "GET", "HEAD", "OPTIONS" is supported
-    protected void checkMethod(RequestMethod method) throws MethodNotSupportException {
-        if (null == method) {
-            throw new MethodNotSupportException(null);
-        }
-        if (!RequestMethod.GET.equals(method) && !RequestMethod.HEAD.equals(method) && !RequestMethod.OPTIONS.equals(method)) {
-            throw new MethodNotSupportException(method.name());
-        }
-    }
 
     public String getUrl() {
         return url;
@@ -112,7 +102,6 @@ public class Request {
     }
 
     public void setMethod(RequestMethod method) throws MethodNotSupportException {
-        checkMethod(method);
         this.method = method;
     }
 

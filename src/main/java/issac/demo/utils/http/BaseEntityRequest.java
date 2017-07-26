@@ -12,16 +12,6 @@ public abstract class BaseEntityRequest extends Request {
         super(url);
     }
 
-    //Check request method, "POST", "PUT", "PATCH" is supported
-    @Override
-    protected void checkMethod(RequestMethod method) throws MethodNotSupportException {
-        if (null == method) {
-            throw new MethodNotSupportException(null);
-        }
-        if (!RequestMethod.POST.equals(method) && !RequestMethod.PUT.equals(method) && !RequestMethod.PATCH.equals(method)) {
-            throw new MethodNotSupportException(method.name());
-        }
-    }
 
     /**
      * Get HttpEntity about request body

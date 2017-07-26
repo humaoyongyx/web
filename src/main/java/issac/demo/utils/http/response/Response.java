@@ -6,9 +6,6 @@ import java.util.Map;
 import org.apache.http.Header;
 
 
-/**
- * mailto:xiaobenma020@gmail.com
- */
 public class Response {
 
     private int code;

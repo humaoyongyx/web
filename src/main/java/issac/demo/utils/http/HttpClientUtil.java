@@ -21,10 +21,8 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
-/**
- * mailto:xiaobenma020@gmail.com
- */
 public class HttpClientUtil {
 
     private static PoolingHttpClientConnectionManager connMgr;
@@ -79,7 +77,41 @@ public class HttpClientUtil {
             return getErrorXResponse(HttpServletResponse.SC_METHOD_NOT_ALLOWED, mnse.getMessage());
         }
     }
-
+    
+    
+    public static String get(String url,Map<String, Object> params){
+    	Request request=null;
+		try {
+			request = new Request(url, RequestMethod.GET);
+		} catch (MethodNotSupportException e) {
+			e.printStackTrace();
+			return "";
+		}
+    	request.addUrlParams(params);
+    	  Response doRequest = doRequest(request);
+    	  return doRequest.getResponseText();
+    }
+    public static String get(String url){
+    	return get(url, null);
+    }
+    
+    
+    public static String post(String url,Map<String, Object> params){
+    	Request request=null;
+		try {
+			request = new Request(url, RequestMethod.POST);
+		} catch (MethodNotSupportException e) {
+			e.printStackTrace();
+			return "";
+		}
+    	request.addUrlParams(params);
+    	  Response doRequest = doRequest(request);
+    	  return doRequest.getResponseText();
+    }
+    public static String post(String url){
+    	return post(url, null);
+    }
+    
     private static Response getErrorXResponse(int code, String errorMsg) {
         return new Response(code, errorMsg, null, null, null);
     }
@@ -93,6 +125,7 @@ public class HttpClientUtil {
             HttpResponse response = httpClient.execute(request);
             Response result = new Response(response.getStatusLine().getStatusCode(), response.getAllHeaders());
             HttpEntity entity = response.getEntity();
+           
             if (entity != null) {
 
                 //content encoding
