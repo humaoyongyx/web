@@ -1,6 +1,7 @@
 package issac.demo.test.utils.rabbitmq;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
 
@@ -28,12 +29,19 @@ public class Consumer implements MessageListener {
     @Override
     public void onMessage(Message message) {
         //logger.info("receive message:{}",message);
+    	try {
+			System.out.println(new String(message.getBody(),"utf-8"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    
         try {
             //将字节流对象转换成Java对象
-          /*  Person person=(Person) new ObjectInputStream(new ByteArrayInputStream(message.getBody())).readObject();
+           Person person=(Person) new ObjectInputStream(new ByteArrayInputStream(message.getBody())).readObject();
             System.out.println("年龄："+person.getAge());
-            System.out.println("name:"+person.getName());*/
-        	EmailBean emailBean=(EmailBean) new ObjectInputStream(new ByteArrayInputStream(message.getBody())).readObject();
+            System.out.println("name:"+person.getName());
+        	
         } catch (Exception e) {
             e.printStackTrace();
         }
