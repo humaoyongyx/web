@@ -40,7 +40,11 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-
+/**
+ * 支持es5.4.x
+ * @author issac.hu
+ *
+ */
 public class ESUtils {
 	private static volatile TransportClient client = null;
 	private static String clusterName = null;// 实例名称
@@ -180,7 +184,7 @@ public class ESUtils {
 	 * 异步操作，不保证先后顺序
 	 * @param index
 	 * @param type
-	 * @param data 必须有id字段，否则不成功
+	 * @param data 必须有id字段，否则不成功,支持普通java对象和map对象
 	 * @return 0 成功 -1 失败
 	 */
 	public static int saveOrUpdate(String index, String type, List<?> data) {
@@ -383,6 +387,9 @@ public class ESUtils {
 		 for (SearchHit searchHit : search) {
 			 System.out.println(searchHit.getSourceAsString());
 		}
+		 
+		 Map<String, Object> searchHighlight = searchHighlight("user", "user", "name", "ld");
+		 System.out.println(searchHighlight);
 
 	}
 
