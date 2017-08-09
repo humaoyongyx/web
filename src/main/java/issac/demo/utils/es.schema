@@ -1,0 +1,76 @@
+
+PUT /user/
+{
+    "index" : {
+        "analysis" : {
+            "analyzer" : {
+                "pinyin_analyzer" : {
+                    "tokenizer" : "ngram_Tokenizer",
+                     "filter" : ["pinyinFilter","edgeNGramFilter","unique"]
+                    }
+                },
+              "filter" : {
+                "pinyinFilter" : {
+                   "type" : "pinyin",
+                     "keep_first_letter":true,
+                    "keep_separate_first_letter" : false,
+                    "keep_full_pinyin" : false,
+                    "keep_joined_full_pinyin":true,
+                    "keep_original" : false,
+                    "limit_first_letter_length" : 16,
+                    "lowercase" : true,
+                    "remove_duplicated_term" : true
+                },
+                "edgeNGramFilter" : {
+                     "type" : "edgeNGram",
+                     "min_gram": 2,
+                     "max_gram": 16
+                }
+            },
+            "tokenizer" : {
+                 "ngram_Tokenizer" : {
+                    "type": "edge_ngram",
+                     "min_gram": 1,
+                     "max_gram": 16 
+                }
+            }
+        }
+    }
+}
+
+
+
+
+POST /user/user/_mapping
+{
+    "user": {
+        "properties": {
+            "id":{
+                "type": "keyword"
+            },
+            "name": {
+                       "type": "text",
+                        "analyzer": "pinyin_analyzer",
+                        "search_analyzer": "pinyin"
+            }
+        }
+    }
+}
+GET /user/user/_mapping
+
+POST /user/user/2
+{"name":"刘德华ss刘德华  ","id":2}
+
+GET /user/_analyze?text=%E5%88%98%E5%BE%B7%E5%8D%8E&analyzer=pinyin_analyzer
+
+GET /user/user/_search
+{
+    "query" : { "match" : { "name" : "ldhs" }},
+    "highlight" : {
+        "pre_tags" : ["<tag1>", "<tag2>"],
+        "post_tags" : ["</tag1>", "</tag2>"],
+        "fields" : {
+            "name" : {}
+        }
+    }
+}
