@@ -6,11 +6,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import org.elasticsearch.action.DocWriteResponse.Result;
@@ -23,6 +25,7 @@ import org.elasticsearch.action.bulk.byscroll.BulkByScrollResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -31,12 +34,15 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder.Type;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.DeleteByQueryAction;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -63,6 +69,82 @@ public class ESUtils {
 	public static final int DELETED = 2;
 	public static final int NOT_FOUND = 3;
 	public static final int NOOP = 4;
+	
+	
+	private static final String DEFAULT_TAG="tag";
+	private static final int  DEFAULT_FROM=0;//页数从0开始
+	private static final int  DEFAULT_SIZE=50;//每页显示的条数
+	
+	public static QuerySetting QuerySetting(){
+		return new QuerySetting();
+	}
+	
+	/**
+	 *     <bean  class="issac.demo.utils.ESUtils" init-method="init"></bean>
+	 *     配置bean里面这样可以解决第一次启动服务器加载es过慢的问题
+	 */
+	public static void init(){
+	         searchBoolShouldHighlight("user", "user"
+				 ,QuerySetting().setField("name", MatchType.PREFIX,true).setField("name.pinyin", MatchType.TEXT).setValue("bj")
+                 , DEFAULT_TAG, DEFAULT_FROM, DEFAULT_SIZE, false);
+	}
+	
+	
+	public static class QuerySetting{
+		
+		private Map<String, MatchType> map=new LinkedHashMap<>();
+		private String value;
+		private String defaultField;
+		
+		
+		public QuerySetting setField(String field,MatchType type,boolean defaultField) {
+			map.put(field, type);
+			if (defaultField) {
+				this.defaultField=field;
+			}
+			return this;
+		}
+		
+		public QuerySetting setField(String field,MatchType type) {
+			map.put(field, type);
+			return this;
+		}
+		
+		public Set<String> getfields(){
+			return map.keySet();
+		}
+		
+		public Map<String, MatchType> getMap(){
+			return map;
+		}
+
+		public QuerySetting setValue(String value) {
+			this.value = value;
+			return this;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		public String getDefaultField() {
+			if (defaultField==null) {
+				Set<String> keySet = map.keySet();
+				if (keySet!=null&&!keySet.isEmpty()) {
+					return new ArrayList<>(keySet).get(0);
+				}
+		
+			}
+			return defaultField;
+		}
+
+
+	
+	}
+	
+	public static enum MatchType{
+		TEXT,PREFIX
+	}
 
 	static {
 		try {
@@ -310,16 +392,16 @@ public class ESUtils {
 	 * @param field
 	 * @param value 搜索的值
 	 * @param tag    高亮的tag名如输入tag那么返回<tag></tag>
-	 * @param from  分页从第几个
-	 * @param to      分页到第几个
+	 * @param from  分页从0开始
+	 * @param size      每页显示的条数
 	 * @return
 	 */
-	public static SearchHits search(String index, String type, String field, String value, String tag, int from, int to) {
+	public static SearchHits search(String index, String type, String field, String value, String tag, int from, int size) {
 		HighlightBuilder highlightBuilder = new HighlightBuilder();
 		highlightBuilder.preTags("<" + tag + ">");
 		highlightBuilder.postTags("</" + tag + ">");
 		highlightBuilder.field(field);
-		SearchResponse response = getClientInstance().prepareSearch(index, type).setQuery(QueryBuilders.matchQuery(field, value)).highlighter(highlightBuilder).setFrom(from).setSize(to).get();
+		SearchResponse response = getClientInstance().prepareSearch(index, type).setQuery(QueryBuilders.matchQuery(field, value)).highlighter(highlightBuilder).setFrom(from).setSize(size).get();
 		SearchHits hits = response.getHits();
 		return hits;
 	}
@@ -334,17 +416,49 @@ public class ESUtils {
 	 * @param value
 	 * @param tag
 	 * @param from
-	 * @param to
+	 * @param size
 	 * @return
 	 */
-	public static SearchHits search(String index, String type, String[] fields, String value, int from, int to) {
-		SearchResponse response = getClientInstance().prepareSearch(index, type).setQuery(QueryBuilders.multiMatchQuery(value, fields).type(Type.PHRASE_PREFIX)).setFrom(from).setSize(to).get();
+	public static SearchHits search(String index, String type, String[] fields, String value, int from, int size) {
+		SearchResponse response = getClientInstance().prepareSearch(index, type).setQuery(QueryBuilders.multiMatchQuery(value, fields).type(Type.PHRASE_PREFIX)).setFrom(from).setSize(size).get();
 		SearchHits hits = response.getHits();
 		return hits;
 	}
+	
+
+	
+	
+	public static SearchHits searchBoolShould(String index, String type, QuerySetting querySetting, String tag,int from, int size) {
+		if (querySetting==null) {
+			return null;
+		}
+		HighlightBuilder highlightBuilder = new HighlightBuilder();
+		highlightBuilder.preTags("<" + tag + ">");
+		highlightBuilder.postTags("</" + tag + ">");
+	    for (String field : querySetting.getfields()) {
+	    	highlightBuilder.field(field);
+		}
+	    BoolQueryBuilder queryBuilder=QueryBuilders.boolQuery();
+	    for (Entry<String, MatchType> entry: querySetting.getMap().entrySet()) {
+	        if (entry.getValue()==MatchType.TEXT) {
+				queryBuilder.should(QueryBuilders.matchQuery(entry.getKey(), querySetting.getValue()));
+			}else if (entry.getValue()==MatchType.PREFIX) {
+				queryBuilder.should(QueryBuilders.matchPhrasePrefixQuery(entry.getKey(), querySetting.getValue()));
+			}
+		}
+		SearchResponse response = getClientInstance().prepareSearch(index, type).setQuery(queryBuilder).highlighter(highlightBuilder).setFrom(from).setSize(size).get();
+		SearchHits hits = response.getHits();
+		return hits;
+	}
+	
+	
+	public static SearchHits searchBoolShould(String index, String type, QuerySetting querySetting) {
+	    return searchBoolShould(index, type, querySetting, DEFAULT_TAG, DEFAULT_FROM, DEFAULT_SIZE);
+	}
+
 
 	public static SearchHits search(String index, String type, String field, String value) {
-		return search(index, type, field, value, "em", 0, 100);
+		return search(index, type, field, value, DEFAULT_TAG, DEFAULT_FROM, DEFAULT_SIZE);
 	}
 
 	/**
@@ -354,18 +468,18 @@ public class ESUtils {
 	 * @param field
 	 * @param value  搜索的值
 	 * @param tag    高亮的tag名如输入tag那么返回<tag></tag>
-	 * @param from 分页从第几个
-	 * @param to 分页到第几个
+     * @param from  分页从0开始
+	 * @param size      每页显示的条数
 	 * @param replace 是否替换原有字段内容为高亮
 	 * @return Map<String, Object> 可以获取total和data两个key其中total为long，data为 List<JSONObject>
 	 */
-	public static Map<String, Object> searchHighlight(String index, String type, String field, String value, String tag, int from, int to, boolean replace) {
-		SearchHits search = search(index, type, field, value, tag, from, to);
+	public static Map<String, Object> searchHighlight(String index, String type, String field, String value, String tag, int from, int size, boolean replace) {
+		SearchHits search = search(index, type, field, value, tag, from, size);
 		Map<String, Object> map = new HashMap<>();
 		map.put("total", search.totalHits);
 		List<JSONObject> data = new ArrayList<>();
 		for (SearchHit searchHit : search) {
-			Text text = searchHit.getHighlightFields().get("name").getFragments()[0];
+			Text text = searchHit.getHighlightFields().get(field).getFragments()[0];
 			JSONObject jsonObject = JSON.parseObject(searchHit.getSourceAsString());
 			jsonObject.put(field + "Highlight", text.toString());
 			if (replace) {
@@ -376,21 +490,50 @@ public class ESUtils {
 		map.put("data", data);
 		return map;
 	}
+	
+	
+	public static Map<String, Object> searchBoolShouldHighlight(String index, String type,QuerySetting querySetting, String tag, int from, int size, boolean replace) {
+		SearchHits search = searchBoolShould(index, type, querySetting, tag, from, size);
+		Map<String, Object> map = new HashMap<>();
+		map.put("total", search.totalHits);
+		List<JSONObject> data = new ArrayList<>();
+		for (SearchHit searchHit : search) {
+			Set<Entry<String, HighlightField>> entrySet = searchHit.getHighlightFields().entrySet();
+			for (Entry<String, HighlightField> entry : entrySet) {
+				Text[] fragments = entry.getValue().getFragments();
+				if (fragments!=null&& fragments.length!=0) {
+					Text text=fragments[0];
+					JSONObject jsonObject = JSON.parseObject(searchHit.getSourceAsString());
+					jsonObject.put(querySetting.getDefaultField() + "Highlight", text.toString());
+					if (replace) {
+						jsonObject.put(querySetting.getDefaultField(), text.toString());
+					}
+					data.add(jsonObject);
+					break;
+				}
+			}
+			
+		}
+		map.put("data", data);
+		return map;
+	}
+	
+	public static Map<String, Object> searchBoolShouldHighlight(String index, String type,QuerySetting querySetting) {
+		return searchBoolShouldHighlight(index, type, querySetting, DEFAULT_TAG, DEFAULT_FROM, DEFAULT_SIZE, false);
+	}
+	
+	
+
 
 	public static Map<String, Object> searchHighlight(String index, String type, String field, String value) {
-		return searchHighlight(index, type, field, value, "em", 0, 100, false);
+		return searchHighlight(index, type, field, value, DEFAULT_TAG, DEFAULT_FROM, DEFAULT_SIZE, false);
 	}
 
 	public static void main(String[] args) {
-		 SearchHits search = search("test", "test", new String[]{"name","name2","name3"}, "ld",  0,100);
-	
-		 for (SearchHit searchHit : search) {
-			 System.out.println(searchHit.getSourceAsString());
-		}
-		 
-		 Map<String, Object> searchHighlight = searchHighlight("user", "user", "name", "ld");
-		 System.out.println(searchHighlight);
-
+		 Map<String, Object> searchBoolShouldHighlight = searchBoolShouldHighlight("user", "test"
+				 ,QuerySetting().setField("name2", MatchType.PREFIX,true).setField("name2.pinyin", MatchType.TEXT).setValue("刘德")
+                 , DEFAULT_TAG, DEFAULT_FROM, DEFAULT_SIZE, false);
+        System.out.println(searchBoolShouldHighlight);
 	}
 
 }

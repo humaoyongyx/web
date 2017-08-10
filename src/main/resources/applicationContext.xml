@@ -89,7 +89,8 @@
     <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">  
         <property name="connectionFactory"   ref="connectionFactory" />  
     </bean>         
+      
  
- 
+    <bean  class="issac.demo.utils.ESUtils" init-method="init"></bean>
     
 </beans>

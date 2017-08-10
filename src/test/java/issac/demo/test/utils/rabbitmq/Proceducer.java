@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * 功能概要：消息产生,提交到队列中去
  * 
  */
-@Service
+//@Service
 public class Proceducer  {
 
     private Logger logger = LoggerFactory.getLogger(Proceducer.class);

@@ -11,7 +11,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
-@Service("consumerServiceImpl")  
+//@Service("consumerServiceImpl")  
 public class ConsumerServiceImpl implements ConsumerService {  
       
     /** 

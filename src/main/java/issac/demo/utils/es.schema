@@ -1,4 +1,4 @@
-
+DELETE  /user
 PUT /user/
 {
     "index" : {
@@ -23,7 +23,7 @@ PUT /user/
                 },
                 "edgeNGramFilter" : {
                      "type" : "edgeNGram",
-                     "min_gram": 2,
+                     "min_gram": 1,
                      "max_gram": 16
                 }
             },
@@ -40,7 +40,6 @@ PUT /user/
 
 
 
-
 POST /user/user/_mapping
 {
     "user": {
@@ -49,9 +48,14 @@ POST /user/user/_mapping
                 "type": "keyword"
             },
             "name": {
-                       "type": "text",
+                    "type": "text",
+                     "fields": {
+                    "pinyin":{
+                        "type": "text",
                         "analyzer": "pinyin_analyzer",
-                        "search_analyzer": "pinyin"
+                        "search_analyzer": "standard"
+                    }
+                }     
             }
         }
     }
@@ -61,16 +65,43 @@ GET /user/user/_mapping
 POST /user/user/2
 {"name":"刘德华ss刘德华  ","id":2}
 
-GET /user/_analyze?text=%E5%88%98%E5%BE%B7%E5%8D%8E&analyzer=pinyin_analyzer
 
+
+
+
+GET /user/_analyze?text=%E5%88%98%E5%BE%B7%E5%8D%8E&analyzer=pinyin_analyzer
+GET /user/user/_search
 GET /user/user/_search
 {
-    "query" : { "match" : { "name" : "ldhs" }},
+    "query" : { "match" : { "name" : "bjs,jss" }},
     "highlight" : {
         "pre_tags" : ["<tag1>", "<tag2>"],
         "post_tags" : ["</tag1>", "</tag2>"],
         "fields" : {
             "name" : {}
+        }
+    }
+}
+
+GET /user/user/_search
+{
+    "query": {
+       "bool": {
+           "should": [
+              {"match": {
+                 "name.pinyin": "保靖"
+              }},{"match_phrase_prefix": {
+                 "name": "保靖"
+              }}
+           ]
+       }
+    },
+     "highlight" : {
+        "pre_tags" : ["<tag1>", "<tag2>"],
+        "post_tags" : ["</tag1>", "</tag2>"],
+        "fields" : {
+            "name" : {},
+            "name.pinyin" : {}
         }
     }
 }
