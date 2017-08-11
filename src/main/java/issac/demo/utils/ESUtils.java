@@ -84,9 +84,7 @@ public class ESUtils {
 	 *     配置bean里面这样可以解决第一次启动服务器加载es过慢的问题
 	 */
 	public static void init(){
-	         searchBoolShouldHighlight("user", "user"
-				 ,QuerySetting().setField("name", MatchType.PREFIX,true).setField("name.pinyin", MatchType.TEXT).setValue("bj")
-                 , DEFAULT_TAG, DEFAULT_FROM, DEFAULT_SIZE, false);
+		getClientInstance().prepareSearch().setQuery(QueryBuilders.matchAllQuery()).get();
 	}
 	
 	
@@ -530,10 +528,11 @@ public class ESUtils {
 	}
 
 	public static void main(String[] args) {
-		 Map<String, Object> searchBoolShouldHighlight = searchBoolShouldHighlight("user", "test"
+		/* Map<String, Object> searchBoolShouldHighlight = searchBoolShouldHighlight("user", "test"
 				 ,QuerySetting().setField("name2", MatchType.PREFIX,true).setField("name2.pinyin", MatchType.TEXT).setValue("刘德")
                  , DEFAULT_TAG, DEFAULT_FROM, DEFAULT_SIZE, false);
-        System.out.println(searchBoolShouldHighlight);
+        System.out.println(searchBoolShouldHighlight);*/
+		getClientInstance().prepareSearch().setQuery(QueryBuilders.matchAllQuery()).get();
 	}
 
 }

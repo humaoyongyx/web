@@ -91,6 +91,6 @@
     </bean>         
       
  
-    <!-- <bean  class="issac.demo.utils.ESUtils" init-method="init"></bean> -->
-     <import resource="elasticJob.xml"/>
+      <!--  <bean  class="issac.demo.utils.ESUtils" init-method="init"></bean> -->
+   <!--   <import resource="elasticJob.xml"/> -->
 </beans>
