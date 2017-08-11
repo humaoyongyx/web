@@ -84,7 +84,7 @@ public class ESUtils {
 	 *     配置bean里面这样可以解决第一次启动服务器加载es过慢的问题
 	 */
 	public static void init(){
-		getClientInstance().prepareSearch().setQuery(QueryBuilders.matchAllQuery()).get();
+		getClientInstance();
 	}
 	
 	
