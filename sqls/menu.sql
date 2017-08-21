@@ -2,21 +2,21 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localmysql
-Source Server Version : 50710
+Source Server Version : 50718
 Source Host           : localhost:3306
 Source Database       : demo
 
 Target Server Type    : MYSQL
-Target Server Version : 50710
+Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2016-10-05 18:51:01
+Date: 2017-08-21 15:00:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for menu
+-- Table structure for `menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
@@ -27,7 +27,7 @@ CREATE TABLE `menu` (
   `url` varchar(255) DEFAULT NULL,
   `orderNo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
@@ -42,5 +42,7 @@ INSERT INTO `menu` VALUES ('14', '7', '用户资料', 'glyphicon glyphicon-user'
 INSERT INTO `menu` VALUES ('15', '7', '密码设置', 'glyphicon glyphicon-credit-card', '/module/password/', '2');
 INSERT INTO `menu` VALUES ('18', '1', '调度器设置', 'glyphicon glyphicon-time', '/module2/scheduler/', '5');
 INSERT INTO `menu` VALUES ('19', '1', '系统配置', 'glyphicon glyphicon-cog', '/sys/sysConfig/', '6');
-INSERT INTO `menu` VALUES ('20', null, '测试模块', 'glyphicon glyphicon-user', '', '3');
+INSERT INTO `menu` VALUES ('20', null, '测试模块', 'glyphicon glyphicon-user', '', '300');
 INSERT INTO `menu` VALUES ('21', '20', '上传下载测试', 'glyphicon glyphicon-user', '/module2/testUpload/', '1');
+INSERT INTO `menu` VALUES ('22', '20', 'es测试', 'glyphicon glyphicon-user', '/module2/esTest/', '2');
+INSERT INTO `menu` VALUES ('24', '20', ' 地图测试', '', '/module2/mapTest/', '3');
